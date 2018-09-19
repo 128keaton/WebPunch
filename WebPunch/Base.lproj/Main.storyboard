@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +12,98 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="218" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-eH-1UG">
+                                <rect key="frame" x="0.0" y="20" width="375" height="567"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIz-RC-Uhy">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="174.5"/>
+                                        <state key="normal" title="Punch In"/>
+                                        <connections>
+                                            <action selector="punchIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="X8w-Yk-X9p"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-YQ-SBV">
+                                        <rect key="frame" x="0.0" y="392.5" width="375" height="174.5"/>
+                                        <state key="normal" title="Punch Out"/>
+                                        <connections>
+                                            <action selector="punchOut" destination="BYZ-38-t0r" eventType="touchUpInside" id="REB-th-OmJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="200" translatesAutoresizingMaskIntoConstraints="NO" id="vYU-KK-751">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="center" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5S-w2-Umt">
+                                        <rect key="frame" x="0.0" y="12.5" width="87.5" height="25"/>
+                                        <state key="normal" image="retry">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="attemptConnection" destination="BYZ-38-t0r" eventType="touchUpInside" id="kdz-TC-5gs"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTK-qb-aiW">
+                                        <rect key="frame" x="287.5" y="12.5" width="87.5" height="25"/>
+                                        <state key="normal" image="gear"/>
+                                        <connections>
+                                            <segue destination="mjB-Vl-wS6" kind="show" id="w58-dc-zaK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="8Cw-Ve-BML"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="WMI-eH-1UG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9pC-GS-shD"/>
+                            <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JHD-2b-Cco"/>
+                            <constraint firstAttribute="trailing" secondItem="vYU-KK-751" secondAttribute="trailing" id="aKt-vV-AU6"/>
+                            <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="WMI-eH-1UG" secondAttribute="leading" id="nUy-4g-Roh"/>
+                            <constraint firstItem="vYU-KK-751" firstAttribute="trailing" secondItem="WMI-eH-1UG" secondAttribute="trailing" id="oCX-if-QfF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WMI-eH-1UG" secondAttribute="bottom" constant="80" id="vFc-Pi-Xul"/>
+                            <constraint firstItem="vYU-KK-751" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="zmr-sz-d7c"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
+                        <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="27.436281859070466"/>
+        </scene>
+        <!--Settings Controller-->
+        <scene sceneID="sZe-Da-YTY">
+            <objects>
+                <viewController id="mjB-Vl-wS6" customClass="SettingsController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NkC-vM-1iR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="YZI-Fg-gsU"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="forceRoundedCorners" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tYh-VY-Nwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="844" y="27"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="gear" width="25" height="25"/>
+        <image name="retry" width="25" height="25"/>
+    </resources>
 </document>
