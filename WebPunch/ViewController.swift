@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import Intents
+import os.log
 
 class ViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
@@ -18,7 +20,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+            donateInteractions()
+        
         punchInButton?.isEnabled = false
         punchOutButton?.isEnabled = false
     }
@@ -27,6 +31,58 @@ class ViewController: UIViewController {
         attemptConnection()
     }
 
+
+    func donateInteractions() {
+        var intent: INIntent
+        
+        intent = PunchInIntent()
+
+        intent.suggestedInvocationPhrase = "Punch in"
+
+        var interaction = INInteraction(intent: intent, response: nil)
+
+        interaction.donate { (error) in
+            if error != nil {
+                if let error = error as NSError? {
+                    os_log("Interaction donation failed: %@", log: OSLog.default, type: .error, error)
+                } else {
+                    os_log("Successfully donated interaction")
+                }
+            }
+        }
+
+        intent = PunchOutIntent()
+
+        intent.suggestedInvocationPhrase = "Punch out"
+
+        interaction = INInteraction(intent: intent, response: nil)
+
+        interaction.donate { (error) in
+            if error != nil {
+                if let error = error as NSError? {
+                    os_log("Interaction donation failed: %@", log: OSLog.default, type: .error, error)
+                } else {
+                    os_log("Successfully donated interaction")
+                }
+            }
+        }
+
+        intent = PunchStatusIntent()
+
+        intent.suggestedInvocationPhrase = "Am I punched in?"
+
+        interaction = INInteraction(intent: intent, response: nil)
+
+        interaction.donate { (error) in
+            if error != nil {
+                if let error = error as NSError? {
+                    os_log("Interaction donation failed: %@", log: OSLog.default, type: .error, error)
+                } else {
+                    os_log("Successfully donated interaction")
+                }
+            }
+        }
+    }
 
     @IBAction func attemptConnection() {
         activityIndicator = startActivityIndicator()

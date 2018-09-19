@@ -4,10 +4,38 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>PunchIntent.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>PunchIntentUI.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
 		<key>WebPunch.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>7</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>8ACB32112151CD940082FDA6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8ACB322F215212EE0082FDA6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8ACB3238215212EE0082FDA6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

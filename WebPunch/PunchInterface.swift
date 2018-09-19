@@ -14,16 +14,15 @@ extension DefaultsKeys {
     static let username = DefaultsKey<String?>("username")
     static let password = DefaultsKey<String?>("password")
     static let ipAddress = DefaultsKey<String?>("ipAddress")
+    static let punchedIn = DefaultsKey<Bool?>("punchedIn")
 }
 
 class PunchInterface {
     public var isLoggedIn = false
-    public var isClockedIn = false
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
-
-    // CAN YOU FUCKING HERE ME
+    // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
             let manager = Alamofire.SessionManager.default
@@ -70,7 +69,7 @@ class PunchInterface {
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("IN AT")) {
-                    self.isClockedIn = true
+                    self.Defaults[.punchedIn] = true
                     self.isLoggedIn = false
                     return completion(true)
                 }
@@ -87,7 +86,7 @@ class PunchInterface {
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("Recorded")) {
-                    self.isClockedIn = true
+                    self.Defaults[.punchedIn] = false
                     self.isLoggedIn = false
                     return completion(true)
                 } else {
