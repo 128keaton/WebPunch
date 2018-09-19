@@ -8,4 +8,5 @@ iOS PoC to talk to V25 RTC-1000s
 
 ## Licences
 Icons provided by [Icons8](https://icons8.com)
+
 [Alamofire](https://github.com/Alamofire/Alamofire/blob/master/LICENSE)
