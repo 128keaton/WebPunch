@@ -22,7 +22,6 @@ class IntentHandler: INExtension {
             return self
         }
     }
-
 }
 
 class PunchInHandler: NSObject, PunchInIntentHandling {

@@ -20,9 +20,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-            donateInteractions()
-        
+
+        donateInteractions()
+
         punchInButton?.isEnabled = false
         punchOutButton?.isEnabled = false
     }
@@ -31,10 +31,13 @@ class ViewController: UIViewController {
         attemptConnection()
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     func donateInteractions() {
         var intent: INIntent
-        
+
         intent = PunchInIntent()
 
         intent.suggestedInvocationPhrase = "Punch in"
