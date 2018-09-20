@@ -51,6 +51,10 @@ class Storage: SettingsStorageType {
 class SettingsController: SwiftySettingsViewController {
     var storage = Storage()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .default
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         (viewControllers.first as? UINavigationController)?.navigationBar.backgroundColor = UIColor.black

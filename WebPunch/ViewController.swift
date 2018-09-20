@@ -102,7 +102,7 @@ class ViewController: UIViewController {
                     if(reason == 1) {
                         self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
                     } else if(reason == 2) {
-                        self.displayAlert(bodyText: "Settings are not set", title: "Error")
+                        self.performSegue(withIdentifier: "showSettings", sender: self)
                     }
                 }
             })

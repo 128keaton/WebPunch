@@ -52,7 +52,7 @@
                                         <rect key="frame" x="287.5" y="12.5" width="87.5" height="25"/>
                                         <state key="normal" image="gear"/>
                                         <connections>
-                                            <segue destination="mjB-Vl-wS6" kind="show" id="w58-dc-zaK"/>
+                                            <segue destination="mjB-Vl-wS6" kind="show" identifier="showSettings" id="w58-dc-zaK"/>
                                         </connections>
                                     </button>
                                 </subviews>
