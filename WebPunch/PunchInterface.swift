@@ -23,7 +23,7 @@ class PunchInterface {
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     // CAN YOU FUCKING HEAR ME
-    func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
+    func canConnect(completion: @escaping (_ canConnect: Bool, _ alreadyPunchedIn: Bool, _ reason: Int) -> ()) {
         if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
             let manager = Alamofire.SessionManager.default
             manager.session.configuration.timeoutIntervalForRequest = 10
@@ -31,14 +31,20 @@ class PunchInterface {
             Alamofire.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
                 case .success:
-                    completion(true, 0)
+                    if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                        if(utf8Text.contains("you last punched out at")){
+                             completion(true, false, 0)
+                        }else{
+                             completion(true, true, 0)
+                        }
+                    }
                 case .failure(let error):
                     print(error)
-                    completion(false, 1)
+                    completion(false, false, 1)
                 }
             }
         } else {
-            completion(false, 2)
+            completion(false, false, 2)
         }
     }
 

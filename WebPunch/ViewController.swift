@@ -89,12 +89,12 @@ class ViewController: UIViewController {
 
     @IBAction func attemptConnection() {
         activityIndicator = startActivityIndicator()
-        punchInterface.canConnect { (canConnect, reason) in
+        punchInterface.canConnect { (canConnect, alreadyPunchedIn, reason) in
             // Ehh
             self.activityIndicator?.dismiss(animated: false, completion: {
                 if(canConnect) {
-                    self.punchInButton?.isEnabled = true
-                    self.punchOutButton?.isEnabled = false
+                    self.punchInButton?.isEnabled = !alreadyPunchedIn
+                    self.punchOutButton?.isEnabled = alreadyPunchedIn
                 } else {
                     self.punchInButton?.isEnabled = false
                     self.punchOutButton?.isEnabled = false

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.7.0)
+  - Alamofire (4.7.3)
   - SwiftySettings (1.0.0)
   - SwiftyUserDefaults (3.0.1)
 
@@ -23,7 +23,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/128keaton/SwiftySettings
 
 SPEC CHECKSUMS:
-  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   SwiftySettings: 61a25e24da20370f7e0bc7632cb1fc97553e8cd2
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
