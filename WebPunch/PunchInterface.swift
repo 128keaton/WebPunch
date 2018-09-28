@@ -32,11 +32,14 @@ class PunchInterface {
                 switch response.result {
                 case .success:
                     if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                        if(utf8Text.contains("you last punched out at")){
+                        if(utf8Text.contains("you last punched out")){
                              completion(true, false, 0)
                         }else{
                              completion(true, true, 0)
                         }
+                    }else{
+                        // Unknown state
+                         completion(true, false, 0)
                     }
                 case .failure(let error):
                     print(error)
