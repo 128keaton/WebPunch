@@ -30,7 +30,7 @@ class PunchInHandler: NSObject, PunchInIntentHandling {
 
     func handle(intent: PunchInIntent, completion: @escaping (PunchInIntentResponse) -> Void) {
         if(Defaults[.punchedIn] == nil || Defaults[.punchedIn] == false) {
-            punchInterface.canConnect { (canConnect, alreadyPunchedIn, statusCode) in
+            punchInterface.canConnect { (canConnect, statusCode) in
                 if (canConnect) {
                     self.punchInterface.login { (success) in
                         if(success) {
@@ -65,7 +65,7 @@ class PunchOutHandler: NSObject, PunchOutIntentHandling {
 
     func handle(intent: PunchOutIntent, completion: @escaping (PunchOutIntentResponse) -> Void) {
         if(Defaults[.punchedIn] == nil || Defaults[.punchedIn] == true) {
-            punchInterface.canConnect { (canConnect, alreadyPunchedIn, statusCode) in
+            punchInterface.canConnect { (canConnect, statusCode) in
                 if(canConnect) {
                     self.punchInterface.login { (success) in
                         if(success) {

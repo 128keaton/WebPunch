@@ -17,7 +17,8 @@ class ViewController: UIViewController {
 
     let punchInterface = PunchInterface()
     var activityIndicator: UIAlertController? = nil
-
+    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,12 +90,12 @@ class ViewController: UIViewController {
 
     @IBAction func attemptConnection() {
         activityIndicator = startActivityIndicator()
-        punchInterface.canConnect { (canConnect, alreadyPunchedIn, reason) in
+        punchInterface.canConnect { (canConnect, reason) in
             // Ehh
             self.activityIndicator?.dismiss(animated: false, completion: {
                 if(canConnect) {
-                    self.punchInButton?.isEnabled = !alreadyPunchedIn
-                    self.punchOutButton?.isEnabled = alreadyPunchedIn
+                    self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
+                    self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
                 } else {
                     self.punchInButton?.isEnabled = false
                     self.punchOutButton?.isEnabled = false

@@ -23,7 +23,7 @@ class PunchInterface {
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     // CAN YOU FUCKING HEAR ME
-    func canConnect(completion: @escaping (_ canConnect: Bool, _ alreadyPunchedIn: Bool, _ reason: Int) -> ()) {
+    func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
             let manager = Alamofire.SessionManager.default
             manager.session.configuration.timeoutIntervalForRequest = 10
@@ -31,23 +31,21 @@ class PunchInterface {
             Alamofire.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
                 case .success:
-                    if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                        if(utf8Text.contains("you last punched out")){
-                             completion(true, false, 0)
-                        }else{
-                             completion(true, true, 0)
-                        }
+                    if response.data != nil{
+                        self.login(completion: { (didLogin) in
+                            completion(didLogin, 0)
+                        })
                     }else{
                         // Unknown state
-                         completion(true, false, 0)
+                         completion(false, 0)
                     }
                 case .failure(let error):
                     print(error)
-                    completion(false, false, 1)
+                    completion(false, 1)
                 }
             }
         } else {
-            completion(false, false, 2)
+            completion(false, 2)
         }
     }
 
@@ -61,6 +59,11 @@ class PunchInterface {
                 if utf8Text.contains("you last punched") {
                     print("Logged in")
                     self.isLoggedIn = true
+                    if(utf8Text.contains("you last punched out")){
+                       self.Defaults[.punchedIn] = false
+                    }else if (utf8Text.contains("you last punched in")){
+                        self.Defaults[.punchedIn] = true
+                    }
                     return completion(true)
                 } else {
                     print(utf8Text)
