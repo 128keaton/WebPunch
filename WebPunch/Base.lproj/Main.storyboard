@@ -21,14 +21,20 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="567"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIz-RC-Uhy">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="174.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                         <state key="normal" title="Punch In"/>
                                         <connections>
                                             <action selector="punchIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="X8w-Yk-X9p"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3z-Qw-ouh">
+                                        <rect key="frame" x="0.0" y="261.5" width="375" height="44"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-YQ-SBV">
-                                        <rect key="frame" x="0.0" y="392.5" width="375" height="174.5"/>
+                                        <rect key="frame" x="0.0" y="523.5" width="375" height="43.5"/>
                                         <state key="normal" title="Punch Out"/>
                                         <connections>
                                             <action selector="punchOut" destination="BYZ-38-t0r" eventType="touchUpInside" id="REB-th-OmJ"/>
@@ -40,7 +46,7 @@
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="center" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5S-w2-Umt">
-                                        <rect key="frame" x="0.0" y="12.5" width="87.5" height="25"/>
+                                        <rect key="frame" x="0.0" y="14" width="87.5" height="22"/>
                                         <state key="normal" image="retry">
                                             <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -49,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTK-qb-aiW">
-                                        <rect key="frame" x="287.5" y="12.5" width="87.5" height="25"/>
+                                        <rect key="frame" x="287.5" y="14" width="87.5" height="22"/>
                                         <state key="normal" image="gear"/>
                                         <connections>
                                             <segue destination="mjB-Vl-wS6" kind="show" identifier="showSettings" id="w58-dc-zaK"/>
@@ -76,6 +82,7 @@
                     <connections>
                         <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
                         <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
+                        <outlet property="statusLabel" destination="z3z-Qw-ouh" id="qRy-c3-Dql"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -103,7 +110,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gear" width="25" height="25"/>
-        <image name="retry" width="25" height="25"/>
+        <image name="gear" width="18.75" height="18.75"/>
+        <image name="retry" width="18.75" height="18.75"/>
     </resources>
 </document>

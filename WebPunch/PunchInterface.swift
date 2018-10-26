@@ -20,13 +20,20 @@ extension DefaultsKeys {
 class PunchInterface {
     public var isLoggedIn = false
 
+    private var statusMessage: String = ""
+    
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
+    // GET THE FUCKING STATUS
+    func getStatusMessage() -> String{
+        return self.statusMessage
+    }
+    
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
             let manager = Alamofire.SessionManager.default
-            manager.session.configuration.timeoutIntervalForRequest = 10
+            manager.session.configuration.timeoutIntervalForRequest = 6
 
             Alamofire.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
@@ -64,6 +71,7 @@ class PunchInterface {
                     }else if (utf8Text.contains("you last punched in")){
                         self.Defaults[.punchedIn] = true
                     }
+                    self.statusMessage = utf8Text
                     return completion(true)
                 } else {
                     print(utf8Text)
@@ -83,6 +91,7 @@ class PunchInterface {
                 if(utf8Text.contains("IN AT")) {
                     self.Defaults[.punchedIn] = true
                     self.isLoggedIn = false
+                    self.statusMessage = utf8Text
                     return completion(true)
                 }
             }
@@ -100,6 +109,7 @@ class PunchInterface {
                 if(utf8Text.contains("Recorded")) {
                     self.Defaults[.punchedIn] = false
                     self.isLoggedIn = false
+                    self.statusMessage = utf8Text
                     return completion(true)
                 } else {
                     print(utf8Text)
