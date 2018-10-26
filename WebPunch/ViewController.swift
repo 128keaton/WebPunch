@@ -14,7 +14,8 @@ import os.log
 class ViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
     @IBOutlet var punchOutButton: UIButton?
-
+    @IBOutlet var statusLabel: UILabel?
+    
     let punchInterface = PunchInterface()
     var activityIndicator: UIAlertController? = nil
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
@@ -23,7 +24,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         donateInteractions()
-
+        
+        statusLabel?.isHidden = true
         punchInButton?.isEnabled = false
         punchOutButton?.isEnabled = false
     }
@@ -95,11 +97,13 @@ class ViewController: UIViewController {
             self.activityIndicator?.dismiss(animated: false, completion: {
                 if(canConnect) {
                     self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
+                    self.statusLabel?.isHidden = false
+                    self.statusLabel?.text = self.punchInterface.getStatusMessage()
                     self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
                 } else {
                     self.punchInButton?.isEnabled = false
                     self.punchOutButton?.isEnabled = false
-
+                    self.statusLabel?.isHidden = true
                     if(reason == 1) {
                         self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
                     } else if(reason == 2) {
@@ -121,7 +125,10 @@ class ViewController: UIViewController {
                         self.displayAlert(bodyText: "Punched in successfully", title: "Punched In")
                         self.punchInButton?.isEnabled = false
                         self.punchOutButton?.isEnabled = true
+                        self.statusLabel?.isHidden = false
+                        self.statusLabel?.text = self.punchInterface.getStatusMessage()
                     } else {
+                        self.statusLabel?.isHidden = true
                         self.displayAlert(bodyText: "Unable to punch in", title: "Error")
                     }
                 }
@@ -141,7 +148,10 @@ class ViewController: UIViewController {
                         self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
                         self.punchInButton?.isEnabled = true
                         self.punchOutButton?.isEnabled = false
+                        self.statusLabel?.isHidden = false
+                        self.statusLabel?.text = self.punchInterface.getStatusMessage()
                     } else {
+                        self.statusLabel?.isHidden = true
                         self.displayAlert(bodyText: "Unable to punch out", title: "Error")
                     }
                 }
