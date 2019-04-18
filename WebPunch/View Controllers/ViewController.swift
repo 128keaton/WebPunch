@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
     @IBOutlet var punchOutButton: UIButton?
     @IBOutlet var separator: UIView?
+    @IBOutlet var reconnectButton: UIButton?
 
     let punchInterface = PunchInterface()
     var isConnecting = false
@@ -51,6 +52,7 @@ class ViewController: UIViewController {
     }
 
     @objc func disableButtons() {
+        reconnectButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0745, blue: 0.2941, alpha: 1.0)
         punchInButton?.isEnabled = false
         punchOutButton?.isEnabled = false
     }
@@ -113,9 +115,13 @@ class ViewController: UIViewController {
             self.isConnecting = false
             self.stopPulsing()
             if(canConnect) {
+                // [UIColor colorWithRed:0.2431 green:0.8627 blue:0.3804 alpha:1.0]
+                self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
                 self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
                 self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
             } else {
+                // [UIColor colorWithRed:0.8667 green:0.0745 blue:0.2941 alpha:1.0]
+                self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0745, blue: 0.2941, alpha: 1.0)
                 self.punchInButton?.isEnabled = false
                 self.punchOutButton?.isEnabled = false
 

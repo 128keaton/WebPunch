@@ -75,15 +75,16 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="on3-l4-4LA">
                                         <rect key="frame" x="177.5" y="12.5" width="43" height="25"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="history"/>
+                                        <state key="normal" image="history">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <segue destination="WBd-gg-KLe" kind="presentation" identifier="showHistory" id="PXU-Dx-dYt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTK-qb-aiW">
                                         <rect key="frame" x="355.5" y="12.5" width="42.5" height="25"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="gear"/>
                                         <connections>
                                             <segue destination="mjB-Vl-wS6" kind="show" id="T47-B5-cOr"/>
@@ -113,6 +114,7 @@
                     <connections>
                         <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
                         <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
+                        <outlet property="reconnectButton" destination="l5S-w2-Umt" id="uZZ-Ke-CbI"/>
                         <outlet property="separator" destination="7hi-Jk-Mml" id="jIs-AE-Nyk"/>
                     </connections>
                 </viewController>
