@@ -51,31 +51,39 @@ class Storage: SettingsStorageType {
 class SettingsController: SwiftySettingsViewController {
     var storage = Storage()
 
-    override var preferredStatusBarStyle: UIStatusBarStyle{
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         (viewControllers.first as? UINavigationController)?.navigationBar.backgroundColor = UIColor.black
         (viewControllers.first as? UINavigationController)?.navigationBar.items?.first?.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         displaySettings()
     }
-    
+
     @IBAction func dismissVC(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
     func displaySettings() {
-        settings = SwiftySettings(storage: storage, title: "Settings") {
-
-            [Section(title: "") {
+        settings = SwiftySettings(storage: storage, title: "Intelligent Home") {
+            [
+                Section(title: "Electricity") {
                     [
                         TextField(key: "username", title: "Username", secureTextEntry: false),
                         TextField(key: "password", title: "Password", secureTextEntry: true),
                         TextField(key: "ipAddress", title: "URL", secureTextEntry: false)
                     ]
                 },
+                Section(title: "VPN") {
+                    [
+                        Switch(key: "useVPN", title: "Use VPN?"),
+                        TextField(key: "vpnUsername", title: "Username", secureTextEntry: false),
+                        TextField(key: "vpnPassword", title: "Password", secureTextEntry: true),
+                        TextField(key: "vpnAddress", title: "URL", secureTextEntry: false)
+                    ]
+                }
             ]
         }
     }

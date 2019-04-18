@@ -10,6 +10,8 @@
 		022956AD4B8A05C9FD2CD40E /* Pods_WebPunch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CAD43155CEB779567C3AC46 /* Pods_WebPunch.framework */; };
 		282118CA1D9BD637CB162A7A /* Pods_PunchIntentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59212D2329EB7559699211B3 /* Pods_PunchIntentUI.framework */; };
 		62E1C70B62F629BA40FD49F2 /* Pods_PunchIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1433E0AD10A7EAEFD2EBE12 /* Pods_PunchIntent.framework */; };
+		8AA841D522680426009C5948 /* VPNManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D422680426009C5948 /* VPNManager.swift */; };
+		8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D6226805B4009C5948 /* KeychainService.swift */; };
 		8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32152151CD940082FDA6 /* AppDelegate.swift */; };
 		8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32172151CD940082FDA6 /* ViewController.swift */; };
 		8ACB321B2151CD940082FDA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB32192151CD940082FDA6 /* Main.storyboard */; };
@@ -69,6 +71,8 @@
 		59212D2329EB7559699211B3 /* Pods_PunchIntentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CAD43155CEB779567C3AC46 /* Pods_WebPunch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebPunch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CE3E34DC37B75F75913FEA7 /* Pods-WebPunch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebPunch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebPunch/Pods-WebPunch.debug.xcconfig"; sourceTree = "<group>"; };
+		8AA841D422680426009C5948 /* VPNManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNManager.swift; sourceTree = "<group>"; };
+		8AA841D6226805B4009C5948 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8ACB32122151CD940082FDA6 /* WebPunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebPunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACB32152151CD940082FDA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8ACB32172151CD940082FDA6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				8ACB32272151D04A0082FDA6 /* PunchInterface.swift */,
 				8ACB32292151DAC80082FDA6 /* SettingsController.swift */,
 				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
+				8AA841D422680426009C5948 /* VPNManager.swift */,
+				8AA841D6226805B4009C5948 /* KeychainService.swift */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 				TargetAttributes = {
 					8ACB32112151CD940082FDA6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -292,6 +299,7 @@
 					};
 					8ACB322F215212EE0082FDA6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -300,6 +308,7 @@
 					};
 					8ACB3238215212EE0082FDA6 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -407,24 +416,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftySettings/SwiftySettings.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftySettings.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D34BC46C5D7805114CB8806E /* [CP] Check Pods Manifest.lock */ = {
@@ -460,6 +460,8 @@
 				8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */,
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,
 				8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */,
+				8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */,
+				8AA841D522680426009C5948 /* VPNManager.swift in Sources */,
 				8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -659,7 +661,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -680,7 +682,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -701,7 +703,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch.PunchIntentUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -722,7 +724,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch.PunchIntentUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -743,7 +745,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch.PunchIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -764,7 +766,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keatonburleson.WebPunch.PunchIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

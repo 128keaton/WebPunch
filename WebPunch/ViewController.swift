@@ -103,7 +103,7 @@ class ViewController: UIViewController {
                     if(reason == 1) {
                         self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
                     } else if(reason == 2) {
-                        self.performSegue(withIdentifier: "showSettings", sender: self)
+                     //   self.performSegue(withIdentifier: "showSettings", sender: self)
                     }
                 }
             })

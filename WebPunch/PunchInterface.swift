@@ -26,9 +26,9 @@ class PunchInterface {
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
             let manager = Alamofire.SessionManager.default
-            manager.session.configuration.timeoutIntervalForRequest = 10
+            manager.session.configuration.timeoutIntervalForRequest = 5
 
-            Alamofire.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
+            manager.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
                 case .success:
                     if response.data != nil{
