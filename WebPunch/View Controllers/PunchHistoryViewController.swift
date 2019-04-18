@@ -137,7 +137,7 @@ extension PunchHistoryViewController: PunchModelDelegate {
     func errorUpdating(_ error: Error) {
         let message = error.localizedDescription
 
-        let alertController = UIAlertController(title: nil,
+        let alertController = UIAlertController(title: "iCloud Error",
                                                 message: message,
                                                 preferredStyle: .alert)
 

@@ -36,7 +36,7 @@
 		8ACB321D2151CD950082FDA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321C2151CD950082FDA6 /* Assets.xcassets */; };
 		8ACB32202151CD950082FDA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */; };
 		8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
-		8ACB322A2151DAC80082FDA6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */; };
+		8ACB322A2151DAC80082FDA6 /* AppSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */; };
 		8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3232215212EE0082FDA6 /* IntentHandler.swift */; };
 		8ACB323B215212EE0082FDA6 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACB323A215212EE0082FDA6 /* IntentsUI.framework */; };
 		8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB323D215212EE0082FDA6 /* IntentViewController.swift */; };
@@ -108,7 +108,7 @@
 		8ACB321F2151CD950082FDA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8ACB32212151CD950082FDA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8ACB32272151D04A0082FDA6 /* PunchInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInterface.swift; sourceTree = "<group>"; };
-		8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsViewController.swift; sourceTree = "<group>"; };
 		8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WebPunch.entitlements; sourceTree = "<group>"; };
 		8ACB3230215212EE0082FDA6 /* PunchIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PunchIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACB3232215212EE0082FDA6 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				8ACB32172151CD940082FDA6 /* ViewController.swift */,
-				8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */,
+				8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */,
 				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
 			);
 			path = "View Controllers";
@@ -560,7 +560,7 @@
 			files = (
 				8AA841DD2268195B009C5948 /* Punch.swift in Sources */,
 				8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */,
-				8ACB322A2151DAC80082FDA6 /* SettingsViewController.swift in Sources */,
+				8ACB322A2151DAC80082FDA6 /* AppSettingsViewController.swift in Sources */,
 				8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */,
 				8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */,
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,

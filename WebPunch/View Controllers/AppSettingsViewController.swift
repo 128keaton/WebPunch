@@ -54,7 +54,7 @@ class Storage: SettingsStorageType {
     }
 }
 
-class SettingsViewController: SwiftySettingsViewController {
+class AppSettingsViewController: SwiftySettingsViewController {
     var storage = Storage()
     var keyChain = KeychainService()
 
@@ -65,6 +65,7 @@ class SettingsViewController: SwiftySettingsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         (viewControllers.first as? UINavigationController)?.navigationBar.items?.first?.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+        (viewControllers.first as? UINavigationController)?.navigationBar.barStyle = .black
 
         if Defaults[.useVPN] == true {
             displaySettings()
@@ -72,7 +73,7 @@ class SettingsViewController: SwiftySettingsViewController {
             displayNonVPNSettings()
         }
     }
-
+    
     @objc func dismissVC(_ sender: Any) {
         self.isEditing = false
         dismiss(animated: true, completion: {
@@ -136,7 +137,7 @@ class SettingsViewController: SwiftySettingsViewController {
                             self.keyChain.save(key: key, value: value)
                         }),
 
-                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address",  autoCapitalize: false, keyboardType: .URL)
+                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address", autoCapitalize: false, keyboardType: .URL)
                     ]
                 }
             ]

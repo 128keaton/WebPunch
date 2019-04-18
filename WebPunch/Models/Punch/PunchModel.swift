@@ -35,7 +35,13 @@ class PunchModel {
     var records = [CKRecord]()
     var insertedObjects = [Punch]()
     var deletedObjectIds = Set<CKRecord.ID>()
+    var useiCloud = true {
+        didSet {
+            updatePunches()
+        }
+    }
 
+    let defaults = UserDefaults.init(suiteName: "group.com.webpunch")
     // MARK: - Properties
     let PunchFetchType = "Punch"
     static let sharedInstance = PunchModel()
@@ -62,7 +68,13 @@ class PunchModel {
 
         privateDB.perform(query, inZoneWith: nil) { records, error in
             guard let records = records, error == nil else {
-                self.delegate?.errorUpdating(error!)
+                if (error as NSError?)!.code == 9 {
+                    self.useiCloud = false
+                } else {
+                    self.delegate?.errorUpdating(error!)
+                }
+
+                self.useiCloud = true
                 return
             }
 
@@ -77,29 +89,43 @@ class PunchModel {
         }
 
         DispatchQueue.main.async {
-            var knownIds = Set(self.records.map { $0.recordID })
+            if self.useiCloud {
+                var knownIds = Set(self.records.map { $0.recordID })
 
-            // remove objects from our local list once we see them returned from the cloudkit storage
-            self.insertedObjects.removeAll { punch in
-                knownIds.contains(punch.record.recordID)
-            }
-
-
-            knownIds.formUnion(self.insertedObjects.map { $0.record.recordID })
-
-            // remove objects from our local list once we see them not being returned from storage anymore
-            self.deletedObjectIds.formIntersection(knownIds)
-
-            var punches = self.records.map { record in Punch(record: record) }
-
-            if self.insertedObjects.count > 0 {
-                punches.append(contentsOf: self.insertedObjects)
-                punches.removeAll { punch in
-                    self.deletedObjectIds.contains(punch.record.recordID)
+                // remove objects from our local list once we see them returned from the cloudkit storage
+                self.insertedObjects.removeAll { punch in
+                    knownIds.contains(punch.record.recordID)
                 }
-            }
 
-            self.punches = punches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+
+                knownIds.formUnion(self.insertedObjects.map { $0.record.recordID })
+
+                // remove objects from our local list once we see them not being returned from storage anymore
+                self.deletedObjectIds.formIntersection(knownIds)
+
+                var punches = self.records.map { record in Punch(record: record) }
+
+                if self.insertedObjects.count > 0 {
+                    punches.append(contentsOf: self.insertedObjects)
+                    punches.removeAll { punch in
+                        self.deletedObjectIds.contains(punch.record.recordID)
+                    }
+                }
+
+                self.punches = punches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+            } else if let defaults = self.defaults {
+                var punches = self.punches
+
+                if self.insertedObjects.count > 0 {
+                    punches.append(contentsOf: self.insertedObjects)
+                    punches.removeAll { punch in
+                        self.deletedObjectIds.contains(punch.record.recordID)
+                    }
+                }
+
+                defaults.set(punches, forKey: "punches")
+                self.punches = punches
+            }
         }
 
         DispatchQueue.main.async {

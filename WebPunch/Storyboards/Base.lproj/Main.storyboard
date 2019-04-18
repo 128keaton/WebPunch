@@ -300,10 +300,10 @@
             </objects>
             <point key="canvasLocation" x="844" y="831.63418290854577"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--App Settings View Controller-->
         <scene sceneID="sZe-Da-YTY">
             <objects>
-                <viewController id="mjB-Vl-wS6" customClass="SettingsViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mjB-Vl-wS6" customClass="AppSettingsViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NkC-vM-1iR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

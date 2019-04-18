@@ -21,21 +21,31 @@ class PunchInterface {
     public var isLoggedIn = false
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+    var reachabilityManager: NetworkReachabilityManager? = nil
     var isConnected = false
 
     init() {
-        let reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
+        if Defaults.hasKey("ipAddress") {
+            self.setupConnectionListener()
+        }
+    }
+
+    public func setupConnectionListener() {
+        if self.reachabilityManager != nil {
+            return
+        }
+
+        reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
 
         reachabilityManager?.listener = { status in
             self.isConnected = (status != .notReachable && status != .unknown)
         }
-
         reachabilityManager?.startListening()
     }
 
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
-        if !isConnected{
+        if !isConnected {
             completion(false, 10)
             return
         }

@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     let punchInterface = PunchInterface()
     var activityIndicator: UIAlertController? = nil
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,9 +101,11 @@ class ViewController: UIViewController {
                     self.punchOutButton?.isEnabled = false
 
                     if(reason == 1) {
-                        self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
+                        self.displayAlert(bodyText: "Unable to connect to time clock server (connection timed out)", title: "Error")
                     } else if(reason == 2) {
-                     //   self.performSegue(withIdentifier: "showSettings", sender: self)
+                        self.performSegue(withIdentifier: "showSettings", sender: self)
+                    } else if (reason == 10) {
+                        self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
                     }
                 }
             })
