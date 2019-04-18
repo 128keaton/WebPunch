@@ -20,6 +20,14 @@ extension DefaultsKeys {
 class PunchInterface {
     public var isLoggedIn = false
 
+    private lazy var alamoFireManager: SessionManager? = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 3
+        configuration.timeoutIntervalForResource = 3
+        let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
+        return alamoFireManager
+    }()
+
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var reachabilityManager: NetworkReachabilityManager? = nil
     var isConnected = false {
@@ -54,11 +62,7 @@ class PunchInterface {
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
-            let configuration = URLSessionConfiguration.default
-            configuration.timeoutIntervalForRequest = 5
-            configuration.timeoutIntervalForResource = 5
-
-            Alamofire.SessionManager(configuration: configuration).request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
+            self.alamoFireManager!.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
                 case .success:
                     if response.data != nil {
