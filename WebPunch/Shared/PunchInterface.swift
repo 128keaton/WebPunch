@@ -24,29 +24,37 @@ class PunchInterface {
 
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
-        if (Defaults[.username] != nil && Defaults[.password] != nil && Defaults[.ipAddress] != nil) {
-            let manager = Alamofire.SessionManager.default
-            manager.session.configuration.timeoutIntervalForRequest = 5
 
-            manager.request("http://\(Defaults[.ipAddress]!)").validate().responseData { response in
-                switch response.result {
-                case .success:
-                    if response.data != nil{
-                        self.login(completion: { (didLogin) in
-                            completion(didLogin, 0)
-                        })
-                    }else{
-                        // Unknown state
-                         completion(false, 0)
-                    }
-                case .failure(let error):
-                    print(error)
-                    completion(false, 1)
-                }
+        let reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
+
+        reachabilityManager?.listener = { status in
+            if status == .notReachable {
+                completion(false, 10)
             }
-        } else {
-            completion(false, 2)
+
+            if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
+                Alamofire.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
+                    switch response.result {
+                    case .success:
+                        if response.data != nil {
+                            self.login(completion: { (didLogin) in
+                                completion(didLogin, 0)
+                            })
+                        } else {
+                            // Unknown state
+                            completion(false, 0)
+                        }
+                    case .failure(let error):
+                        print(error)
+                        completion(false, 1)
+                    }
+                }
+            } else {
+                completion(false, 2)
+            }
         }
+
+        reachabilityManager?.startListening()
     }
 
     // LOG THE FUCK IN
@@ -59,9 +67,9 @@ class PunchInterface {
                 if utf8Text.contains("you last punched") {
                     print("Logged in")
                     self.isLoggedIn = true
-                    if(utf8Text.contains("you last punched out")){
-                       self.Defaults[.punchedIn] = false
-                    }else if (utf8Text.contains("you last punched in")){
+                    if(utf8Text.contains("you last punched out")) {
+                        self.Defaults[.punchedIn] = false
+                    } else if (utf8Text.contains("you last punched in")) {
                         self.Defaults[.punchedIn] = true
                     }
                     return completion(true)
@@ -83,6 +91,7 @@ class PunchInterface {
                 if(utf8Text.contains("IN AT")) {
                     self.Defaults[.punchedIn] = true
                     self.isLoggedIn = false
+                    PunchModel.sharedInstance.punchIn()
                     return completion(true)
                 }
             }
@@ -100,6 +109,7 @@ class PunchInterface {
                 if(utf8Text.contains("Recorded")) {
                     self.Defaults[.punchedIn] = false
                     self.isLoggedIn = false
+                    PunchModel.sharedInstance.punchOut()
                     return completion(true)
                 } else {
                     print(utf8Text)

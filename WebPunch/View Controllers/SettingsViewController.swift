@@ -54,7 +54,7 @@ class Storage: SettingsStorageType {
     }
 }
 
-class SettingsController: SwiftySettingsViewController {
+class SettingsViewController: SwiftySettingsViewController {
     var storage = Storage()
     var keyChain = KeychainService()
 
@@ -74,6 +74,7 @@ class SettingsController: SwiftySettingsViewController {
     }
 
     @objc func dismissVC(_ sender: Any) {
+        self.isEditing = false
         dismiss(animated: true, completion: {
             if Defaults[.useVPN] == true {
                 VPN().connectVPN()
@@ -88,9 +89,9 @@ class SettingsController: SwiftySettingsViewController {
             [
                 Section(title: "Time Clock") {
                     [
-                        TextField(key: "username", title: "Username", placeholder: "me"),
-                        TextField(key: "password", title: "Password", secureTextEntry: true),
-                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address")
+                        TextField(key: "username", title: "Username", placeholder: "me", autoCapitalize: false, keyboardType: .default),
+                        TextField(key: "password", title: "Password", secureTextEntry: true, autoCapitalize: false, keyboardType: .default),
+                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address", autoCapitalize: false, keyboardType: .URL)
 
                     ]
                 },
@@ -113,9 +114,9 @@ class SettingsController: SwiftySettingsViewController {
             [
                 Section(title: "Time Clock") {
                     [
-                        TextField(key: "username", title: "Username", placeholder: "me"),
-                        TextField(key: "password", title: "Password", secureTextEntry: true),
-                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address")
+                        TextField(key: "username", title: "Username", placeholder: "me", autoCapitalize: false, keyboardType: .default),
+                        TextField(key: "password", title: "Password", secureTextEntry: true, autoCapitalize: false, keyboardType: .default),
+                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address", autoCapitalize: false, keyboardType: .URL)
 
                     ]
                 },
@@ -127,12 +128,15 @@ class SettingsController: SwiftySettingsViewController {
                                 self.displayNonVPNSettings()
                             }
                         }),
-                        TextField(key: "vpnUsername", title: "Username", placeholder: "me@vpn.address"),
+                        TextField(key: "vpnUsername", title: "Username", placeholder: "me@vpn.address", autoCapitalize: false, keyboardType: .default),
                         TextField(key: "vpnPassword", title: "Password", secureTextEntry: true, valueChangedClosure: { (key, value) in
                             self.keyChain.save(key: key, value: value)
                         }),
+                        TextField(key: "vpnSharedSecret", title: "Shared Secret", secureTextEntry: true, valueChangedClosure: { (key, value) in
+                            self.keyChain.save(key: key, value: value)
+                        }),
 
-                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address")
+                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address",  autoCapitalize: false, keyboardType: .URL)
                     ]
                 }
             ]

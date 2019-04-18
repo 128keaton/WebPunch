@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4BCD214DDFB32B37F273BB9E /* Pods_WebPunch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B645E07477904BB460E0BECC /* Pods_WebPunch.framework */; };
-		611F4AF570259101C03D1045 /* Pods_PunchIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1927C728EA9CA1298DB76A2E /* Pods_PunchIntent.framework */; };
-		812192FC9CCC93874729393A /* Pods_PunchIntentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B0876A41FA65F9CAE712A0 /* Pods_PunchIntentUI.framework */; };
+		09ACB3AC90A48BF0FFD88458 /* Pods_PunchIntentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */; };
+		856E092483E03A05ADD3619A /* Pods_WebPunch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 250684E365D64496CA96263D /* Pods_WebPunch.framework */; };
 		8AA841D522680426009C5948 /* VPN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D422680426009C5948 /* VPN.swift */; };
 		8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D6226805B4009C5948 /* KeychainService.swift */; };
 		8AA841D922681638009C5948 /* PunchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D822681638009C5948 /* PunchHistoryViewController.swift */; };
@@ -23,13 +22,21 @@
 		8AA841EE22684888009C5948 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA841ED22684888009C5948 /* NetworkExtension.framework */; };
 		8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
 		8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
+		8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
+		8AA841F8226850BF009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
+		8AA841F9226850BF009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
+		8AA841FA226850CD009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
+		8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
+		8AA841FC226850E0009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
+		8AA841FD226850E2009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
+		8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
 		8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32152151CD940082FDA6 /* AppDelegate.swift */; };
 		8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32172151CD940082FDA6 /* ViewController.swift */; };
 		8ACB321B2151CD940082FDA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB32192151CD940082FDA6 /* Main.storyboard */; };
 		8ACB321D2151CD950082FDA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321C2151CD950082FDA6 /* Assets.xcassets */; };
 		8ACB32202151CD950082FDA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */; };
 		8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
-		8ACB322A2151DAC80082FDA6 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32292151DAC80082FDA6 /* SettingsController.swift */; };
+		8ACB322A2151DAC80082FDA6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */; };
 		8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3232215212EE0082FDA6 /* IntentHandler.swift */; };
 		8ACB323B215212EE0082FDA6 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACB323A215212EE0082FDA6 /* IntentsUI.framework */; };
 		8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB323D215212EE0082FDA6 /* IntentViewController.swift */; };
@@ -39,6 +46,7 @@
 		8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
+		FE82B32AD8B38C91E6BA953D /* Pods_PunchIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,12 +82,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1927C728EA9CA1298DB76A2E /* Pods_PunchIntent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		42E178DE1C2A4AF7653F1056 /* Pods-PunchIntentUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.release.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.release.xcconfig"; sourceTree = "<group>"; };
-		48EFDCB2BCBDE16643EC042F /* Pods-PunchIntent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.debug.xcconfig"; sourceTree = "<group>"; };
-		664851CE2B1E50DD2DFB607E /* Pods-PunchIntentUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.debug.xcconfig"; sourceTree = "<group>"; };
-		824687B4ECADED47C288BA9B /* Pods-WebPunch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebPunch.release.xcconfig"; path = "Target Support Files/Pods-WebPunch/Pods-WebPunch.release.xcconfig"; sourceTree = "<group>"; };
-		83F9DDD3092B6ED994E4A263 /* Pods-WebPunch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebPunch.debug.xcconfig"; path = "Target Support Files/Pods-WebPunch/Pods-WebPunch.debug.xcconfig"; sourceTree = "<group>"; };
+		1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FA56239C2C7DC1DE550AD8E /* Pods-WebPunch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebPunch.debug.xcconfig"; path = "Target Support Files/Pods-WebPunch/Pods-WebPunch.debug.xcconfig"; sourceTree = "<group>"; };
+		20361BA292B7AA2990035B76 /* Pods-WebPunch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebPunch.release.xcconfig"; path = "Target Support Files/Pods-WebPunch/Pods-WebPunch.release.xcconfig"; sourceTree = "<group>"; };
+		250684E365D64496CA96263D /* Pods_WebPunch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebPunch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.release.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.release.xcconfig"; sourceTree = "<group>"; };
+		4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.release.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.release.xcconfig"; sourceTree = "<group>"; };
 		8AA841D422680426009C5948 /* VPN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPN.swift; sourceTree = "<group>"; };
 		8AA841D6226805B4009C5948 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8AA841D822681638009C5948 /* PunchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchHistoryViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +108,7 @@
 		8ACB321F2151CD950082FDA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8ACB32212151CD950082FDA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8ACB32272151D04A0082FDA6 /* PunchInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchInterface.swift; sourceTree = "<group>"; };
-		8ACB32292151DAC80082FDA6 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WebPunch.entitlements; sourceTree = "<group>"; };
 		8ACB3230215212EE0082FDA6 /* PunchIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PunchIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACB3232215212EE0082FDA6 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -112,9 +121,8 @@
 		8ACB3250215213040082FDA6 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		8ACB3256215219300082FDA6 /* PunchIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PunchIntent.entitlements; sourceTree = "<group>"; };
 		8ACB3257215219360082FDA6 /* PunchIntentUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PunchIntentUI.entitlements; sourceTree = "<group>"; };
-		A0B0876A41FA65F9CAE712A0 /* Pods_PunchIntentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B645E07477904BB460E0BECC /* Pods_WebPunch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebPunch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F26CF95FF25BAB2DAFEB1019 /* Pods-PunchIntent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.release.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.release.xcconfig"; sourceTree = "<group>"; };
+		AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.debug.xcconfig"; sourceTree = "<group>"; };
+		EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +132,7 @@
 			files = (
 				8AA841DB22681945009C5948 /* CloudKit.framework in Frameworks */,
 				8AA841EE22684888009C5948 /* NetworkExtension.framework in Frameworks */,
-				4BCD214DDFB32B37F273BB9E /* Pods_WebPunch.framework in Frameworks */,
+				856E092483E03A05ADD3619A /* Pods_WebPunch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				611F4AF570259101C03D1045 /* Pods_PunchIntent.framework in Frameworks */,
+				FE82B32AD8B38C91E6BA953D /* Pods_PunchIntent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8ACB323B215212EE0082FDA6 /* IntentsUI.framework in Frameworks */,
-				812192FC9CCC93874729393A /* Pods_PunchIntentUI.framework in Frameworks */,
+				09ACB3AC90A48BF0FFD88458 /* Pods_PunchIntentUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,9 +162,9 @@
 				8AA841ED22684888009C5948 /* NetworkExtension.framework */,
 				8AA841DA22681945009C5948 /* CloudKit.framework */,
 				8ACB323A215212EE0082FDA6 /* IntentsUI.framework */,
-				1927C728EA9CA1298DB76A2E /* Pods_PunchIntent.framework */,
-				A0B0876A41FA65F9CAE712A0 /* Pods_PunchIntentUI.framework */,
-				B645E07477904BB460E0BECC /* Pods_WebPunch.framework */,
+				1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */,
+				34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */,
+				250684E365D64496CA96263D /* Pods_WebPunch.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				8ACB32172151CD940082FDA6 /* ViewController.swift */,
-				8ACB32292151DAC80082FDA6 /* SettingsController.swift */,
+				8ACB32292151DAC80082FDA6 /* SettingsViewController.swift */,
 				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
 			);
 			path = "View Controllers";
@@ -228,12 +236,12 @@
 		8AB47403F90809A27B8969F7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				48EFDCB2BCBDE16643EC042F /* Pods-PunchIntent.debug.xcconfig */,
-				F26CF95FF25BAB2DAFEB1019 /* Pods-PunchIntent.release.xcconfig */,
-				664851CE2B1E50DD2DFB607E /* Pods-PunchIntentUI.debug.xcconfig */,
-				42E178DE1C2A4AF7653F1056 /* Pods-PunchIntentUI.release.xcconfig */,
-				83F9DDD3092B6ED994E4A263 /* Pods-WebPunch.debug.xcconfig */,
-				824687B4ECADED47C288BA9B /* Pods-WebPunch.release.xcconfig */,
+				AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */,
+				391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */,
+				EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */,
+				4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */,
+				1FA56239C2C7DC1DE550AD8E /* Pods-WebPunch.debug.xcconfig */,
+				20361BA292B7AA2990035B76 /* Pods-WebPunch.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -306,12 +314,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8ACB32242151CD950082FDA6 /* Build configuration list for PBXNativeTarget "WebPunch" */;
 			buildPhases = (
-				41965BE8F0598A4EEFCB6B1C /* [CP] Check Pods Manifest.lock */,
+				027D5CBF2D1FA82915E6B17F /* [CP] Check Pods Manifest.lock */,
 				8ACB320E2151CD940082FDA6 /* Sources */,
 				8ACB320F2151CD940082FDA6 /* Frameworks */,
 				8ACB32102151CD940082FDA6 /* Resources */,
 				8ACB324F215212EE0082FDA6 /* Embed App Extensions */,
-				741CE46A808FC3510B9B6AAF /* [CP] Embed Pods Frameworks */,
+				96295ADFFBDA6CAD7B018D77 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -328,7 +336,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8ACB324C215212EE0082FDA6 /* Build configuration list for PBXNativeTarget "PunchIntent" */;
 			buildPhases = (
-				A629715EA1157A2ED9111A8E /* [CP] Check Pods Manifest.lock */,
+				E6B590FF8CC58EDA15E92B73 /* [CP] Check Pods Manifest.lock */,
 				8ACB322C215212EE0082FDA6 /* Sources */,
 				8ACB322D215212EE0082FDA6 /* Frameworks */,
 				8ACB322E215212EE0082FDA6 /* Resources */,
@@ -346,7 +354,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8ACB3249215212EE0082FDA6 /* Build configuration list for PBXNativeTarget "PunchIntentUI" */;
 			buildPhases = (
-				2D6E2103DCDAE97DF29C4B81 /* [CP] Check Pods Manifest.lock */,
+				A194981CCD3C72624E39B4F1 /* [CP] Check Pods Manifest.lock */,
 				8ACB3235215212EE0082FDA6 /* Sources */,
 				8ACB3236215212EE0082FDA6 /* Frameworks */,
 				8ACB3237215212EE0082FDA6 /* Resources */,
@@ -460,29 +468,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2D6E2103DCDAE97DF29C4B81 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PunchIntentUI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		41965BE8F0598A4EEFCB6B1C /* [CP] Check Pods Manifest.lock */ = {
+		027D5CBF2D1FA82915E6B17F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -504,7 +490,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		741CE46A808FC3510B9B6AAF /* [CP] Embed Pods Frameworks */ = {
+		96295ADFFBDA6CAD7B018D77 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -521,7 +507,29 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WebPunch/Pods-WebPunch-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A629715EA1157A2ED9111A8E /* [CP] Check Pods Manifest.lock */ = {
+		A194981CCD3C72624E39B4F1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PunchIntentUI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6B590FF8CC58EDA15E92B73 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -552,7 +560,7 @@
 			files = (
 				8AA841DD2268195B009C5948 /* Punch.swift in Sources */,
 				8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */,
-				8ACB322A2151DAC80082FDA6 /* SettingsController.swift in Sources */,
+				8ACB322A2151DAC80082FDA6 /* SettingsViewController.swift in Sources */,
 				8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */,
 				8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */,
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,
@@ -571,9 +579,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AA841F9226850BF009C5948 /* PunchType.swift in Sources */,
 				8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */,
+				8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */,
 				8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */,
+				8AA841FA226850CD009C5948 /* UserInfo.swift in Sources */,
+				8AA841F8226850BF009C5948 /* Punch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,8 +593,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AA841FD226850E2009C5948 /* Punch.swift in Sources */,
 				8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */,
+				8AA841FC226850E0009C5948 /* PunchType.swift in Sources */,
+				8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */,
+				8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */,
 				8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -748,7 +764,7 @@
 		};
 		8ACB32252151CD950082FDA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83F9DDD3092B6ED994E4A263 /* Pods-WebPunch.debug.xcconfig */;
+			baseConfigurationReference = 1FA56239C2C7DC1DE550AD8E /* Pods-WebPunch.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -769,7 +785,7 @@
 		};
 		8ACB32262151CD950082FDA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 824687B4ECADED47C288BA9B /* Pods-WebPunch.release.xcconfig */;
+			baseConfigurationReference = 20361BA292B7AA2990035B76 /* Pods-WebPunch.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -790,7 +806,7 @@
 		};
 		8ACB324A215212EE0082FDA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 664851CE2B1E50DD2DFB607E /* Pods-PunchIntentUI.debug.xcconfig */;
+			baseConfigurationReference = EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PunchIntentUI/PunchIntentUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -811,7 +827,7 @@
 		};
 		8ACB324B215212EE0082FDA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42E178DE1C2A4AF7653F1056 /* Pods-PunchIntentUI.release.xcconfig */;
+			baseConfigurationReference = 4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PunchIntentUI/PunchIntentUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -832,7 +848,7 @@
 		};
 		8ACB324D215212EE0082FDA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48EFDCB2BCBDE16643EC042F /* Pods-PunchIntent.debug.xcconfig */;
+			baseConfigurationReference = AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PunchIntent/PunchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -853,7 +869,7 @@
 		};
 		8ACB324E215212EE0082FDA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F26CF95FF25BAB2DAFEB1019 /* Pods-PunchIntent.release.xcconfig */;
+			baseConfigurationReference = 391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PunchIntent/PunchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;

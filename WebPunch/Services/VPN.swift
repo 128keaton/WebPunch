@@ -11,6 +11,8 @@ import NetworkExtension
 
 class VPN {
     let vpnManager = NEVPNManager.shared();
+    
+    private (set) public var isConnected = false
 
     private var vpnLoadHandler: (Error?) -> Void { return
         { (error: Error?) in
@@ -25,20 +27,23 @@ class VPN {
             vpnConnection.username = Defaults[.vpnUsername]
             vpnConnection.serverAddress = Defaults[.vpnAddress]
             vpnConnection.passwordReference = keyChain.load(key: "vpnPassword")
-
+            vpnConnection.authenticationMethod = .sharedSecret
+            vpnConnection.sharedSecretReference = keyChain.load(key: "vpnSharedSecret")
             vpnConnection.disconnectOnSleep = false
 
             self.vpnManager.protocolConfiguration = vpnConnection
             self.vpnManager.isEnabled = true
             self.vpnManager.saveToPreferences(completionHandler: { (error) -> Void in
-                if let _ = error {
-                    print("Save Error: ", error)
+                if let anError = error {
+                    print("Save Error: ", anError)
                 }
                 do {
                     try NEVPNManager.shared().connection.startVPNTunnel()
                 } catch {
                     print("Fire Up Error: ", error)
+                    return
                 }
+                 self.isConnected = true
             })
         }
     }
@@ -53,50 +58,17 @@ class VPN {
                     try self.vpnManager.connection.startVPNTunnel()
                 } catch let error {
                     print("Error starting VPN Connection \(error.localizedDescription)");
+                    return
                 }
+                self.isConnected = true
             }
         }
     }
 
+
     public func connectVPN() {
-        self.testConnect()
-    }
-
-    public func testConnect() {
-        self.vpnManager.loadFromPreferences { (error) in
-            if let anError = error {
-                print("Error loading: \(anError)")
-                let Defaults = UserDefaults(suiteName: "group.com.webpunch")!
-                let keyChain = KeychainService()
-                let vpnConnection = NEVPNProtocolIPSec()
-
-                vpnConnection.username = Defaults[.vpnUsername]
-                vpnConnection.serverAddress = Defaults[.vpnAddress]
-                vpnConnection.passwordReference = keyChain.load(key: "vpnPassword")
-
-                vpnConnection.disconnectOnSleep = false
-
-                self.vpnManager.protocolConfiguration = vpnConnection
-                self.vpnManager.isEnabled = true
-                self.vpnManager.saveToPreferences(completionHandler: { (error) -> Void in
-                    if let anError = error {
-                        print("Save Error: ", anError)
-                        return
-                    }
-
-                    do {
-                        try self.vpnManager.connection.startVPNTunnel()
-                    } catch {
-                        print("Fire Up Error: ", error)
-                    }
-                })
-            } else {
-                do {
-                    try self.vpnManager.connection.startVPNTunnel()
-                } catch {
-                    print("Fire Up Error: ", error)
-                }
-            }
+        self.vpnManager.loadFromPreferences { (_) in
+            self.vpnManager.loadFromPreferences(completionHandler: self.vpnLoadHandler)
         }
     }
 

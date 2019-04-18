@@ -121,7 +121,6 @@ class ViewController: UIViewController {
                         self.displayAlert(bodyText: "Punched in successfully", title: "Punched In")
                         self.punchInButton?.isEnabled = false
                         self.punchOutButton?.isEnabled = true
-                        PunchModel.sharedInstance.punchIn()
                     } else {
                         self.displayAlert(bodyText: "Unable to punch in", title: "Error")
                     }
@@ -142,7 +141,6 @@ class ViewController: UIViewController {
                         self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
                         self.punchInButton?.isEnabled = true
                         self.punchOutButton?.isEnabled = false
-                         PunchModel.sharedInstance.punchOut()
                     } else {
                         self.displayAlert(bodyText: "Unable to punch out", title: "Error")
                     }

@@ -9,7 +9,7 @@ def shared_pods
 end
 
 target 'WebPunch' do
-   pod 'SwiftySettings', :git => 'https://github.com/128keaton/SwiftySettings', :tag => '1.0.2a'
+   pod 'SwiftySettings', :git => 'https://github.com/128keaton/SwiftySettings', :tag => '1.0.4a'
    shared_pods
 end
 
