@@ -31,10 +31,10 @@ let kSecAttrGenericValue = kSecAttrGeneric as CFString
 let kSecAttrAccessibleValue = kSecAttrAccessible as CFString
 
 class KeychainService: NSObject {
-    func save(key:String, value:String) {
+    func save(key: String, value: String) {
         let keyData: Data = key.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
         let valueData: Data = value.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
-        
+
         let keychainQuery = NSMutableDictionary();
         keychainQuery[kSecClassValue as! NSCopying] = kSecClassGenericPasswordValue
         keychainQuery[kSecAttrGenericValue as! NSCopying] = keyData
@@ -46,8 +46,8 @@ class KeychainService: NSObject {
         SecItemDelete(keychainQuery as CFDictionary)
         SecItemAdd(keychainQuery as CFDictionary, nil)
     }
-    
-    func load(key: String)->Data {
+
+    func load(key: String) -> Data {
         let keyData: Data = key.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
         let keychainQuery = NSMutableDictionary();
         keychainQuery[kSecClassValue as! NSCopying] = kSecClassGenericPasswordValue
@@ -57,11 +57,11 @@ class KeychainService: NSObject {
         keychainQuery[kSecAttrAccessibleValue as! NSCopying] = kSecAttrAccessibleAlwaysThisDeviceOnly
         keychainQuery[kSecMatchLimit] = kSecMatchLimitOne
         keychainQuery[kSecReturnPersistentRef] = kCFBooleanTrue
-        
+
         var result: AnyObject?
         let status = withUnsafeMutablePointer(to: &result) { SecItemCopyMatching(keychainQuery, UnsafeMutablePointer($0)) }
-        
-        
+
+
         if status == errSecSuccess {
             if let data = result as! NSData? {
                 return data as Data;

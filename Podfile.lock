@@ -1,11 +1,11 @@
 PODS:
   - Alamofire (4.8.2)
-  - SwiftySettings (1.0.1)
+  - SwiftySettings (1.0.2a)
   - SwiftyUserDefaults (3.0.1)
 
 DEPENDENCIES:
   - Alamofire
-  - SwiftySettings (from `https://github.com/128keaton/SwiftySettings`)
+  - SwiftySettings (from `https://github.com/128keaton/SwiftySettings`, tag `1.0.2a`)
   - SwiftyUserDefaults
 
 SPEC REPOS:
@@ -16,17 +16,18 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   SwiftySettings:
     :git: https://github.com/128keaton/SwiftySettings
+    :tag: 1.0.2a
 
 CHECKOUT OPTIONS:
   SwiftySettings:
-    :commit: fc65ebf7afc44ab819ddaa1c32b00b3bef23016f
     :git: https://github.com/128keaton/SwiftySettings
+    :tag: 1.0.2a
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  SwiftySettings: 0165c9ab6075e9d7153bdaeb10955fc058b47d39
+  SwiftySettings: 71e7bdae712131218367223d7d668ca4ca54e605
   SwiftyUserDefaults: 3d273b1739b68ada3145dc754a70ec775bc5c8be
 
-PODFILE CHECKSUM: bc247c809e8f8b69bae21c32e7ec4e765b316737
+PODFILE CHECKSUM: f6437936edee4597bf1e41c9d35d4e787bcfb6e0
 
 COCOAPODS: 1.7.0.beta.3

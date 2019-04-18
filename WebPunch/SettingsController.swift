@@ -11,6 +11,12 @@ import UIKit
 import SwiftySettings
 import SwiftyUserDefaults
 
+extension DefaultsKeys {
+    static let vpnUsername = DefaultsKey<String?>("vpnUsername")
+    static let vpnAddress = DefaultsKey<String?>("vpnAddress")
+    static let useVPN = DefaultsKey<Bool?>("useVPN")
+}
+
 class Storage: SettingsStorageType {
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
@@ -50,6 +56,7 @@ class Storage: SettingsStorageType {
 
 class SettingsController: SwiftySettingsViewController {
     var storage = Storage()
+    var keyChain = KeychainService()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -57,31 +64,75 @@ class SettingsController: SwiftySettingsViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        (viewControllers.first as? UINavigationController)?.navigationBar.backgroundColor = UIColor.black
         (viewControllers.first as? UINavigationController)?.navigationBar.items?.first?.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
-        displaySettings()
+
+        if Defaults[.useVPN] == true {
+            displaySettings()
+        } else {
+            displayNonVPNSettings()
+        }
     }
 
-    @IBAction func dismissVC(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    @objc func dismissVC(_ sender: Any) {
+        dismiss(animated: true, completion: {
+            if Defaults[.useVPN] == true {
+                VPN().connectVPN()
+            } else {
+                VPN().disconnectVPN()
+            }
+        })
+    }
+
+    func displayNonVPNSettings() {
+        settings = SwiftySettings(storage: storage, title: "Settings") {
+            [
+                Section(title: "Time Clock") {
+                    [
+                        TextField(key: "username", title: "Username", placeholder: "me"),
+                        TextField(key: "password", title: "Password", secureTextEntry: true),
+                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address")
+
+                    ]
+                },
+                Section(title: "Connection Settings") {
+                    [
+                        Switch(key: "useVPN", title: "VPN", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
+                            Defaults[.useVPN] = switchValue
+                            if switchValue {
+                                self.displaySettings()
+                            }
+                        }),
+                    ]
+                }
+            ]
+        }
     }
 
     func displaySettings() {
-        settings = SwiftySettings(storage: storage, title: "Intelligent Home") {
+        settings = SwiftySettings(storage: storage, title: "Settings") {
             [
-                Section(title: "Electricity") {
+                Section(title: "Time Clock") {
                     [
-                        TextField(key: "username", title: "Username", secureTextEntry: false),
+                        TextField(key: "username", title: "Username", placeholder: "me"),
                         TextField(key: "password", title: "Password", secureTextEntry: true),
-                        TextField(key: "ipAddress", title: "URL", secureTextEntry: false)
+                        TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address")
+
                     ]
                 },
-                Section(title: "VPN") {
+                Section(title: "Connection Settings") {
                     [
-                        Switch(key: "useVPN", title: "Use VPN?"),
-                        TextField(key: "vpnUsername", title: "Username", secureTextEntry: false),
-                        TextField(key: "vpnPassword", title: "Password", secureTextEntry: true),
-                        TextField(key: "vpnAddress", title: "URL", secureTextEntry: false)
+                        Switch(key: "useVPN", title: "VPN", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
+                            Defaults[.useVPN] = switchValue
+                            if !switchValue {
+                                self.displayNonVPNSettings()
+                            }
+                        }),
+                        TextField(key: "vpnUsername", title: "Username", placeholder: "me@vpn.address"),
+                        TextField(key: "vpnPassword", title: "Password", secureTextEntry: true, valueChangedClosure: { (key, value) in
+                            self.keyChain.save(key: key, value: value)
+                        }),
+
+                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address")
                     ]
                 }
             ]
