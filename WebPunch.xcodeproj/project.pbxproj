@@ -37,8 +37,6 @@
 		8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
-		8ACB3254215215C10082FDA6 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
-		8ACB3255215215C10082FDA6 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,13 +162,58 @@
 		8AA841E422681DFA009C5948 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8AA841DC2268195B009C5948 /* Punch.swift */,
-				8AA841E222681BB6009C5948 /* PunchType.swift */,
+				8AA841F022684AB6009C5948 /* Punch */,
 				8AA841DE22681AA7009C5948 /* UserInfo.swift */,
-				8AA841E022681ADE009C5948 /* PunchModel.swift */,
 				8AA841E722682E57009C5948 /* Week.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8AA841EF22684A98009C5948 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8ACB32172151CD940082FDA6 /* ViewController.swift */,
+				8ACB32292151DAC80082FDA6 /* SettingsController.swift */,
+				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		8AA841F022684AB6009C5948 /* Punch */ = {
+			isa = PBXGroup;
+			children = (
+				8ACB32272151D04A0082FDA6 /* PunchInterface.swift */,
+				8AA841DC2268195B009C5948 /* Punch.swift */,
+				8AA841E222681BB6009C5948 /* PunchType.swift */,
+				8AA841E022681ADE009C5948 /* PunchModel.swift */,
+			);
+			path = Punch;
+			sourceTree = "<group>";
+		};
+		8AA841F122684AC1009C5948 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8AA841D422680426009C5948 /* VPN.swift */,
+				8AA841D6226805B4009C5948 /* KeychainService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8AA841F222684AD1009C5948 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AA841E5226827D6009C5948 /* PunchCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8AA841F322684AD6009C5948 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8ACB32192151CD940082FDA6 /* Main.storyboard */,
+				8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		8AB47403F90809A27B8969F7 /* Pods */ = {
@@ -211,21 +254,16 @@
 		8ACB32142151CD940082FDA6 /* WebPunch */ = {
 			isa = PBXGroup;
 			children = (
-				8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */,
-				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
-				8ACB32172151CD940082FDA6 /* ViewController.swift */,
-				8ACB32192151CD940082FDA6 /* Main.storyboard */,
 				8ACB321C2151CD950082FDA6 /* Assets.xcassets */,
-				8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */,
-				8ACB32212151CD950082FDA6 /* Info.plist */,
-				8ACB32272151D04A0082FDA6 /* PunchInterface.swift */,
-				8ACB32292151DAC80082FDA6 /* SettingsController.swift */,
-				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
-				8AA841D422680426009C5948 /* VPN.swift */,
-				8AA841D6226805B4009C5948 /* KeychainService.swift */,
-				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
+				8AA841F322684AD6009C5948 /* Storyboards */,
+				8AA841EF22684A98009C5948 /* View Controllers */,
+				8AA841F122684AC1009C5948 /* Services */,
 				8AA841E422681DFA009C5948 /* Models */,
-				8AA841E5226827D6009C5948 /* PunchCell.swift */,
+				8AA841F222684AD1009C5948 /* Views */,
+				8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */,
+				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
+				8ACB32212151CD950082FDA6 /* Info.plist */,
+				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -525,7 +563,6 @@
 			files = (
 				8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */,
-				8ACB3254215215C10082FDA6 /* PunchInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +572,6 @@
 			files = (
 				8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */,
-				8ACB3255215215C10082FDA6 /* PunchInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
