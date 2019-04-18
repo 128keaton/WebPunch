@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     let punchInterface = PunchInterface()
     var activityIndicator: UIAlertController? = nil
+    var isConnecting = false
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     override func viewDidLoad() {
@@ -24,16 +25,29 @@ class ViewController: UIViewController {
 
         donateInteractions()
 
-        punchInButton?.isEnabled = false
-        punchOutButton?.isEnabled = false
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationAttemptConnection), name: NSNotification.Name("canConnect"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("cannotConnect"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("disableButtons"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(stopActivityIndicator), name: NSNotification.Name("stopAllActivity"), object: nil)
+
+        punchInterface.setupConnectionListener()
+        disableButtons()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        attemptConnection()
+    @objc func notificationAttemptConnection() {
+        if !isConnecting {
+            isConnecting = true
+            self.attemptConnection()
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+
+    @objc func disableButtons() {
+        punchInButton?.isEnabled = false
+        punchOutButton?.isEnabled = false
     }
 
     func donateInteractions() {
@@ -93,6 +107,8 @@ class ViewController: UIViewController {
         punchInterface.canConnect { (canConnect, reason) in
             // Ehh
             self.activityIndicator?.dismiss(animated: false, completion: {
+                self.isConnecting = false
+
                 if(canConnect) {
                     self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
                     self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
@@ -176,7 +192,7 @@ class ViewController: UIViewController {
         return alert
     }
 
-    func stopActivityIndicator() {
+    @objc func stopActivityIndicator() {
         guard let activityIndicator = self.activityIndicator
             else {
                 print("No activity")

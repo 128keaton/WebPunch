@@ -20,36 +20,46 @@ extension DefaultsKeys {
 class PunchInterface {
     public var isLoggedIn = false
 
+    var previousStatus: NetworkReachabilityManager.NetworkReachabilityStatus? = nil
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var reachabilityManager: NetworkReachabilityManager? = nil
-    var isConnected = false
-
-    init() {
-        if Defaults.hasKey("ipAddress") {
-            self.setupConnectionListener()
+    var isConnected = false {
+        didSet {
+            if self.isConnected == true {
+                NotificationCenter.default.post(name: NSNotification.Name("canConnect"), object: nil)
+            }
         }
     }
 
-    public func setupConnectionListener() {
-        if self.reachabilityManager != nil {
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadConnectionListener), name: NSNotification.Name("restartNetworkReachability"), object: nil)
+    }
+
+    public func setupConnectionListener(reload: Bool = false) {
+        if self.reachabilityManager != nil && reload == false {
             return
         }
 
-        reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
-
-        reachabilityManager?.listener = { status in
-            self.isConnected = (status != .notReachable && status != .unknown)
+        self.reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
+        self.reachabilityManager?.listener = { status in
+            if self.previousStatus == nil || reload != true {
+                self.isConnected = (status == .reachable(.ethernetOrWiFi))
+                self.previousStatus = status
+                return
+            }
+            
+            self.isConnected = (status == .reachable(.ethernetOrWiFi))
+            return
         }
-        reachabilityManager?.startListening()
+        self.reachabilityManager?.startListening()
+    }
+
+    @objc public func reloadConnectionListener() {
+        self.setupConnectionListener(reload: true)
     }
 
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
-        if !isConnected {
-            completion(false, 10)
-            return
-        }
-
         if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
             Alamofire.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
@@ -75,7 +85,6 @@ class PunchInterface {
     // LOG THE FUCK IN
     func login(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["username": Defaults[.username]!, "password": Defaults[.password]!]
-
         Alamofire.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
