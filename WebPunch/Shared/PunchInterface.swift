@@ -20,7 +20,6 @@ extension DefaultsKeys {
 class PunchInterface {
     public var isLoggedIn = false
 
-    var previousStatus: NetworkReachabilityManager.NetworkReachabilityStatus? = nil
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var reachabilityManager: NetworkReachabilityManager? = nil
     var isConnected = false {
@@ -42,12 +41,6 @@ class PunchInterface {
 
         self.reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
         self.reachabilityManager?.listener = { status in
-            if self.previousStatus == nil || reload != true {
-                self.isConnected = (status == .reachable(.ethernetOrWiFi))
-                self.previousStatus = status
-                return
-            }
-            
             self.isConnected = (status == .reachable(.ethernetOrWiFi))
             return
         }
@@ -61,7 +54,11 @@ class PunchInterface {
     // CAN YOU FUCKING HEAR ME
     func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
-            Alamofire.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
+            let configuration = URLSessionConfiguration.default
+            configuration.timeoutIntervalForRequest = 5
+            configuration.timeoutIntervalForResource = 5
+
+            Alamofire.SessionManager(configuration: configuration).request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
                 case .success:
                     if response.data != nil {

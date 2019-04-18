@@ -17,11 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="120" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-eH-1UG">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hi-Jk-Mml">
+                                <rect key="frame" x="8" y="451" width="398" height="4"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="4" id="ywg-VI-ndH"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-eH-1UG">
                                 <rect key="frame" x="8" y="44" width="398" height="738"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIz-RC-Uhy">
-                                        <rect key="frame" x="85.5" y="0.0" width="227" height="370"/>
+                                        <rect key="frame" x="85.5" y="0.0" width="227" height="319"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="48"/>
                                         <state key="normal" title="Punch In">
                                             <color key="titleColor" red="0.1128222272" green="0.84467738869999998" blue="0.37544372679999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -33,16 +41,8 @@
                                             <action selector="punchIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="X8w-Yk-X9p"/>
                                         </connections>
                                     </button>
-                                    <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hi-Jk-Mml">
-                                        <rect key="frame" x="19.5" y="368" width="359" height="2"/>
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="XvR-j3-0HX"/>
-                                        </constraints>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-YQ-SBV">
-                                        <rect key="frame" x="85.5" y="368" width="227" height="370"/>
+                                        <rect key="frame" x="85.5" y="419" width="227" height="319"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="48"/>
                                         <state key="normal" title="Punch Out">
                                             <color key="titleColor" red="0.89803921568627454" green="0.15758348078624823" blue="0.27710539465629852" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,8 +58,6 @@
                                 <constraints>
                                     <constraint firstItem="qTj-YQ-SBV" firstAttribute="width" secondItem="lIz-RC-Uhy" secondAttribute="width" id="0t6-Ab-1TR"/>
                                     <constraint firstItem="lIz-RC-Uhy" firstAttribute="height" secondItem="qTj-YQ-SBV" secondAttribute="height" id="7Go-mT-FjK"/>
-                                    <constraint firstItem="lIz-RC-Uhy" firstAttribute="bottom" secondItem="7hi-Jk-Mml" secondAttribute="bottom" id="Rr6-lf-UkB"/>
-                                    <constraint firstItem="qTj-YQ-SBV" firstAttribute="top" secondItem="7hi-Jk-Mml" secondAttribute="top" id="b2h-9g-uzL"/>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="135" translatesAutoresizingMaskIntoConstraints="NO" id="vYU-KK-751">
@@ -101,10 +99,13 @@
                         <constraints>
                             <constraint firstItem="WMI-eH-1UG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9pC-GS-shD"/>
                             <constraint firstAttribute="trailing" secondItem="vYU-KK-751" secondAttribute="trailing" constant="8" id="Bqg-Kb-cnG"/>
+                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="F4I-00-Qgl"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="d4B-yY-sRq"/>
+                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="imt-Zv-SHg"/>
                             <constraint firstAttribute="bottomMargin" secondItem="vYU-KK-751" secondAttribute="bottom" id="ln7-kK-RL5"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="WMI-eH-1UG" secondAttribute="leading" id="nUy-4g-Roh"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="trailing" secondItem="WMI-eH-1UG" secondAttribute="trailing" id="oCX-if-QfF"/>
+                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="leading" secondItem="vYU-KK-751" secondAttribute="leading" id="u6d-9J-MF2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WMI-eH-1UG" secondAttribute="bottom" constant="80" id="vFc-Pi-Xul"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -112,6 +113,7 @@
                     <connections>
                         <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
                         <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
+                        <outlet property="separator" destination="7hi-Jk-Mml" id="jIs-AE-Nyk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

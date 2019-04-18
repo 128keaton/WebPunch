@@ -14,9 +14,9 @@ import os.log
 class ViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
     @IBOutlet var punchOutButton: UIButton?
+    @IBOutlet var separator: UIView?
 
     let punchInterface = PunchInterface()
-    var activityIndicator: UIAlertController? = nil
     var isConnecting = false
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
@@ -25,13 +25,18 @@ class ViewController: UIViewController {
 
         donateInteractions()
 
+        separator?.layer.cornerRadius = 2
+
         NotificationCenter.default.addObserver(self, selector: #selector(notificationAttemptConnection), name: NSNotification.Name("canConnect"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("cannotConnect"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("disableButtons"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(stopActivityIndicator), name: NSNotification.Name("stopAllActivity"), object: nil)
 
         punchInterface.setupConnectionListener()
         disableButtons()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        startPulsing()
     }
 
     @objc func notificationAttemptConnection() {
@@ -103,38 +108,34 @@ class ViewController: UIViewController {
     }
 
     @IBAction func attemptConnection() {
-        activityIndicator = startActivityIndicator()
+        startPulsing()
         punchInterface.canConnect { (canConnect, reason) in
-            // Ehh
-            self.activityIndicator?.dismiss(animated: false, completion: {
-                self.isConnecting = false
+            self.isConnecting = false
+            self.stopPulsing()
+            if(canConnect) {
+                self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
+                self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
+            } else {
+                self.punchInButton?.isEnabled = false
+                self.punchOutButton?.isEnabled = false
 
-                if(canConnect) {
-                    self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
-                    self.punchOutButton?.isEnabled = self.Defaults[.punchedIn] ?? false
-                } else {
-                    self.punchInButton?.isEnabled = false
-                    self.punchOutButton?.isEnabled = false
-
-                    if(reason == 1) {
-                        self.displayAlert(bodyText: "Unable to connect to time clock server (connection timed out)", title: "Error")
-                    } else if(reason == 2) {
-                        self.performSegue(withIdentifier: "showSettings", sender: self)
-                    } else if (reason == 10) {
-                        self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
-                    }
+                if(reason == 1) {
+                    self.displayAlert(bodyText: "Unable to connect to time clock server (connection timed out)", title: "Error")
+                } else if(reason == 2) {
+                    self.performSegue(withIdentifier: "showSettings", sender: self)
+                } else if (reason == 10) {
+                    self.displayAlert(bodyText: "Unable to connect to time clock server", title: "Error")
                 }
-            })
+            }
         }
     }
 
-
     @IBAction func punchIn() {
-        activityIndicator = self.startActivityIndicator()
+        startPulsing()
         punchInterface.login { (success) in
             if(success) {
                 self.punchInterface.punchIn { (success) in
-                    self.stopActivityIndicator()
+                    self.stopPulsing()
                     if(success) {
                         self.displayAlert(bodyText: "Punched in successfully", title: "Punched In")
                         self.punchInButton?.isEnabled = false
@@ -150,11 +151,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func punchOut() {
-        activityIndicator = self.startActivityIndicator()
+        startPulsing()
         punchInterface.login { (success) in
+            self.stopPulsing()
             if(success) {
                 self.punchInterface.punchOut { (success) in
-                    self.stopActivityIndicator()
                     if(success) {
                         self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
                         self.punchInButton?.isEnabled = true
@@ -179,27 +180,20 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
-    func startActivityIndicator() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
-
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        loadingIndicator.startAnimating();
-
-        alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
-        return alert
+    func startPulsing() {
+        let pulseAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+        pulseAnimation.duration = 1
+        pulseAnimation.fromValue = 0
+        pulseAnimation.toValue = 1
+        pulseAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        pulseAnimation.autoreverses = true
+        pulseAnimation.repeatCount = .greatestFiniteMagnitude
+        self.separator!.layer.add(pulseAnimation, forKey: "animateOpacity")
     }
 
-    @objc func stopActivityIndicator() {
-        guard let activityIndicator = self.activityIndicator
-            else {
-                print("No activity")
-                return
-        }
-        activityIndicator.dismiss(animated: true, completion: nil)
-        self.activityIndicator = nil
+    func stopPulsing() {
+        self.separator?.layer.removeAllAnimations()
+        self.separator?.alpha = 0.0
     }
 }
 
