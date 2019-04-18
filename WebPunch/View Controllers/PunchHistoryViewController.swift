@@ -14,14 +14,21 @@ class PunchHistoryViewController: UITableViewController {
     let punchModel: PunchModel = PunchModel.sharedInstance
 
     var punches: [Punch] = []
+    var noDataView: UILabel? = nil
 
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     override func viewDidLoad() {
         punchModel.delegate = self
         punchModel.refresh()
+        
+        noDataView = UILabel(frame: self.tableView.frame)
+        noDataView?.textAlignment = .center
+        noDataView?.textColor = UIColor.darkGray
+        noDataView?.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        noDataView?.text = "No recorded punches"
 
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(punchModel, action: #selector(PunchModel.refresh), for: .valueChanged)
@@ -68,6 +75,16 @@ extension PunchHistoryViewController {
 
         return cell
     }
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if self.punches.count == 0 {
+            tableView.backgroundView = self.noDataView!
+            return 1.0
+        }
+        
+        tableView.backgroundView = nil
+        return 0.0
+    }
 }
 
 
@@ -86,12 +103,12 @@ extension PunchHistoryViewController: PunchModelDelegate {
         let newIndexPaths = (self.punches.enumerated()).map { IndexPath(row: $0.offset, section: 0) }
         let oldIndexPaths = (currentData.enumerated()).map { IndexPath(row: $0.offset, section: 0) }
 
-        
+
         print("")
         print(oldIndexPaths)
         print(newIndexPaths)
         print("")
-        
+
         var reloadableIndexPaths: [IndexPath] = []
         var insertableIndexPaths: [IndexPath] = []
         var removeableIndexPaths: [IndexPath] = []

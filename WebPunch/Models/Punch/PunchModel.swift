@@ -48,15 +48,12 @@ class PunchModel {
 
     // Represents the default container specified in the iCloud section of the Capabilities tab for the project.
     let container: CKContainer
-//    let publicDB: CKDatabase
     let privateDB: CKDatabase
 
     // MARK: - Initializers
     init() {
         container = CKContainer.default()
-        //  publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
-
         userInfo = UserInfo(container: container)
     }
 
@@ -95,28 +92,19 @@ class PunchModel {
 
             var punches = self.records.map { record in Punch(record: record) }
 
-            if self.insertedObjects.count == 0 {
-                print("Deleted somewhere else")
-            } else {
+            if self.insertedObjects.count > 0 {
                 punches.append(contentsOf: self.insertedObjects)
                 punches.removeAll { punch in
                     self.deletedObjectIds.contains(punch.record.recordID)
                 }
             }
 
-            print("Known ids: \(knownIds)")
-            print("deleted ids: \(self.deletedObjectIds)")
-
             self.punches = punches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
-
-            print("Punches: \(punches)")
-
         }
+
         DispatchQueue.main.async {
             self.delegate?.modelEndingUpdates()
         }
-
-        debugPrint("Tracking local objects \(self.insertedObjects) \(self.deletedObjectIds)")
     }
 
     public func punchIn() {
@@ -125,14 +113,14 @@ class PunchModel {
         currentPunch = newPunch
         PunchModel.sharedInstance.save(newPunch)
     }
-    
+
     public func punchOut() {
         var newPunch = Punch()
         newPunch.punchType = "Out"
         currentPunch = newPunch
         PunchModel.sharedInstance.save(newPunch)
     }
-    
+
     func save(_ punch: Punch) {
         privateDB.save(punch.record) { _, error in
             guard error == nil else {
