@@ -21,40 +21,45 @@ class PunchInterface {
     public var isLoggedIn = false
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+    var isConnected = false
 
-    // CAN YOU FUCKING HEAR ME
-    func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
-
+    init() {
         let reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
 
         reachabilityManager?.listener = { status in
-            if status == .notReachable {
-                completion(false, 10)
-            }
-
-            if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
-                Alamofire.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
-                    switch response.result {
-                    case .success:
-                        if response.data != nil {
-                            self.login(completion: { (didLogin) in
-                                completion(didLogin, 0)
-                            })
-                        } else {
-                            // Unknown state
-                            completion(false, 0)
-                        }
-                    case .failure(let error):
-                        print(error)
-                        completion(false, 1)
-                    }
-                }
-            } else {
-                completion(false, 2)
-            }
+            self.isConnected = (status != .notReachable && status != .unknown)
         }
 
         reachabilityManager?.startListening()
+    }
+
+    // CAN YOU FUCKING HEAR ME
+    func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
+        if !isConnected{
+            completion(false, 10)
+            return
+        }
+
+        if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
+            Alamofire.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
+                switch response.result {
+                case .success:
+                    if response.data != nil {
+                        self.login(completion: { (didLogin) in
+                            completion(didLogin, 0)
+                        })
+                    } else {
+                        // Unknown state
+                        completion(false, 0)
+                    }
+                case .failure(let error):
+                    print(error)
+                    completion(false, 1)
+                }
+            }
+        } else {
+            completion(false, 2)
+        }
     }
 
     // LOG THE FUCK IN
