@@ -19,8 +19,14 @@ class PunchViewController: UIViewController {
     @IBOutlet var historyButton: UIButton?
 
     let punchInterface = PunchInterface()
+    let punchInSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/WalkieTalkieActiveStart_Haptic.caf")
+    let punchOutSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/WalkieTalkieActiveEnd_Haptic.caf")
+    
     var isConnecting = false
     var shouldReconnect = false
+    
+    var punchInSoundID: SystemSoundID? = nil
+    var punchOutSoundID: SystemSoundID? = nil
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var intentsToDonate: [INIntent] {
@@ -117,7 +123,15 @@ class PunchViewController: UIViewController {
     }
 
     private func didPunchOut() {
-        AudioServicesPlaySystemSound (1105);
+        if let soundID = punchOutSoundID {
+            AudioServicesPlaySystemSound(soundID);
+        } else {
+            var newSoundID = SystemSoundID()
+            AudioServicesCreateSystemSoundID(punchOutSoundURL! as CFURL, &newSoundID)
+            AudioServicesPlaySystemSound(newSoundID);
+            punchOutSoundID = newSoundID
+        }
+        
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -135,7 +149,15 @@ class PunchViewController: UIViewController {
     }
 
     private func didPunchIn() {
-        AudioServicesPlaySystemSound (1057);
+        if let soundID = punchInSoundID {
+            AudioServicesPlaySystemSound(soundID);
+        } else {
+            var newSoundID = SystemSoundID()
+            AudioServicesCreateSystemSoundID(punchInSoundURL! as CFURL, &newSoundID)
+            AudioServicesPlaySystemSound(newSoundID);
+            punchInSoundID = newSoundID
+        }
+        
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)

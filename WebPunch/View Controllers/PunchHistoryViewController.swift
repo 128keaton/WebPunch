@@ -18,11 +18,11 @@ class PunchHistoryViewController: UITableViewController {
 
     // MARK: - Properties
     let punchModel: PunchModel = PunchModel.sharedInstance
-    let akReceivedFileURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_received.caf")
-    let akSentFileURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_sent.caf")
+    let punchHistorySoundURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_received.caf")
+    let payPeriodHistorySoundURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_sent.caf")
 
-    var akReceivedSoundID: SystemSoundID? = nil
-    var akSendSoundID: SystemSoundID? = nil
+    var punchHistorySoundID: SystemSoundID? = nil
+    var payPeriodHistoryID: SystemSoundID? = nil
     var punchesFromPayPeriods: [WeekPayPeriod] = []
     var payPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
@@ -76,22 +76,22 @@ class PunchHistoryViewController: UITableViewController {
 
     private func playSoundForTransition() {
         if self.displayMode == .punches {
-            if let soundID = akReceivedSoundID {
+            if let soundID = punchHistorySoundID {
                 AudioServicesPlaySystemSound(soundID);
             } else {
                 var newSoundID = SystemSoundID()
-                AudioServicesCreateSystemSoundID(akReceivedFileURL! as CFURL, &newSoundID)
+                AudioServicesCreateSystemSoundID(punchHistorySoundURL! as CFURL, &newSoundID)
                 AudioServicesPlaySystemSound(newSoundID);
-                akReceivedSoundID = newSoundID
+                punchHistorySoundID = newSoundID
             }
         } else {
-            if let soundID = akSendSoundID {
+            if let soundID = payPeriodHistoryID {
                 AudioServicesPlaySystemSound(soundID);
             } else {
                 var newSoundID = SystemSoundID()
-                AudioServicesCreateSystemSoundID(akSentFileURL! as CFURL, &newSoundID)
+                AudioServicesCreateSystemSoundID(payPeriodHistorySoundURL! as CFURL, &newSoundID)
                 AudioServicesPlaySystemSound(newSoundID);
-                akSendSoundID = newSoundID
+                payPeriodHistoryID = newSoundID
             }
         }
     }
