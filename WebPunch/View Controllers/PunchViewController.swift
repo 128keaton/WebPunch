@@ -131,16 +131,8 @@ class PunchViewController: UIViewController {
         }
 
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        }, completion: { (didComplete) in
-            if didComplete {
-                UIView.animate(withDuration: 0.4, delay: 0.6, options: .curveEaseOut, animations: {
-                    self.historyButton?.tintColor = .white
-                })
-            }
         })
-
         UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
         })
@@ -157,16 +149,8 @@ class PunchViewController: UIViewController {
         }
 
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        }, completion: { (didComplete) in
-            if didComplete {
-                UIView.animate(withDuration: 0.4, delay: 0.6, options: .curveEaseOut, animations: {
-                    self.historyButton?.tintColor = .white
-                })
-            }
         })
-
         UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
         })
@@ -214,17 +198,14 @@ class PunchViewController: UIViewController {
         }
     }
 
-    @IBAction @objc func attemptConnection(fromAction: Bool = false) {
+    @IBAction @objc func attemptConnection() {
         if shouldAttemptConnection && !isConnecting {
             isConnecting = true
             startRotating()
             disableButtons()
             punchInterface.canConnect { (canConnect, reason) in
                 self.isConnecting = false
-
-                if !fromAction {
-                    self.stopRotating()
-                }
+                self.stopRotating()
 
                 if(canConnect) {
                     self.setConnected()
