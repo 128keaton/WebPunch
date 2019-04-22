@@ -19,12 +19,12 @@ class PunchViewController: UIViewController {
     @IBOutlet var historyButton: UIButton?
 
     let punchInterface = PunchInterface()
-    let punchInSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/WalkieTalkieActiveStart_Haptic.caf")
-    let punchOutSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/WalkieTalkieActiveEnd_Haptic.caf")
-    
+    let punchInSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/MultiwayJoin.caf")
+    let punchOutSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/MultiwayLeave.caf")
+
     var isConnecting = false
     var shouldReconnect = false
-    
+
     var punchInSoundID: SystemSoundID? = nil
     var punchOutSoundID: SystemSoundID? = nil
 
@@ -51,7 +51,7 @@ class PunchViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if shouldReconnect && shouldAttemptConnection  {
+        if shouldReconnect && shouldAttemptConnection {
             disableButtons()
             attemptConnection()
         }
@@ -103,14 +103,12 @@ class PunchViewController: UIViewController {
     }
 
     private func setConnected() {
-        self.stopRotating()
         UIView.animate(withDuration: 0.5) {
             self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
         }
     }
 
     private func setDisconnected() {
-        self.stopRotating()
         UIView.animate(withDuration: 0.5) {
             self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
         }
@@ -131,7 +129,7 @@ class PunchViewController: UIViewController {
             AudioServicesPlaySystemSound(newSoundID);
             punchOutSoundID = newSoundID
         }
-        
+
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -157,7 +155,7 @@ class PunchViewController: UIViewController {
             AudioServicesPlaySystemSound(newSoundID);
             punchInSoundID = newSoundID
         }
-        
+
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -216,13 +214,18 @@ class PunchViewController: UIViewController {
         }
     }
 
-    @IBAction @objc func attemptConnection() {
+    @IBAction @objc func attemptConnection(fromAction: Bool = false) {
         if shouldAttemptConnection && !isConnecting {
             isConnecting = true
             startRotating()
             disableButtons()
             punchInterface.canConnect { (canConnect, reason) in
                 self.isConnecting = false
+
+                if !fromAction {
+                    self.stopRotating()
+                }
+
                 if(canConnect) {
                     self.setConnected()
                     self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
@@ -250,6 +253,7 @@ class PunchViewController: UIViewController {
             disableButtons()
             punchInterface.login { (success) in
                 if(success) {
+                    self.setConnected()
                     self.punchInterface.punchIn { (success) in
                         self.stopRotating()
                         if(success) {
@@ -258,10 +262,13 @@ class PunchViewController: UIViewController {
                             self.punchInButton?.isEnabled = false
                             self.punchOutButton?.isEnabled = true
                         } else {
+                            self.setDisconnected()
                             self.displayAlert(bodyText: "Unable to punch in", title: "Error")
                         }
                     }
                 } else {
+                    self.setDisconnected()
+                    self.stopRotating()
                     self.displayAlert(bodyText: "Unable to login", title: "Error")
                 }
             }
@@ -273,19 +280,23 @@ class PunchViewController: UIViewController {
             startRotating()
             disableButtons()
             punchInterface.login { (success) in
-                self.stopRotating()
                 if(success) {
+                    self.setConnected()
                     self.punchInterface.punchOut { (success) in
+                        self.stopRotating()
                         if(success) {
                             self.didPunchOut()
                             self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
                             self.punchInButton?.isEnabled = true
                             self.punchOutButton?.isEnabled = false
                         } else {
+                            self.setDisconnected()
                             self.displayAlert(bodyText: "Unable to punch out", title: "Error")
                         }
                     }
                 } else {
+                    self.setDisconnected()
+                    self.stopRotating()
                     self.displayAlert(bodyText: "Unable to login", title: "Error")
                 }
             }
