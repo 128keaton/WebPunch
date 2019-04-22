@@ -110,7 +110,7 @@
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="27.436281859070466"/>
         </scene>
-        <!--History-->
+        <!--Punch History-->
         <scene sceneID="UFo-yP-0NB">
             <objects>
                 <tableViewController id="vOe-dd-kom" customClass="PunchHistoryViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
@@ -318,7 +318,7 @@
                             <outlet property="delegate" destination="vOe-dd-kom" id="WrU-GZ-91x"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="History" largeTitleDisplayMode="always" id="5sM-rp-Kqy">
+                    <navigationItem key="navigationItem" title="Punch History" largeTitleDisplayMode="always" id="5sM-rp-Kqy">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="rdk-PB-lMb">
                             <color key="tintColor" red="0.89714723825454712" green="0.15664556622505188" blue="0.27960872650146484" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
