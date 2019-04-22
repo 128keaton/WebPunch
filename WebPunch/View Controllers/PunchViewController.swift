@@ -23,7 +23,13 @@ class PunchViewController: UIViewController {
         return [PunchInIntent(), PunchOutIntent(), PunchStatusIntent()]
     }
 
-    var shouldAttemptConnection = false
+    var shouldAttemptConnection = false {
+        didSet {
+            if self.shouldAttemptConnection == true {
+                self.attemptConnection()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,35 +43,29 @@ class PunchViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         disableButtons()
         if shouldAttemptConnection == true {
-            reconnectButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0745, blue: 0.2941, alpha: 1.0)
             startRotating()
-        } else {
-            setUnconfigured()
         }
     }
 
     func registerForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(isConfigured), name: NSNotification.Name("isConfigured"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(isNotConfigured), name: NSNotification.Name("isNotConfigured"), object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("canNotConnect"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(notificationAttemptConnection), name: NSNotification.Name("canConnect"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(attemptConnection), name: NSNotification.Name("canConnect"), object: nil)
     }
 
     @objc func isConfigured() {
         shouldAttemptConnection = true
+        if !isConnecting {
+            attemptConnection()
+        }
     }
 
     @objc func isNotConfigured() {
         shouldAttemptConnection = false
         stopRotating()
         setUnconfigured()
-    }
-
-    @objc func notificationAttemptConnection() {
-        if !isConnecting {
-            isConnecting = true
-            self.attemptConnection()
-        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -89,14 +89,16 @@ class PunchViewController: UIViewController {
     }
 
     private func setConnected() {
+        self.stopRotating()
         UIView.animate(withDuration: 0.5) {
             self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
         }
     }
 
     private func setDisconnected() {
+        self.stopRotating()
         UIView.animate(withDuration: 0.5) {
-            self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
+            self.reconnectButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
         }
     }
 
@@ -107,6 +109,7 @@ class PunchViewController: UIViewController {
         rotateAnimation.duration = 2.0
         rotateAnimation.repeatCount = .greatestFiniteMagnitude
 
+        self.reconnectButton?.tintColor = self.view.tintColor
         self.reconnectButton!.layer.add(rotateAnimation, forKey: nil)
     }
 
@@ -141,13 +144,12 @@ class PunchViewController: UIViewController {
         }
     }
 
-    @IBAction func attemptConnection() {
-        if shouldAttemptConnection {
+    @IBAction @objc func attemptConnection() {
+        if shouldAttemptConnection && !isConnecting {
             startRotating()
             disableButtons()
             punchInterface.canConnect { (canConnect, reason) in
                 self.isConnecting = false
-                self.stopRotating()
                 if(canConnect) {
                     self.setConnected()
                     self.punchInButton?.isEnabled = !(self.Defaults[.punchedIn] ?? false)
