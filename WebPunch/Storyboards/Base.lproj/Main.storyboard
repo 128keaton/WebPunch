@@ -9,22 +9,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Punch View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PunchViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hi-Jk-Mml">
-                                <rect key="frame" x="8" y="451" width="398" height="4"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="4" id="ywg-VI-ndH"/>
-                                </constraints>
-                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="WMI-eH-1UG">
                                 <rect key="frame" x="8" y="44" width="398" height="738"/>
                                 <subviews>
@@ -99,13 +91,10 @@
                         <constraints>
                             <constraint firstItem="WMI-eH-1UG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9pC-GS-shD"/>
                             <constraint firstAttribute="trailing" secondItem="vYU-KK-751" secondAttribute="trailing" constant="8" id="Bqg-Kb-cnG"/>
-                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="F4I-00-Qgl"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="d4B-yY-sRq"/>
-                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="imt-Zv-SHg"/>
                             <constraint firstAttribute="bottomMargin" secondItem="vYU-KK-751" secondAttribute="bottom" id="ln7-kK-RL5"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="leading" secondItem="WMI-eH-1UG" secondAttribute="leading" id="nUy-4g-Roh"/>
                             <constraint firstItem="vYU-KK-751" firstAttribute="trailing" secondItem="WMI-eH-1UG" secondAttribute="trailing" id="oCX-if-QfF"/>
-                            <constraint firstItem="7hi-Jk-Mml" firstAttribute="leading" secondItem="vYU-KK-751" secondAttribute="leading" id="u6d-9J-MF2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WMI-eH-1UG" secondAttribute="bottom" constant="80" id="vFc-Pi-Xul"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -114,7 +103,6 @@
                         <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
                         <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
                         <outlet property="reconnectButton" destination="l5S-w2-Umt" id="uZZ-Ke-CbI"/>
-                        <outlet property="separator" destination="7hi-Jk-Mml" id="jIs-AE-Nyk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -125,14 +113,15 @@
         <scene sceneID="UFo-yP-0NB">
             <objects>
                 <tableViewController id="vOe-dd-kom" customClass="PunchHistoryViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mre-Cj-Y3z">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="mre-Cj-Y3z">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.69404870412381747" green="0.70787094137512674" blue="0.73803837435233155" alpha="0.80298195422535212" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="iD7-nQ-etJ" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="108"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="iD7-nQ-etJ" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iD7-nQ-etJ" id="QF8-he-Hoz">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="107.5"/>
@@ -182,8 +171,8 @@
                                     <outlet property="punchTypeLabel" destination="mmy-NU-nhP" id="34b-6E-ssO"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="xPr-ph-qNH" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="136" width="414" height="108"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="xPr-ph-qNH" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="163.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xPr-ph-qNH" id="jE2-wf-eJ7">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="107.5"/>
@@ -233,8 +222,8 @@
                                     <outlet property="punchTypeLabel" destination="eB4-tj-UP2" id="KWd-m0-tAN"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchCell" rowHeight="108" id="YlA-bx-EDu" customClass="PunchCell" customModule="WebPunch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="244" width="414" height="108"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchCell" rowHeight="108" id="YlA-bx-EDu" customClass="PunchCell" customModule="WebPunch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="271.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YlA-bx-EDu" id="8xe-VC-ckD">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="107.5"/>
@@ -284,6 +273,44 @@
                                     <outlet property="punchTypeLabel" destination="D04-Sj-tMS" id="KRa-ND-WUW"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="ymW-gI-hB0" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="379.5" width="414" height="108"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ymW-gI-hB0" id="D7u-lr-goQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="107.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 hours worked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-Bx-mA8">
+                                            <rect key="frame" x="20" y="60" width="374" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/01 - 12/02" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvq-W3-E7j">
+                                            <rect key="frame" x="20" y="27" width="374" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="cvW-vH-8hJ"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="TJc-Bx-mA8" secondAttribute="bottom" constant="16" id="A1B-6I-q45"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="trailing" secondItem="TJc-Bx-mA8" secondAttribute="trailing" id="Aha-5R-b3q"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="TJc-Bx-mA8" secondAttribute="leading" id="E9N-z7-DEF"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="D7u-lr-goQ" secondAttribute="leadingMargin" id="GjM-xe-rzH"/>
+                                        <constraint firstItem="TJc-Bx-mA8" firstAttribute="top" secondItem="Fvq-W3-E7j" secondAttribute="bottom" constant="9" id="LZA-ub-Io2"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="trailing" secondItem="D7u-lr-goQ" secondAttribute="trailingMargin" id="olS-Bi-2d9"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="amountOfTimeLabel" destination="TJc-Bx-mA8" id="xee-eg-gAH"/>
+                                    <outlet property="rangeLabel" destination="Fvq-W3-E7j" id="sY6-9k-JvK"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="vOe-dd-kom" id="f03-19-NnV"/>
@@ -297,11 +324,17 @@
                                 <action selector="backButtonPressed:" destination="vOe-dd-kom" id="LfU-ju-YIx"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="9io-Mo-i89">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="switchModeButtonPressed:" destination="vOe-dd-kom" id="msR-YN-NbZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OuJ-8C-879" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="844" y="831.63418290854577"/>
+            <point key="canvasLocation" x="843.47826086956525" y="831.02678571428567"/>
         </scene>
         <!--App Settings View Controller-->
         <scene sceneID="sZe-Da-YTY">

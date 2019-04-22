@@ -32,23 +32,29 @@ protocol PunchModelDelegate {
 }
 
 class PunchModel {
-    var records = [CKRecord]()
-    var insertedObjects = [Punch]()
-    var deletedObjectIds = Set<CKRecord.ID>()
     var useiCloud = true {
         didSet {
             updatePunches()
         }
     }
 
-    let defaults = UserDefaults.init(suiteName: "group.com.webpunch")
     // MARK: - Properties
     let PunchFetchType = "Punch"
-    static let sharedInstance = PunchModel()
+    let userInfo: UserInfo
+
     var delegate: PunchModelDelegate?
     var punches: [Punch] = []
-    var currentPunch: Punch? = nil
-    let userInfo: UserInfo
+    var payPeriods: [WeekPayPeriod] = []
+
+    private var currentPunch: Punch? = nil
+    private var records = [CKRecord]()
+    private var insertedObjects = [Punch]()
+    private var deletedObjectIds = Set<CKRecord.ID>()
+
+    static let sharedInstance = PunchModel()
+
+    private let calendar = Calendar(identifier: .gregorian)
+    private let defaults = UserDefaults.init(suiteName: "group.com.webpunch")
 
     // Define databases.
 
@@ -89,6 +95,8 @@ class PunchModel {
         }
 
         DispatchQueue.main.async {
+            self.payPeriods = []
+
             if self.useiCloud {
                 var knownIds = Set(self.records.map { $0.recordID })
 
@@ -112,7 +120,9 @@ class PunchModel {
                     }
                 }
 
-                self.punches = punches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+                self.punches = self.sortPunches(punches)
+                self.payPeriods = self.matchIntoWeeklyPayPeriods()
+
             } else if let defaults = self.defaults {
                 var punches = self.punches
 
@@ -123,8 +133,11 @@ class PunchModel {
                     }
                 }
 
-                defaults.set(punches, forKey: "punches")
-                self.punches = punches
+                self.punches = self.sortPunches(punches)
+                self.payPeriods = self.matchIntoWeeklyPayPeriods()
+
+                defaults.set(self.payPeriods, forKey: "payPeriods")
+                defaults.set(self.punches, forKey: "punches")
             }
         }
 
@@ -165,4 +178,28 @@ class PunchModel {
         return matching.first
     }
 
+    // MARK: Helper methods
+
+    private func sortPunches(_ newPunches: [Punch]) -> [Punch] {
+        return newPunches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+    }
+
+    private func matchIntoWeeklyPayPeriods() -> [WeekPayPeriod] {
+        var payPeriods = [WeekPayPeriod]()
+
+        for punch in self.punches {
+            let firstDateOfWeek = punch.createdAt.firstDateofWeekFromSelf
+            var currentPayPeriod: WeekPayPeriod? = nil
+
+            if let existingPayPeriod = (payPeriods.first { $0.weekOf == firstDateOfWeek }) {
+                currentPayPeriod = existingPayPeriod
+                currentPayPeriod?.addPunch(newPunch: punch)
+            } else {
+                currentPayPeriod = WeekPayPeriod(punch: punch, weekOf: firstDateOfWeek)
+                payPeriods.append(currentPayPeriod!)
+            }
+        }
+
+        return payPeriods
+    }
 }

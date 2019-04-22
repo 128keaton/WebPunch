@@ -32,8 +32,19 @@ class PunchInterface {
     var reachabilityManager: NetworkReachabilityManager? = nil
     var isConnected = false {
         didSet {
-            if self.isConnected == true {
+            if self.isConnected {
                 NotificationCenter.default.post(name: NSNotification.Name("canConnect"), object: nil)
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name("canNotConnect"), object: nil)
+            }
+        }
+    }
+    var isConfigured: Bool = false {
+        didSet {
+            if self.isConfigured {
+                NotificationCenter.default.post(name: NSNotification.Name("isConfigured"), object: nil)
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name("isNotConfigured"), object: nil)
             }
         }
     }
@@ -47,12 +58,16 @@ class PunchInterface {
             return
         }
 
-        self.reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
-        self.reachabilityManager?.listener = { status in
-            self.isConnected = (status == .reachable(.ethernetOrWiFi))
-            return
+        if Defaults.hasKey(.ipAddress) {
+            self.reachabilityManager = NetworkReachabilityManager(host: "http://\(Defaults[.ipAddress]!)")
+            self.isConfigured = true
+            self.reachabilityManager?.listener = { status in
+                self.isConnected = (status == .reachable(.ethernetOrWiFi))
+                return
+            }
+            self.reachabilityManager?.startListening()
         }
-        self.reachabilityManager?.startListening()
+        self.isConfigured = false
     }
 
     @objc public func reloadConnectionListener() {

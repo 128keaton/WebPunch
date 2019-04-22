@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		09ACB3AC90A48BF0FFD88458 /* Pods_PunchIntentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */; };
 		856E092483E03A05ADD3619A /* Pods_WebPunch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 250684E365D64496CA96263D /* Pods_WebPunch.framework */; };
+		8A07AD1D226E66B100233AAB /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */; };
+		8A07AD1F226E69C400233AAB /* PayPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */; };
+		8A07AD20226E6A8600233AAB /* PayPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */; };
+		8A07AD21226E6A8600233AAB /* PayPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */; };
+		8AA53BAD226E49BF004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
+		8AA53BAE226E4FFE004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
+		8AA53BAF226E4FFF004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
+		8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
+		8AA53BB4226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
+		8AA53BB5226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
 		8AA841D522680426009C5948 /* VPN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D422680426009C5948 /* VPN.swift */; };
 		8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D6226805B4009C5948 /* KeychainService.swift */; };
 		8AA841D922681638009C5948 /* PunchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D822681638009C5948 /* PunchHistoryViewController.swift */; };
@@ -18,7 +28,6 @@
 		8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
 		8AA841E322681BB6009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
 		8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E5226827D6009C5948 /* PunchCell.swift */; };
-		8AA841E822682E57009C5948 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E722682E57009C5948 /* Week.swift */; };
 		8AA841EE22684888009C5948 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA841ED22684888009C5948 /* NetworkExtension.framework */; };
 		8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
 		8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
@@ -31,7 +40,7 @@
 		8AA841FD226850E2009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
 		8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
 		8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32152151CD940082FDA6 /* AppDelegate.swift */; };
-		8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32172151CD940082FDA6 /* ViewController.swift */; };
+		8ACB32182151CD940082FDA6 /* PunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32172151CD940082FDA6 /* PunchViewController.swift */; };
 		8ACB321B2151CD940082FDA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB32192151CD940082FDA6 /* Main.storyboard */; };
 		8ACB321D2151CD950082FDA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321C2151CD950082FDA6 /* Assets.xcassets */; };
 		8ACB32202151CD950082FDA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */; };
@@ -89,6 +98,10 @@
 		34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PunchIntentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.release.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.release.xcconfig"; sourceTree = "<group>"; };
 		4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.release.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.release.xcconfig"; sourceTree = "<group>"; };
+		8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
+		8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodCell.swift; sourceTree = "<group>"; };
+		8AA53BAC226E49BF004CC73F /* PayPeriods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriods.swift; sourceTree = "<group>"; };
+		8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		8AA841D422680426009C5948 /* VPN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPN.swift; sourceTree = "<group>"; };
 		8AA841D6226805B4009C5948 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8AA841D822681638009C5948 /* PunchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchHistoryViewController.swift; sourceTree = "<group>"; };
@@ -98,11 +111,10 @@
 		8AA841E022681ADE009C5948 /* PunchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchModel.swift; sourceTree = "<group>"; };
 		8AA841E222681BB6009C5948 /* PunchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchType.swift; sourceTree = "<group>"; };
 		8AA841E5226827D6009C5948 /* PunchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchCell.swift; sourceTree = "<group>"; };
-		8AA841E722682E57009C5948 /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 		8AA841ED22684888009C5948 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		8ACB32122151CD940082FDA6 /* WebPunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebPunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACB32152151CD940082FDA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8ACB32172151CD940082FDA6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8ACB32172151CD940082FDA6 /* PunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchViewController.swift; sourceTree = "<group>"; };
 		8ACB321A2151CD940082FDA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8ACB321C2151CD950082FDA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8ACB321F2151CD950082FDA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -174,7 +186,6 @@
 			children = (
 				8AA841F022684AB6009C5948 /* Punch */,
 				8AA841DE22681AA7009C5948 /* UserInfo.swift */,
-				8AA841E722682E57009C5948 /* Week.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -182,7 +193,7 @@
 		8AA841EF22684A98009C5948 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8ACB32172151CD940082FDA6 /* ViewController.swift */,
+				8ACB32172151CD940082FDA6 /* PunchViewController.swift */,
 				8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */,
 				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
 			);
@@ -195,6 +206,7 @@
 				8AA841DC2268195B009C5948 /* Punch.swift */,
 				8AA841E222681BB6009C5948 /* PunchType.swift */,
 				8AA841E022681ADE009C5948 /* PunchModel.swift */,
+				8AA53BAC226E49BF004CC73F /* PayPeriods.swift */,
 			);
 			path = Punch;
 			sourceTree = "<group>";
@@ -212,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				8AA841E5226827D6009C5948 /* PunchCell.swift */,
+				8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +295,8 @@
 				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
 				8ACB32212151CD950082FDA6 /* Info.plist */,
 				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
+				8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */,
+				8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -562,15 +577,18 @@
 				8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */,
 				8ACB322A2151DAC80082FDA6 /* AppSettingsViewController.swift in Sources */,
 				8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */,
-				8ACB32182151CD940082FDA6 /* ViewController.swift in Sources */,
+				8ACB32182151CD940082FDA6 /* PunchViewController.swift in Sources */,
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,
+				8A07AD1D226E66B100233AAB /* UIKitExtensions.swift in Sources */,
 				8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */,
+				8AA53BAD226E49BF004CC73F /* PayPeriods.swift in Sources */,
 				8AA841E322681BB6009C5948 /* PunchType.swift in Sources */,
 				8AA841D922681638009C5948 /* PunchHistoryViewController.swift in Sources */,
-				8AA841E822682E57009C5948 /* Week.swift in Sources */,
 				8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */,
+				8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 				8AA841D522680426009C5948 /* VPN.swift in Sources */,
 				8AA841DF22681AA7009C5948 /* UserInfo.swift in Sources */,
+				8A07AD1F226E69C400233AAB /* PayPeriodCell.swift in Sources */,
 				8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,10 +600,13 @@
 				8AA841F9226850BF009C5948 /* PunchType.swift in Sources */,
 				8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */,
+				8AA53BAE226E4FFE004CC73F /* PayPeriods.swift in Sources */,
+				8A07AD20226E6A8600233AAB /* PayPeriodCell.swift in Sources */,
 				8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */,
 				8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */,
 				8AA841FA226850CD009C5948 /* UserInfo.swift in Sources */,
 				8AA841F8226850BF009C5948 /* Punch.swift in Sources */,
+				8AA53BB4226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,10 +617,13 @@
 				8AA841FD226850E2009C5948 /* Punch.swift in Sources */,
 				8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */,
+				8AA53BAF226E4FFF004CC73F /* PayPeriods.swift in Sources */,
+				8A07AD21226E6A8600233AAB /* PayPeriodCell.swift in Sources */,
 				8AA841FC226850E0009C5948 /* PunchType.swift in Sources */,
 				8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */,
 				8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */,
 				8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */,
+				8AA53BB5226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,7 +24,7 @@ struct Punch: CustomStringConvertible, Equatable {
 
 
     var description: String {
-        return "Punch \(punchDate) - \(self.punchType)"
+        return "Punch \(punchDate) \(punchTime) - \(punchType)"
     }
 
     var punchDate: String {
@@ -66,7 +66,6 @@ struct Punch: CustomStringConvertible, Equatable {
 
         self.record = record
         self.createdAt = record.creationDate
-        print(record)
     }
 
     init() {
