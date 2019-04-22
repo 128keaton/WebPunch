@@ -100,6 +100,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="historyButton" destination="on3-l4-4LA" id="ED0-aa-IMU"/>
                         <outlet property="punchInButton" destination="lIz-RC-Uhy" id="4QA-2O-65m"/>
                         <outlet property="punchOutButton" destination="qTj-YQ-SBV" id="qaR-SC-9Gv"/>
                         <outlet property="reconnectButton" destination="l5S-w2-Umt" id="uZZ-Ke-CbI"/>

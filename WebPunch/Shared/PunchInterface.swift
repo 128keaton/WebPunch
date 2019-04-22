@@ -22,8 +22,8 @@ class PunchInterface {
 
     private lazy var alamoFireManager: SessionManager? = {
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 6
-        configuration.timeoutIntervalForResource = 6
+        configuration.timeoutIntervalForRequest = 3
+        configuration.timeoutIntervalForResource = 3
         let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
         return alamoFireManager
     }()
@@ -87,7 +87,8 @@ class PunchInterface {
                         // Unknown state
                         completion(false, 0)
                     }
-                case .failure:
+                case .failure(let error):
+                    print(error)
                     completion(false, 1)
                 }
             }
@@ -99,7 +100,7 @@ class PunchInterface {
     // LOG THE FUCK IN
     func login(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["username": Defaults[.username]!, "password": Defaults[.password]!]
-        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
+        Alamofire.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if utf8Text.contains("you last punched") {
                     print("Logged in")

@@ -15,6 +15,7 @@ class PunchViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
     @IBOutlet var punchOutButton: UIButton?
     @IBOutlet var reconnectButton: UIButton?
+    @IBOutlet var historyButton: UIButton?
 
     let punchInterface = PunchInterface()
     var isConnecting = false
@@ -102,6 +103,47 @@ class PunchViewController: UIViewController {
         }
     }
 
+    private func setConnecting() {
+        UIView.animate(withDuration: 0.5) {
+            self.reconnectButton?.tintColor = UIColor(hue: 0.5472, saturation: 1, brightness: 0.93, alpha: 1.0)
+        }
+    }
+
+    private func didPunchOut() {
+        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+            self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
+            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }, completion: { (didComplete) in
+            if didComplete {
+                UIView.animate(withDuration: 0.4, delay: 0.6, options: .curveEaseOut, animations: {
+                    self.historyButton?.tintColor = .white
+                })
+            }
+        })
+        
+        UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
+            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
+        })
+
+    }
+
+    private func didPunchIn() {
+        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+            self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
+            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }, completion: { (didComplete) in
+            if didComplete {
+                UIView.animate(withDuration: 0.4, delay: 0.6, options: .curveEaseOut, animations: {
+                    self.historyButton?.tintColor = .white
+                })
+            }
+        })
+
+        UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
+            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
+        })
+    }
+
     private func startRotating() {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotateAnimation.fromValue = 0.0
@@ -109,7 +151,7 @@ class PunchViewController: UIViewController {
         rotateAnimation.duration = 2.0
         rotateAnimation.repeatCount = .greatestFiniteMagnitude
 
-        self.reconnectButton?.tintColor = self.view.tintColor
+        self.setConnecting()
         self.reconnectButton!.layer.add(rotateAnimation, forKey: nil)
     }
 
@@ -146,6 +188,7 @@ class PunchViewController: UIViewController {
 
     @IBAction @objc func attemptConnection() {
         if shouldAttemptConnection && !isConnecting {
+            isConnecting = true
             startRotating()
             disableButtons()
             punchInterface.canConnect { (canConnect, reason) in
@@ -180,6 +223,7 @@ class PunchViewController: UIViewController {
                     self.punchInterface.punchIn { (success) in
                         self.stopRotating()
                         if(success) {
+                            self.didPunchIn()
                             self.displayAlert(bodyText: "Punched in successfully", title: "Punched In")
                             self.punchInButton?.isEnabled = false
                             self.punchOutButton?.isEnabled = true
@@ -203,6 +247,7 @@ class PunchViewController: UIViewController {
                 if(success) {
                     self.punchInterface.punchOut { (success) in
                         if(success) {
+                            self.didPunchOut()
                             self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
                             self.punchInButton?.isEnabled = true
                             self.punchOutButton?.isEnabled = false
