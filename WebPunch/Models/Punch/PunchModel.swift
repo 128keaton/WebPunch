@@ -191,7 +191,7 @@ class PunchModel {
             let firstDateOfWeek = punch.createdAt.firstDateofWeekFromSelf
             var currentPayPeriod: WeekPayPeriod? = nil
 
-            if let existingPayPeriod = (payPeriods.first { $0.weekOf == firstDateOfWeek }) {
+            if let existingPayPeriod = (payPeriods.first { Calendar.current.compare($0.weekOf, to: firstDateOfWeek, toGranularity: .day) == .orderedSame }) {
                 currentPayPeriod = existingPayPeriod
                 currentPayPeriod?.addPunch(newPunch: punch)
             } else {

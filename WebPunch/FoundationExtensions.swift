@@ -103,7 +103,10 @@ extension TimeInterval {
 
     public var readableUnit: String {
         if hours != 0 {
-            return "\(hours) \(hourUnit) \(minutes) \(minuteUnit)"
+            if minutes != 0 {
+                return "\(hours) \(hourUnit) \(minutes) \(minuteUnit)"
+            }
+            return "\(hours) \(hourUnit)"
         } else if minutes != 0 {
             return "\(minutes) \(minuteUnit)"
         } else if seconds != 0 {

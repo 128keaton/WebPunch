@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import Intents
 import os.log
+import AudioToolbox
 
 class PunchViewController: UIViewController {
     @IBOutlet var punchInButton: UIButton?
@@ -110,6 +111,7 @@ class PunchViewController: UIViewController {
     }
 
     private func didPunchOut() {
+        AudioServicesPlaySystemSound (1053);
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -120,14 +122,14 @@ class PunchViewController: UIViewController {
                 })
             }
         })
-        
+
         UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
         })
-
     }
 
     private func didPunchIn() {
+        AudioServicesPlaySystemSound (1054);
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)

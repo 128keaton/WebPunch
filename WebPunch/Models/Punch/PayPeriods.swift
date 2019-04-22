@@ -11,7 +11,9 @@ import Foundation
 class WeekPayPeriod: CustomStringConvertible, Equatable {
     var punches: [Punch] = []
     var weekOf: Date
-    var incomplete = false
+    var incomplete: Bool {
+        return self.weekOf.oneWeekAhead > Date()
+    }
 
     init(punches: [Punch], weekOf: Date) {
         self.punches = punches
@@ -33,17 +35,16 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
 
     public var amountWorked: TimeInterval {
         var totalHours = 0.0
+        let punchesIn = (punches.filter { $0.getPunchType() == .In })
+        let punchesOut = (punches.filter { $0.getPunchType() == .Out })
+        var loosePunches = [Punch]()
 
-        for inPunch in (punches.filter { $0.getPunchType() == .In }) {
-            let matchedOutPunches = punches.filter { $0.getPunchType() == .Out && Calendar.current.compare($0.createdAt, to: inPunch.createdAt, toGranularity: .day) == .orderedSame }
-            if matchedOutPunches.count > 0 {
-                matchedOutPunches.forEach {
-                    totalHours += $0.createdAt.timeIntervalSince(inPunch.createdAt)
-                }
-                self.incomplete = false
+        for (index, punchedIn) in punchesIn.enumerated() {
+            if punchesOut.indices.contains(index) {
+                let punchedOut = punchesOut[index]
+                totalHours += punchedOut.createdAt.timeIntervalSince(punchedIn.createdAt)
             } else {
-                totalHours += Date().timeIntervalSince(inPunch.createdAt)
-                self.incomplete = true
+                loosePunches.append(punchedIn)
             }
         }
 
@@ -68,7 +69,7 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
 
 class FullPayPeriod: CustomStringConvertible {
     var weekPayPeriods: [WeekPayPeriod] = []
-    
+
     var weekOf: Date {
         return self.weekPayPeriods.first!.weekOf
     }
@@ -76,7 +77,7 @@ class FullPayPeriod: CustomStringConvertible {
         return (weekPayPeriods.compactMap { $0.amountWorked }).reduce(0, +)
     }
     var incomplete: Bool {
-        return self.weekPayPeriods.count == 1
+        return self.weekPayPeriods.count == 1 || self.weekOf.twoWeeksAhead > Date()
     }
 
     init(firstWeek: WeekPayPeriod, secondWeek: WeekPayPeriod) {
