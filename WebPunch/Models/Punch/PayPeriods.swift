@@ -35,20 +35,28 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
 
     public var amountWorked: TimeInterval {
         var totalHours = 0.0
-        let punchesIn = (punches.filter { $0.getPunchType() == .In })
-        let punchesOut = (punches.filter { $0.getPunchType() == .Out })
-        var loosePunches = [Punch]()
+    
+        let punchesOut = sortPunches((punches.filter { $0.getPunchType() == .Out }))
 
-        for (index, punchedIn) in punchesIn.enumerated() {
+        for (index, inPunch) in (punches.filter { $0.getPunchType() == .In }).enumerated() {
             if punchesOut.indices.contains(index) {
-                let punchedOut = punchesOut[index]
-                totalHours += punchedOut.createdAt.timeIntervalSince(punchedIn.createdAt)
+                let outPunch = punchesOut[index]
+                print(inPunch)
+                print(outPunch)
+                print("\n")
+                totalHours += fabs(inPunch.createdAt.timeIntervalSince(outPunch.createdAt))
             } else {
-                loosePunches.append(punchedIn)
+                print(inPunch)
+                print("\n")
+                totalHours += fabs(inPunch.createdAt.timeIntervalSinceNow)
             }
         }
 
         return totalHours
+    }
+
+    private func sortPunches(_ newPunches: [Punch]) -> [Punch] {
+        return newPunches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
     }
 
     public var description: String {

@@ -182,7 +182,8 @@ extension PunchHistoryViewController: PunchModelDelegate {
 
     func modelEndingUpdates() {
         self.punchesFromPayPeriods = PunchModel.sharedInstance.payPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
-
+        self.payPeriods = []
+        
         PunchModel.sharedInstance.payPeriods.chunked(into: 2).forEach {
             if ($0.count <= 2) {
                 self.payPeriods.append(FullPayPeriod(bothWeeks: $0))
