@@ -20,6 +20,8 @@ class PunchViewController: UIViewController {
 
     let punchInterface = PunchInterface()
     var isConnecting = false
+    var shouldReconnect = false
+
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var intentsToDonate: [INIntent] {
         return [PunchInIntent(), PunchOutIntent(), PunchStatusIntent()]
@@ -43,18 +45,22 @@ class PunchViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        disableButtons()
-        if shouldAttemptConnection == true {
-            startRotating()
+        if shouldReconnect && shouldAttemptConnection  {
+            disableButtons()
+            attemptConnection()
         }
     }
 
-    func registerForNotifications() {
+    private func registerForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(isConfigured), name: NSNotification.Name("isConfigured"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(isNotConfigured), name: NSNotification.Name("isNotConfigured"), object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(backgroundShouldReconnect), name: NSNotification.Name("connectionNeedsRefreshing"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disableButtons), name: NSNotification.Name("canNotConnect"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(attemptConnection), name: NSNotification.Name("canConnect"), object: nil)
+    }
+
+    @objc func backgroundShouldReconnect() {
+        shouldReconnect = true
     }
 
     @objc func isConfigured() {
@@ -111,7 +117,7 @@ class PunchViewController: UIViewController {
     }
 
     private func didPunchOut() {
-        AudioServicesPlaySystemSound (1053);
+        AudioServicesPlaySystemSound (1105);
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -129,7 +135,7 @@ class PunchViewController: UIViewController {
     }
 
     private func didPunchIn() {
-        AudioServicesPlaySystemSound (1054);
+        AudioServicesPlaySystemSound (1057);
         UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
             self.historyButton?.tintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
             self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)

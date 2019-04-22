@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
+
 class PunchHistoryViewController: UITableViewController {
     enum DisplayMode {
         case punches
@@ -16,10 +18,15 @@ class PunchHistoryViewController: UITableViewController {
 
     // MARK: - Properties
     let punchModel: PunchModel = PunchModel.sharedInstance
+    let akReceivedFileURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_received.caf")
+    let akSentFileURL = URL(string: "/System/Library/Audio/UISounds/acknowledgment_sent.caf")
 
+    var akReceivedSoundID: SystemSoundID? = nil
+    var akSendSoundID: SystemSoundID? = nil
     var punchesFromPayPeriods: [WeekPayPeriod] = []
     var payPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
+    var historyButton: UIBarButtonItem?
 
     var displayMode: DisplayMode = .punches {
         didSet {
@@ -32,6 +39,8 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     @IBAction func switchModeButtonPressed(_ sender: UIBarButtonItem) {
+        historyButton = sender
+
         if displayMode == .payPeriods {
             displayMode = .punches
         } else {
@@ -48,15 +57,45 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     private func displayModeChanged() {
-        let transitionOptions: UIView.AnimationOptions = [.transitionFlipFromRight, .showHideTransitionViews]
+        let transitionOptions: UIView.AnimationOptions = (self.displayMode == .punches) ? [.transitionFlipFromTop, .showHideTransitionViews] : [.transitionFlipFromBottom, .showHideTransitionViews]
+        let historyButtonView = self.historyButton?.value(forKey: "view") as! UIView
+
+        playSoundForTransition()
 
         UIView.transition(with: self.view, duration: 0.3, options: transitionOptions, animations: {
+            historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             DispatchQueue.main.async {
-                self.title = self.displayMode == .punches ? "Punch History" : "Pay Periods"
+                self.title = (self.displayMode == .punches) ? "Punch History" : "Pay Periods"
                 self.tableView.reloadData()
             }
         })
+        UIView.animate(withDuration: 0.3, delay: 0.15, options: .curveEaseInOut, animations: {
+            historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
+        })
     }
+
+    private func playSoundForTransition() {
+        if self.displayMode == .punches {
+            if let soundID = akReceivedSoundID {
+                AudioServicesPlaySystemSound(soundID);
+            } else {
+                var newSoundID = SystemSoundID()
+                AudioServicesCreateSystemSoundID(akReceivedFileURL! as CFURL, &newSoundID)
+                AudioServicesPlaySystemSound(newSoundID);
+                akReceivedSoundID = newSoundID
+            }
+        } else {
+            if let soundID = akSendSoundID {
+                AudioServicesPlaySystemSound(soundID);
+            } else {
+                var newSoundID = SystemSoundID()
+                AudioServicesCreateSystemSoundID(akSentFileURL! as CFURL, &newSoundID)
+                AudioServicesPlaySystemSound(newSoundID);
+                akSendSoundID = newSoundID
+            }
+        }
+    }
+
 
     private func createNoDataView() {
         if noDataView == nil {
@@ -162,7 +201,6 @@ class PunchHistoryViewController: UITableViewController {
 
         if let periodCell = cell as? PayPeriodCell {
             let payPeriod = self.payPeriods[indexPath.section].weekPayPeriods[indexPath.row]
-            print(payPeriod.description)
             periodCell.isUserInteractionEnabled = false
             periodCell.periodIsCurrent = payPeriod.incomplete
             periodCell.rangeLabel?.text = payPeriod.description
@@ -183,7 +221,7 @@ extension PunchHistoryViewController: PunchModelDelegate {
     func modelEndingUpdates() {
         self.punchesFromPayPeriods = PunchModel.sharedInstance.payPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
         self.payPeriods = []
-        
+
         PunchModel.sharedInstance.payPeriods.chunked(into: 2).forEach {
             if ($0.count <= 2) {
                 self.payPeriods.append(FullPayPeriod(bothWeeks: $0))

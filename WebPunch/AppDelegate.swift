@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         NotificationCenter.default.post(name: NSNotification.Name("stopAllActivity"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name("restartNetworkReachability"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("connectionNeedsRefreshing"), object: nil)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
