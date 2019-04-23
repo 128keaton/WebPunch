@@ -213,10 +213,13 @@ class PunchHistoryViewController: UITableViewController {
 
             if let payString = Defaults.object(forKey: "pay") as? String,
                 let payDouble = Double(payString) {
-                periodCell.earnedAmountLabel?.isHidden = false
-                periodCell.earnedAmountLabel?.text = "$\((payDouble * Double(fullPayPeriod.amountWorked.hours)).rounded())"
+                let formatter = NumberFormatter()
+                formatter.locale = Locale.current
+                formatter.numberStyle = .currency
+                
+                periodCell.earnedAmountLabel?.text = formatter.string(from: (payDouble * Double(fullPayPeriod.amountWorked.hours)) as NSNumber)
             } else {
-                periodCell.earnedAmountLabel?.isHidden = true
+                periodCell.earnedAmountLabel?.text = "$0.00"
             }
 
         }
