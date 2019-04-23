@@ -51,13 +51,12 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     @objc func switchMode() {
-        self.switchLabel.text = "Let go"
-        self.tableView.setContentOffset(.zero, animated: true)
+        self.switchLabel.text = ""
 
         UIView.animate(withDuration: 0.3) {
             self.switchLabel.alpha = 0.0
         }
-        
+
         if displayMode == .punchesByDay {
             displayMode = .punchesByWeek
         } else if displayMode == .punchesByWeek {
@@ -209,8 +208,8 @@ class PunchHistoryViewController: UITableViewController {
         cell.alpha = 0
 
         UIView.animate(
-            withDuration: 0.5,
-            delay: 0.05 * Double(indexPath.row),
+            withDuration: 0.3,
+            delay: 0.003 * Double(indexPath.row),
             animations: {
                 cell.alpha = 1
             })
