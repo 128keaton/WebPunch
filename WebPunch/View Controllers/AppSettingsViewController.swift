@@ -97,7 +97,8 @@ class AppSettingsViewController: SwiftySettingsViewController {
                 },
                 Section(title: "Pay") {
                     [
-                        TextField(key: "pay", title: "Pay/hr", placeholder: "17.00", autoCapitalize: false, keyboardType: .decimalPad),
+                        TextField(key: "hourlyPay", title: "Hourly Pay", placeholder: "17.00", autoCapitalize: false, keyboardType: .decimalPad),
+                        TextField(key: "taxRate", title: "Tax rate", placeholder: "1.25", autoCapitalize: false, keyboardType: .decimalPad),
                     ]
                 },
                 Section(title: "Connection Settings") {

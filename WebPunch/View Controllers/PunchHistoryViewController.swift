@@ -211,13 +211,20 @@ class PunchHistoryViewController: UITableViewController {
             periodCell.amountOfTimeLabel?.text = fullPayPeriod.amountWorked.readableUnit
             periodCell.punchesAmount?.text = "\(fullPayPeriod.punches.count)"
 
-            if let payString = Defaults.object(forKey: "pay") as? String,
-                let payDouble = Double(payString) {
+            if let payString = Defaults.object(forKey: "hourlyPay") as? String,
+                let payDouble = Double(payString),
+                let taxRateString = Defaults.object(forKey: "taxRate") as? String,
+                let taxRateDouble = Double(taxRateString),
+                fullPayPeriod.amountWorked.hours > 0{
+                
                 let formatter = NumberFormatter()
                 formatter.locale = Locale.current
                 formatter.numberStyle = .currency
                 
-                periodCell.earnedAmountLabel?.text = formatter.string(from: (payDouble * Double(fullPayPeriod.amountWorked.hours)) as NSNumber)
+                let amountPreTax = payDouble * Double(fullPayPeriod.amountWorked.hours)
+                let amountTaxed = amountPreTax - (amountPreTax * taxRateDouble)
+                
+                periodCell.earnedAmountLabel?.text = formatter.string(from: amountTaxed as NSNumber)
             } else {
                 periodCell.earnedAmountLabel?.text = "$0.00"
             }
