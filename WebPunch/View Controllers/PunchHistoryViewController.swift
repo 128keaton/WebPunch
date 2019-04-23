@@ -28,6 +28,8 @@ class PunchHistoryViewController: UITableViewController {
     var weekPayPeriods: [WeekPayPeriod] = []
     var fullPayPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
+    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+
     @IBOutlet weak var historyButton: UIBarButtonItem?
 
     var displayMode: DisplayMode = .punchesByDay {
@@ -130,13 +132,11 @@ class PunchHistoryViewController: UITableViewController {
         return 108.0
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if displayMode == .punchesByWeek {
-            let payPeriod = self.weekPayPeriods[indexPath.section]
-            self.displayAlert(bodyText: "You have worked \(payPeriod.amountWorked.readableUnit) between \(payPeriod)", title: "Week Total")
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if self.displayMode == .punchesByPeriods && self.fullPayPeriods[section].incomplete {
+            return "CURRENT PERIOD"
         }
-
-        tableView.deselectRow(at: indexPath, animated: true)
+        return nil
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -192,35 +192,36 @@ class PunchHistoryViewController: UITableViewController {
             }
         }
 
-        if let punchCell = cell as? PunchCell,
-            let punch = punch {
-            punchCell.punchTypeLabel?.text = punch.punchType
-            punchCell.punchTimeLabel?.text = punch.punchTime
-            punchCell.punchDateLabel?.text = punch.punchDate
-        }
-
         if let punchCell = cell as? PunchInCell,
             let punch = punch {
-            punchCell.punchTypeLabel?.text = punch.punchType
             punchCell.punchTimeLabel?.text = punch.punchTime
             punchCell.punchDateLabel?.text = punch.punchDate
         }
 
         if let punchCell = cell as? PunchOutCell,
             let punch = punch {
-            punchCell.punchTypeLabel?.text = punch.punchType
             punchCell.punchTimeLabel?.text = punch.punchTime
             punchCell.punchDateLabel?.text = punch.punchDate
         }
 
         if let periodCell = cell as? PayPeriodCell {
             let fullPayPeriod = self.fullPayPeriods[indexPath.section].weekPayPeriods[indexPath.row]
-            periodCell.isUserInteractionEnabled = false
             periodCell.periodIsCurrent = fullPayPeriod.incomplete
             periodCell.rangeLabel?.text = fullPayPeriod.description
             periodCell.amountOfTimeLabel?.text = fullPayPeriod.amountWorked.readableUnit
             periodCell.punchesAmount?.text = "\(fullPayPeriod.punches.count)"
+
+            if let payString = Defaults.object(forKey: "pay") as? String,
+                let payDouble = Double(payString) {
+                periodCell.earnedAmountLabel?.isHidden = false
+                periodCell.earnedAmountLabel?.text = "$\((payDouble * Double(fullPayPeriod.amountWorked.hours)).rounded())"
+            } else {
+                periodCell.earnedAmountLabel?.isHidden = true
+            }
+
         }
+
+        cell.isUserInteractionEnabled = false
 
         return cell
     }

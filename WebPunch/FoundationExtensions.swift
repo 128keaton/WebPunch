@@ -48,19 +48,19 @@ extension Date {
 
 
 extension TimeInterval {
-    private var milliseconds: Int {
+    public var milliseconds: Int {
         return Int((truncatingRemainder(dividingBy: 1)) * 1000)
     }
 
-    private var seconds: Int {
+    public var seconds: Int {
         return Int(self) % 60
     }
 
-    private var minutes: Int {
+    public var minutes: Int {
         return (Int(self) / 60) % 60
     }
 
-    private var hours: Int {
+    public var hours: Int {
         return Int(self) / 3600
     }
 

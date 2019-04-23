@@ -41,13 +41,8 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
         for (index, inPunch) in (punches.filter { $0.getPunchType() == .In }).enumerated() {
             if punchesOut.indices.contains(index) {
                 let outPunch = punchesOut[index]
-                print(inPunch)
-                print(outPunch)
-                print("\n")
                 totalHours += fabs(inPunch.createdAt.timeIntervalSince(outPunch.createdAt))
             } else {
-                print(inPunch)
-                print("\n")
                 totalHours += fabs(inPunch.createdAt.timeIntervalSinceNow)
             }
         }
@@ -64,7 +59,7 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
         formatter.dateFormat = "MM/dd"
 
         if self.incomplete {
-            return "\(formatter.string(from: self.weekOf)) - (now)"
+            return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: Date()))"
         } else {
             return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: self.weekOf.oneWeekAhead))"
         }
@@ -101,13 +96,8 @@ class DayPayPeriod: CustomStringConvertible, Equatable {
         for (index, inPunch) in (punches.filter { $0.getPunchType() == .In }).enumerated() {
             if punchesOut.indices.contains(index) {
                 let outPunch = punchesOut[index]
-                print(inPunch)
-                print(outPunch)
-                print("\n")
                 totalHours += fabs(inPunch.createdAt.timeIntervalSince(outPunch.createdAt))
             } else {
-                print(inPunch)
-                print("\n")
                 totalHours += fabs(inPunch.createdAt.timeIntervalSinceNow)
             }
         }
@@ -152,7 +142,7 @@ class FullPayPeriod: CustomStringConvertible {
         formatter.dateFormat = "MM/dd"
 
         if self.incomplete {
-            return "\(formatter.string(from: self.weekOf)) - (now)"
+            return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: Date()))"
         } else {
             return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: self.weekOf.twoWeeksAhead))"
         }

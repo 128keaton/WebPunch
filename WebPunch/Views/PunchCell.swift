@@ -9,12 +9,6 @@
 import Foundation
 import UIKit
 
-class PunchCell: UITableViewCell {
-    @IBOutlet weak var punchTypeLabel: UILabel?
-    @IBOutlet weak var punchTimeLabel: UILabel?
-    @IBOutlet weak var punchDateLabel: UILabel?
-}
-
 class PunchInCell: UITableViewCell {
     @IBOutlet weak var punchTypeLabel: UILabel?
     @IBOutlet weak var punchTimeLabel: UILabel?

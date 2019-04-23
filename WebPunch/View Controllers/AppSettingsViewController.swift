@@ -93,7 +93,11 @@ class AppSettingsViewController: SwiftySettingsViewController {
                         TextField(key: "username", title: "Username", placeholder: "me", autoCapitalize: false, keyboardType: .default),
                         TextField(key: "password", title: "Password", secureTextEntry: true, autoCapitalize: false, keyboardType: .default),
                         TextField(key: "ipAddress", title: "URL", placeholder: "http://punchclock.address", autoCapitalize: false, keyboardType: .URL)
-
+                    ]
+                },
+                Section(title: "Pay") {
+                    [
+                        TextField(key: "pay", title: "Pay/hr", placeholder: "17.00", autoCapitalize: false, keyboardType: .decimalPad),
                     ]
                 },
                 Section(title: "Connection Settings") {
