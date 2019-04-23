@@ -29,9 +29,10 @@ class PunchHistoryViewController: UITableViewController {
     var fullPayPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
     var showTaxedIncome = true
+    var switchLabel: UILabel!
+    var customView: UIView!
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
-
-    @IBOutlet weak var historyButton: UIBarButtonItem?
+    var pullDownInProgress = false
 
     var displayMode: DisplayMode = .punchesByDay {
         didSet {
@@ -49,7 +50,7 @@ class PunchHistoryViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func switchModeButtonPressed(sender: AnyObject, forEvent event: UIEvent) {
+    @objc func switchMode() {
         if displayMode == .punchesByDay {
             displayMode = .punchesByWeek
         } else if displayMode == .punchesByWeek {
@@ -57,6 +58,10 @@ class PunchHistoryViewController: UITableViewController {
         } else {
             displayMode = .punchesByDay
         }
+    }
+
+    @IBAction func refresh() {
+        punchModel.refresh()
     }
 
     override func viewDidLoad() {
@@ -76,31 +81,24 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     private func displayModeChanged() {
-        let transitionOptions: UIView.AnimationOptions = [.transitionFlipFromTop, .showHideTransitionViews]
-        let historyButtonView = self.historyButton?.value(forKey: "view") as! UIView
-
         playSoundForTransition()
 
-        UIView.transition(with: self.view, duration: 0.3, options: transitionOptions, animations: {
-            historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            DispatchQueue.main.async {
-                switch self.displayMode {
-                case .punchesByDay:
-                    self.navigationItem.prompt = "(by day)"
-                    break
-                case .punchesByWeek:
-                    self.navigationItem.prompt = "(by week)"
-                    break
-                case .punchesByPeriods:
-                    self.navigationItem.prompt = "(by period)"
-                    break
-                }
-                self.tableView.reloadData()
+        DispatchQueue.main.async {
+            switch self.displayMode {
+            case .punchesByDay:
+                self.navigationItem.prompt = "(by day)"
+                break
+            case .punchesByWeek:
+                self.navigationItem.prompt = "(by week)"
+                break
+            case .punchesByPeriods:
+                self.navigationItem.prompt = "(by period)"
+                break
             }
-        })
-        UIView.animate(withDuration: 0.3, delay: 0.15, options: .curveEaseInOut, animations: {
-            historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
-        })
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
+
     }
 
     private func playSoundForTransition() {
@@ -112,6 +110,21 @@ class PunchHistoryViewController: UITableViewController {
             AudioServicesPlaySystemSound(newSoundID);
             punchHistorySoundID = newSoundID
         }
+    }
+
+    private func loadCustomRefreshContents() {
+        let refreshContents = Bundle.main.loadNibNamed("RefreshContents", owner: self, options: nil)
+        customView = refreshContents![0] as? UIView
+        customView.frame = refreshControl!.bounds
+        customView.backgroundColor = self.navigationController?.navigationBar.barTintColor
+        
+        self.refreshControl?.tintColor = .clear
+        
+        if let label = (customView.subviews.first { type(of: $0) == UILabel.self }) {
+            self.switchLabel = label as? UILabel
+        }
+
+        refreshControl!.addSubview(customView)
     }
 
     private func createNoDataView() {
@@ -131,7 +144,8 @@ class PunchHistoryViewController: UITableViewController {
 
     private func addRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(punchModel, action: #selector(PunchModel.refresh), for: .valueChanged)
+        refreshControl?.addTarget(self, action: #selector(switchMode), for: .valueChanged)
+        loadCustomRefreshContents()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -142,6 +156,47 @@ class PunchHistoryViewController: UITableViewController {
         }
     }
 
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        pullDownInProgress = scrollView.contentOffset.y <= 0.0
+    }
+
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        pullDownInProgress = false
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.subviews.forEach {
+                $0.layer.transform = CATransform3DIdentity
+            }
+            self.switchLabel.alpha = 0.0
+        }
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollViewContentOffsetY = scrollView.contentOffset.y
+
+        if pullDownInProgress && scrollView.contentOffset.y <= 0.0 {
+            switchLabel.alpha = abs(scrollViewContentOffsetY / 350.0)
+            var transform = CATransform3DIdentity;
+            transform.m34 = 1.0 / 1000.0;
+            transform = CATransform3DRotate(transform, abs(scrollViewContentOffsetY / 400.0), 0.2, 0, 0)
+            self.tableView.visibleCells.forEach {
+                $0.layer.transform = transform
+            }
+        } else {
+            pullDownInProgress = false
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0.05 * Double(indexPath.row),
+            animations: {
+                cell.alpha = 1
+        })
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 108.0
     }

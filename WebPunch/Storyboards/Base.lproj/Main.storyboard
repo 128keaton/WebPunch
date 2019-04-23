@@ -117,9 +117,10 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="mre-Cj-Y3z">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="separatorColor" red="0.69404870412381747" green="0.70787094137512674" blue="0.73803837435233155" alpha="0.80298195422535212" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.085460875331564989" green="0.085460875331564989" blue="0.085460875331564989" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="separatorColor" red="0.086260445419999998" green="0.086282841860000001" blue="0.086257301270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <color key="sectionIndexBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="iD7-nQ-etJ" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
@@ -307,16 +308,13 @@
                                 <action selector="backButtonPressed:" destination="vOe-dd-kom" id="LfU-ju-YIx"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="history" id="9io-Mo-i89">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="9io-Mo-i89">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="switchModeButtonPressedWithSender:forEvent:" destination="vOe-dd-kom" id="JFM-Ih-nq2"/>
+                                <action selector="refresh" destination="vOe-dd-kom" id="mVY-og-djX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="historyButton" destination="9io-Mo-i89" id="SUr-UH-1pr"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OuJ-8C-879" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
