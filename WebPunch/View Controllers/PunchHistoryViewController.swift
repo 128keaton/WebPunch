@@ -28,6 +28,7 @@ class PunchHistoryViewController: UITableViewController {
     var weekPayPeriods: [WeekPayPeriod] = []
     var fullPayPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
+    var showTaxedIncome = true
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     @IBOutlet weak var historyButton: UIBarButtonItem?
@@ -35,6 +36,12 @@ class PunchHistoryViewController: UITableViewController {
     var displayMode: DisplayMode = .punchesByDay {
         didSet {
             displayModeChanged()
+        }
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
         }
     }
 
@@ -54,10 +61,18 @@ class PunchHistoryViewController: UITableViewController {
 
     override func viewDidLoad() {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.becomeFirstResponder()
 
         createNoDataView()
         setupModel()
         addRefreshControl()
+    }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake && displayMode == .punchesByPeriods {
+            showTaxedIncome = !showTaxedIncome
+            self.tableView.reloadData()
+        }
     }
 
     private func displayModeChanged() {
@@ -87,7 +102,6 @@ class PunchHistoryViewController: UITableViewController {
             historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
         })
     }
-
 
     private func playSoundForTransition() {
         if let soundID = punchHistorySoundID {
@@ -215,16 +229,20 @@ class PunchHistoryViewController: UITableViewController {
                 let payDouble = Double(payString),
                 let taxRateString = Defaults.object(forKey: "taxRate") as? String,
                 let taxRateDouble = Double(taxRateString),
-                fullPayPeriod.amountWorked.hours > 0{
-                
+                fullPayPeriod.amountWorked.hours > 0 {
+
                 let formatter = NumberFormatter()
                 formatter.locale = Locale.current
                 formatter.numberStyle = .currency
-                
+
                 let amountPreTax = payDouble * Double(fullPayPeriod.amountWorked.hours)
                 let amountTaxed = amountPreTax - (amountPreTax * taxRateDouble)
-                
-                periodCell.earnedAmountLabel?.text = formatter.string(from: amountTaxed as NSNumber)
+
+                if showTaxedIncome {
+                    periodCell.earnedAmountLabel?.text = formatter.string(from: amountTaxed as NSNumber)
+                } else {
+                    periodCell.earnedAmountLabel?.text = formatter.string(from: amountPreTax as NSNumber)
+                }
             } else {
                 periodCell.earnedAmountLabel?.text = "$0.00"
             }
