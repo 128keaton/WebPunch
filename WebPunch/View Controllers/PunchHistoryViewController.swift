@@ -51,6 +51,13 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     @objc func switchMode() {
+        self.switchLabel.text = "Let go"
+        self.tableView.setContentOffset(.zero, animated: true)
+
+        UIView.animate(withDuration: 0.3) {
+            self.switchLabel.alpha = 0.0
+        }
+        
         if displayMode == .punchesByDay {
             displayMode = .punchesByWeek
         } else if displayMode == .punchesByWeek {
@@ -84,21 +91,21 @@ class PunchHistoryViewController: UITableViewController {
         playSoundForTransition()
 
         DispatchQueue.main.async {
-            switch self.displayMode {
-            case .punchesByDay:
-                self.navigationItem.prompt = "(by day)"
-                break
-            case .punchesByWeek:
-                self.navigationItem.prompt = "(by week)"
-                break
-            case .punchesByPeriods:
-                self.navigationItem.prompt = "(by period)"
-                break
-            }
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
 
+        switch self.displayMode {
+        case .punchesByDay:
+            self.navigationItem.prompt = "(by day)"
+            break
+        case .punchesByWeek:
+            self.navigationItem.prompt = "(by week)"
+            break
+        case .punchesByPeriods:
+            self.navigationItem.prompt = "(by period)"
+            break
+        }
     }
 
     private func playSoundForTransition() {
@@ -117,13 +124,14 @@ class PunchHistoryViewController: UITableViewController {
         customView = refreshContents![0] as? UIView
         customView.frame = refreshControl!.bounds
         customView.backgroundColor = self.navigationController?.navigationBar.barTintColor
-        
+
         self.refreshControl?.tintColor = .clear
-        
+
         if let label = (customView.subviews.first { type(of: $0) == UILabel.self }) {
             self.switchLabel = label as? UILabel
         }
 
+        switchLabel.text = "Switch to Week View"
         refreshControl!.addSubview(customView)
     }
 
@@ -158,6 +166,17 @@ class PunchHistoryViewController: UITableViewController {
 
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         pullDownInProgress = scrollView.contentOffset.y <= 0.0
+        switch self.displayMode {
+        case .punchesByDay:
+            self.switchLabel.text = "Switch to Week View"
+            break
+        case .punchesByWeek:
+            self.switchLabel.text = "Switch to Period View"
+            break
+        case .punchesByPeriods:
+            self.switchLabel.text = "Switch to Day View"
+            break
+        }
     }
 
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -188,15 +207,15 @@ class PunchHistoryViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.alpha = 0
-        
+
         UIView.animate(
             withDuration: 0.5,
             delay: 0.05 * Double(indexPath.row),
             animations: {
                 cell.alpha = 1
-        })
+            })
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 108.0
     }
