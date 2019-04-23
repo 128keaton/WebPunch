@@ -110,7 +110,7 @@
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="27.436281859070466"/>
         </scene>
-        <!--Punch History-->
+        <!--Punches-->
         <scene sceneID="UFo-yP-0NB">
             <objects>
                 <tableViewController id="vOe-dd-kom" customClass="PunchHistoryViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
@@ -281,14 +281,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="107.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 hours worked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-Bx-mA8">
-                                            <rect key="frame" x="20" y="60" width="374" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 hours worked" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-Bx-mA8">
+                                            <rect key="frame" x="145" y="60" width="249" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/01 - 12/02" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvq-W3-E7j">
-                                            <rect key="frame" x="20" y="27" width="374" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Punches" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yju-z8-gLt">
+                                            <rect key="frame" x="20" y="60" width="117" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/01 - 12/02" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvq-W3-E7j">
+                                            <rect key="frame" x="145" y="27" width="249" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="cvW-vH-8hJ"/>
                                             </constraints>
@@ -296,19 +302,34 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUn-zV-1au">
+                                            <rect key="frame" x="20" y="27" width="117" height="33"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="41"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="TJc-Bx-mA8" secondAttribute="bottom" constant="16" id="A1B-6I-q45"/>
                                         <constraint firstItem="Fvq-W3-E7j" firstAttribute="trailing" secondItem="TJc-Bx-mA8" secondAttribute="trailing" id="Aha-5R-b3q"/>
                                         <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="TJc-Bx-mA8" secondAttribute="leading" id="E9N-z7-DEF"/>
-                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="D7u-lr-goQ" secondAttribute="leadingMargin" id="GjM-xe-rzH"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="D7u-lr-goQ" secondAttribute="leadingMargin" constant="125" id="GjM-xe-rzH"/>
+                                        <constraint firstItem="Yju-z8-gLt" firstAttribute="top" secondItem="hUn-zV-1au" secondAttribute="bottom" id="IzP-kY-dhN"/>
                                         <constraint firstItem="TJc-Bx-mA8" firstAttribute="top" secondItem="Fvq-W3-E7j" secondAttribute="bottom" constant="9" id="LZA-ub-Io2"/>
+                                        <constraint firstItem="hUn-zV-1au" firstAttribute="leading" secondItem="Yju-z8-gLt" secondAttribute="leading" id="RR4-gu-Fxe"/>
+                                        <constraint firstItem="Fvq-W3-E7j" firstAttribute="leading" secondItem="hUn-zV-1au" secondAttribute="trailing" constant="8" symbolic="YES" id="Tm1-BT-6OH"/>
+                                        <constraint firstItem="hUn-zV-1au" firstAttribute="trailing" secondItem="Yju-z8-gLt" secondAttribute="trailing" id="XSG-Ig-baQ"/>
+                                        <constraint firstItem="Yju-z8-gLt" firstAttribute="centerY" secondItem="TJc-Bx-mA8" secondAttribute="centerY" id="fNt-C7-ACz"/>
+                                        <constraint firstItem="hUn-zV-1au" firstAttribute="leading" secondItem="D7u-lr-goQ" secondAttribute="leadingMargin" id="gA2-CA-Rif"/>
+                                        <constraint firstItem="hUn-zV-1au" firstAttribute="baseline" secondItem="Fvq-W3-E7j" secondAttribute="firstBaseline" id="jat-m1-wya"/>
+                                        <constraint firstItem="hUn-zV-1au" firstAttribute="top" secondItem="Fvq-W3-E7j" secondAttribute="top" id="mwD-ug-lJq"/>
                                         <constraint firstItem="Fvq-W3-E7j" firstAttribute="trailing" secondItem="D7u-lr-goQ" secondAttribute="trailingMargin" id="olS-Bi-2d9"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="amountOfTimeLabel" destination="TJc-Bx-mA8" id="xee-eg-gAH"/>
+                                    <outlet property="punchesAmount" destination="hUn-zV-1au" id="6vA-wg-EAW"/>
                                     <outlet property="rangeLabel" destination="Fvq-W3-E7j" id="sY6-9k-JvK"/>
                                 </connections>
                             </tableViewCell>
@@ -318,7 +339,7 @@
                             <outlet property="delegate" destination="vOe-dd-kom" id="WrU-GZ-91x"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Punch History" largeTitleDisplayMode="always" id="5sM-rp-Kqy">
+                    <navigationItem key="navigationItem" title="Punches" prompt="(by day)" largeTitleDisplayMode="always" id="5sM-rp-Kqy">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="rdk-PB-lMb">
                             <color key="tintColor" red="0.89714723825454712" green="0.15664556622505188" blue="0.27960872650146484" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -328,10 +349,13 @@
                         <barButtonItem key="rightBarButtonItem" image="history" id="9io-Mo-i89">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="switchModeButtonPressed:" destination="vOe-dd-kom" id="msR-YN-NbZ"/>
+                                <action selector="switchModeButtonPressedWithSender:forEvent:" destination="vOe-dd-kom" id="JFM-Ih-nq2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="historyButton" destination="9io-Mo-i89" id="SUr-UH-1pr"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OuJ-8C-879" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -48,6 +48,10 @@ class PunchViewController: UIViewController {
         registerForNotifications()
         punchInterface.setupConnectionListener()
         disableButtons()
+
+        #if DEBUG
+            addDebugGestures()
+        #endif
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -55,6 +59,11 @@ class PunchViewController: UIViewController {
             disableButtons()
             attemptConnection()
         }
+    }
+
+    private func addDebugGestures() {
+        let longPressTestAnimation = UILongPressGestureRecognizer(target: self, action: #selector(animateClockInOutAction))
+        historyButton?.addGestureRecognizer(longPressTestAnimation)
     }
 
     private func registerForNotifications() {
@@ -120,7 +129,11 @@ class PunchViewController: UIViewController {
         }
     }
 
-    private func didPunchOut() {
+    @objc private func animateClockInOutAction() {
+        self.historyButton?.shake()
+    }
+
+    @objc private func didPunchOut() {
         if let soundID = punchOutSoundID {
             AudioServicesPlaySystemSound(soundID);
         } else {
@@ -129,16 +142,10 @@ class PunchViewController: UIViewController {
             AudioServicesPlaySystemSound(newSoundID);
             punchOutSoundID = newSoundID
         }
-
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        })
-        UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
-            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
-        })
+        animateClockInOutAction()
     }
 
-    private func didPunchIn() {
+    @objc private func didPunchIn() {
         if let soundID = punchInSoundID {
             AudioServicesPlaySystemSound(soundID);
         } else {
@@ -147,13 +154,7 @@ class PunchViewController: UIViewController {
             AudioServicesPlaySystemSound(newSoundID);
             punchInSoundID = newSoundID
         }
-
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
-            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        })
-        UIView.animate(withDuration: 0.4, delay: 0.3, options: .curveEaseInOut, animations: {
-            self.historyButton?.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2.0)
-        })
+        animateClockInOutAction()
     }
 
     private func startRotating() {

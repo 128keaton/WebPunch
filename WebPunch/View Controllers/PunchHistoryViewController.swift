@@ -12,8 +12,9 @@ import AudioToolbox
 
 class PunchHistoryViewController: UITableViewController {
     enum DisplayMode {
-        case punches
-        case payPeriods
+        case punchesByPeriods
+        case punchesByWeek
+        case punchesByDay
     }
 
     // MARK: - Properties
@@ -23,12 +24,13 @@ class PunchHistoryViewController: UITableViewController {
 
     var punchHistorySoundID: SystemSoundID? = nil
     var payPeriodHistoryID: SystemSoundID? = nil
-    var punchesFromPayPeriods: [WeekPayPeriod] = []
-    var payPeriods: [FullPayPeriod] = []
+    var dayPayPeriods: [DayPayPeriod] = []
+    var weekPayPeriods: [WeekPayPeriod] = []
+    var fullPayPeriods: [FullPayPeriod] = []
     var noDataView: UILabel? = nil
-    var historyButton: UIBarButtonItem?
+    @IBOutlet weak var historyButton: UIBarButtonItem?
 
-    var displayMode: DisplayMode = .punches {
+    var displayMode: DisplayMode = .punchesByDay {
         didSet {
             displayModeChanged()
         }
@@ -38,13 +40,13 @@ class PunchHistoryViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func switchModeButtonPressed(_ sender: UIBarButtonItem) {
-        historyButton = sender
-
-        if displayMode == .payPeriods {
-            displayMode = .punches
+    @IBAction func switchModeButtonPressed(sender: AnyObject, forEvent event: UIEvent) {
+        if displayMode == .punchesByDay {
+            displayMode = .punchesByWeek
+        } else if displayMode == .punchesByWeek {
+            displayMode = .punchesByPeriods
         } else {
-            displayMode = .payPeriods
+            displayMode = .punchesByDay
         }
     }
 
@@ -57,7 +59,7 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     private func displayModeChanged() {
-        let transitionOptions: UIView.AnimationOptions = (self.displayMode == .punches) ? [.transitionFlipFromTop, .showHideTransitionViews] : [.transitionFlipFromBottom, .showHideTransitionViews]
+        let transitionOptions: UIView.AnimationOptions = [.transitionFlipFromTop, .showHideTransitionViews]
         let historyButtonView = self.historyButton?.value(forKey: "view") as! UIView
 
         playSoundForTransition()
@@ -65,7 +67,17 @@ class PunchHistoryViewController: UITableViewController {
         UIView.transition(with: self.view, duration: 0.3, options: transitionOptions, animations: {
             historyButtonView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             DispatchQueue.main.async {
-                self.title = (self.displayMode == .punches) ? "Punch History" : "Pay Periods"
+                switch self.displayMode {
+                case .punchesByDay:
+                    self.navigationItem.prompt = "(by day)"
+                    break
+                case .punchesByWeek:
+                    self.navigationItem.prompt = "(by week)"
+                    break
+                case .punchesByPeriods:
+                    self.navigationItem.prompt = "(by period)"
+                    break
+                }
                 self.tableView.reloadData()
             }
         })
@@ -74,28 +86,17 @@ class PunchHistoryViewController: UITableViewController {
         })
     }
 
+
     private func playSoundForTransition() {
-        if self.displayMode == .punches {
-            if let soundID = punchHistorySoundID {
-                AudioServicesPlaySystemSound(soundID);
-            } else {
-                var newSoundID = SystemSoundID()
-                AudioServicesCreateSystemSoundID(punchHistorySoundURL! as CFURL, &newSoundID)
-                AudioServicesPlaySystemSound(newSoundID);
-                punchHistorySoundID = newSoundID
-            }
+        if let soundID = punchHistorySoundID {
+            AudioServicesPlaySystemSound(soundID);
         } else {
-            if let soundID = payPeriodHistoryID {
-                AudioServicesPlaySystemSound(soundID);
-            } else {
-                var newSoundID = SystemSoundID()
-                AudioServicesCreateSystemSoundID(payPeriodHistorySoundURL! as CFURL, &newSoundID)
-                AudioServicesPlaySystemSound(newSoundID);
-                payPeriodHistoryID = newSoundID
-            }
+            var newSoundID = SystemSoundID()
+            AudioServicesCreateSystemSoundID(punchHistorySoundURL! as CFURL, &newSoundID)
+            AudioServicesPlaySystemSound(newSoundID);
+            punchHistorySoundID = newSoundID
         }
     }
-
 
     private func createNoDataView() {
         if noDataView == nil {
@@ -119,7 +120,7 @@ class PunchHistoryViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            if self.punchesFromPayPeriods.count == 0 {
+            if self.weekPayPeriods.count == 0 {
                 self.tableView.backgroundView = self.noDataView!
             }
         }
@@ -130,8 +131,8 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if displayMode == .punches {
-            let payPeriod = self.punchesFromPayPeriods[indexPath.section]
+        if displayMode == .punchesByWeek {
+            let payPeriod = self.weekPayPeriods[indexPath.section]
             self.displayAlert(bodyText: "You have worked \(payPeriod.amountWorked.readableUnit) between \(payPeriod)", title: "Week Total")
         }
 
@@ -139,72 +140,86 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if displayMode == .punches {
-            return self.punchesFromPayPeriods.count
+        if displayMode == .punchesByWeek {
+            return self.weekPayPeriods.count
+        } else if displayMode == .punchesByDay {
+            return self.dayPayPeriods.count
         } else {
-            return self.payPeriods.count
+            return self.fullPayPeriods.count
         }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if displayMode == .punches {
-            return self.punchesFromPayPeriods[section].punches.count
+        if displayMode == .punchesByWeek {
+            return self.weekPayPeriods[section].punches.count
+        } else if displayMode == .punchesByDay {
+            return self.dayPayPeriods[section].punches.count
         } else {
-            return self.payPeriods[section].weekPayPeriods.count
+            return self.fullPayPeriods[section].weekPayPeriods.count
         }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if displayMode == .punches {
-            let payPeriod = self.punchesFromPayPeriods[section]
+        if displayMode == .punchesByWeek {
+            let payPeriod = self.weekPayPeriods[section]
+            return "\(payPeriod.amountWorked.readableUnit) total. \(payPeriod)"
+        } else if displayMode == .punchesByDay {
+            let payPeriod = self.dayPayPeriods[section]
             return "\(payPeriod.amountWorked.readableUnit) total. \(payPeriod)"
         } else {
-            let payPeriod = self.payPeriods[section]
+            let payPeriod = self.fullPayPeriods[section]
             return "\(payPeriod.amountWorked.readableUnit) total. \(payPeriod)"
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
+        var punch: Punch? = nil
 
-        if displayMode == .punches {
-            let punch = self.punchesFromPayPeriods[indexPath.section].punches[indexPath.row]
+        if displayMode == .punchesByWeek {
+            punch = self.weekPayPeriods[indexPath.section].punches[indexPath.row]
+        } else if displayMode == .punchesByDay {
+            punch = self.dayPayPeriods[indexPath.section].punches[indexPath.row]
+        } else if displayMode == .punchesByPeriods {
+            cell = tableView.dequeueReusableCell(withIdentifier: "PayPeriodCell", for: indexPath)
+        }
+
+        if let punch = punch {
             if punch.punchType == "In" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "PunchInCell", for: indexPath)
             } else if punch.punchType == "Out" {
                 cell = tableView.dequeueReusableCell(withIdentifier: "PunchOutCell", for: indexPath)
             }
-        } else if displayMode == .payPeriods {
-            cell = tableView.dequeueReusableCell(withIdentifier: "PayPeriodCell", for: indexPath)
         }
 
-        if let punchCell = cell as? PunchCell {
-            let punch = self.punchesFromPayPeriods[indexPath.section].punches[indexPath.row]
+        if let punchCell = cell as? PunchCell,
+            let punch = punch {
             punchCell.punchTypeLabel?.text = punch.punchType
             punchCell.punchTimeLabel?.text = punch.punchTime
             punchCell.punchDateLabel?.text = punch.punchDate
         }
 
-        if let punchCell = cell as? PunchInCell {
-            let punch = self.punchesFromPayPeriods[indexPath.section].punches[indexPath.row]
+        if let punchCell = cell as? PunchInCell,
+            let punch = punch {
             punchCell.punchTypeLabel?.text = punch.punchType
             punchCell.punchTimeLabel?.text = punch.punchTime
             punchCell.punchDateLabel?.text = punch.punchDate
         }
 
-        if let punchCell = cell as? PunchOutCell {
-            let punch = self.punchesFromPayPeriods[indexPath.section].punches[indexPath.row]
+        if let punchCell = cell as? PunchOutCell,
+            let punch = punch {
             punchCell.punchTypeLabel?.text = punch.punchType
             punchCell.punchTimeLabel?.text = punch.punchTime
             punchCell.punchDateLabel?.text = punch.punchDate
         }
 
         if let periodCell = cell as? PayPeriodCell {
-            let payPeriod = self.payPeriods[indexPath.section].weekPayPeriods[indexPath.row]
+            let fullPayPeriod = self.fullPayPeriods[indexPath.section].weekPayPeriods[indexPath.row]
             periodCell.isUserInteractionEnabled = false
-            periodCell.periodIsCurrent = payPeriod.incomplete
-            periodCell.rangeLabel?.text = payPeriod.description
-            periodCell.amountOfTimeLabel?.text = payPeriod.amountWorked.readableUnit
+            periodCell.periodIsCurrent = fullPayPeriod.incomplete
+            periodCell.rangeLabel?.text = fullPayPeriod.description
+            periodCell.amountOfTimeLabel?.text = fullPayPeriod.amountWorked.readableUnit
+            periodCell.punchesAmount?.text = "\(fullPayPeriod.punches.count)"
         }
 
         return cell
@@ -219,14 +234,9 @@ extension PunchHistoryViewController: PunchModelDelegate {
     }
 
     func modelEndingUpdates() {
-        self.punchesFromPayPeriods = PunchModel.sharedInstance.payPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
-        self.payPeriods = []
-
-        PunchModel.sharedInstance.payPeriods.chunked(into: 2).forEach {
-            if ($0.count <= 2) {
-                self.payPeriods.append(FullPayPeriod(bothWeeks: $0))
-            }
-        }
+        self.dayPayPeriods = PunchModel.sharedInstance.dayPayPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
+        self.weekPayPeriods = PunchModel.sharedInstance.weekPayPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
+        self.fullPayPeriods = PunchModel.sharedInstance.fullPayPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
 
         tableView.reloadData()
     }

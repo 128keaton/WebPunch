@@ -44,7 +44,9 @@ class PunchModel {
 
     var delegate: PunchModelDelegate?
     var punches: [Punch] = []
-    var payPeriods: [WeekPayPeriod] = []
+    var weekPayPeriods: [WeekPayPeriod] = []
+    var dayPayPeriods: [DayPayPeriod] = []
+    var fullPayPeriods: [FullPayPeriod] = []
 
     private var currentPunch: Punch? = nil
     private var records = [CKRecord]()
@@ -95,7 +97,7 @@ class PunchModel {
         }
 
         DispatchQueue.main.async {
-            self.payPeriods = []
+            self.weekPayPeriods = []
 
             if self.useiCloud {
                 var knownIds = Set(self.records.map { $0.recordID })
@@ -121,24 +123,11 @@ class PunchModel {
                 }
 
                 self.punches = self.sortPunches(punches)
-                self.payPeriods = self.matchIntoWeeklyPayPeriods()
-
-            } else if let defaults = self.defaults {
-                var punches = self.punches
-
-                if self.insertedObjects.count > 0 {
-                    punches.append(contentsOf: self.insertedObjects)
-                    punches.removeAll { punch in
-                        self.deletedObjectIds.contains(punch.record.recordID)
-                    }
-                }
-
-                self.punches = self.sortPunches(punches)
-                self.payPeriods = self.matchIntoWeeklyPayPeriods()
-
-                defaults.set(self.payPeriods, forKey: "payPeriods")
-                defaults.set(self.punches, forKey: "punches")
             }
+
+            self.dayPayPeriods = self.matchIntoDailyPayPeriods()
+            self.weekPayPeriods = self.matchIntoWeeklyPayPeriods()
+            self.fullPayPeriods = self.matchIntoFullPayPeriods()
         }
 
         DispatchQueue.main.async {
@@ -200,6 +189,34 @@ class PunchModel {
             }
         }
 
+        return payPeriods
+    }
+
+    private func matchIntoDailyPayPeriods() -> [DayPayPeriod] {
+        var payPeriods = [DayPayPeriod]()
+
+        for punch in self.punches {
+            var currentPayPeriod: DayPayPeriod? = nil
+
+            if let existingPayPeriod = (payPeriods.first { Calendar.current.compare($0.day, to: punch.createdAt, toGranularity: .day) == .orderedSame }) {
+                currentPayPeriod = existingPayPeriod
+                currentPayPeriod?.addPunch(newPunch: punch)
+            } else {
+                currentPayPeriod = DayPayPeriod(punch: punch, day: punch.createdAt)
+                payPeriods.append(currentPayPeriod!)
+            }
+        }
+
+        return payPeriods
+    }
+
+    private func matchIntoFullPayPeriods() -> [FullPayPeriod] {
+        var payPeriods = [FullPayPeriod]()
+        self.weekPayPeriods.chunked(into: 2).forEach {
+            if ($0.count <= 2) {
+                payPeriods.append(FullPayPeriod(bothWeeks: $0))
+            }
+        }
         return payPeriods
     }
 }

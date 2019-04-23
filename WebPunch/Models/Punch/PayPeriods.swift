@@ -35,7 +35,7 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
 
     public var amountWorked: TimeInterval {
         var totalHours = 0.0
-    
+
         let punchesOut = sortPunches((punches.filter { $0.getPunchType() == .Out }))
 
         for (index, inPunch) in (punches.filter { $0.getPunchType() == .In }).enumerated() {
@@ -64,7 +64,7 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
         formatter.dateFormat = "MM/dd"
 
         if self.incomplete {
-            return "\(formatter.string(from: self.weekOf)) - (current)"
+            return "\(formatter.string(from: self.weekOf)) - (now)"
         } else {
             return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: self.weekOf.oneWeekAhead))"
         }
@@ -72,6 +72,61 @@ class WeekPayPeriod: CustomStringConvertible, Equatable {
 
     static func == (lhs: WeekPayPeriod, rhs: WeekPayPeriod) -> Bool {
         return lhs.punches == rhs.punches && lhs.weekOf == rhs.weekOf && lhs.incomplete == rhs.incomplete
+    }
+}
+
+class DayPayPeriod: CustomStringConvertible, Equatable {
+    var day: Date
+    var punches: [Punch] = []
+
+    init(punches: [Punch], day: Date) {
+        self.punches = punches
+        self.day = day
+    }
+
+    init(punch: Punch, day: Date) {
+        self.punches = [punch]
+        self.day = day
+    }
+
+    public func addPunch(newPunch punch: Punch) {
+        self.punches.append(punch)
+    }
+
+    public var amountWorked: TimeInterval {
+        var totalHours = 0.0
+
+        let punchesOut = sortPunches((punches.filter { $0.getPunchType() == .Out }))
+
+        for (index, inPunch) in (punches.filter { $0.getPunchType() == .In }).enumerated() {
+            if punchesOut.indices.contains(index) {
+                let outPunch = punchesOut[index]
+                print(inPunch)
+                print(outPunch)
+                print("\n")
+                totalHours += fabs(inPunch.createdAt.timeIntervalSince(outPunch.createdAt))
+            } else {
+                print(inPunch)
+                print("\n")
+                totalHours += fabs(inPunch.createdAt.timeIntervalSinceNow)
+            }
+        }
+
+        return totalHours
+    }
+
+    public var description: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd"
+        return formatter.string(from: self.day)
+    }
+
+    private func sortPunches(_ newPunches: [Punch]) -> [Punch] {
+        return newPunches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
+    }
+
+    static func == (lhs: DayPayPeriod, rhs: DayPayPeriod) -> Bool {
+        return lhs.punches == rhs.punches && lhs.day == rhs.day
     }
 }
 
@@ -97,7 +152,7 @@ class FullPayPeriod: CustomStringConvertible {
         formatter.dateFormat = "MM/dd"
 
         if self.incomplete {
-            return "\(formatter.string(from: self.weekOf)) - (current)"
+            return "\(formatter.string(from: self.weekOf)) - (now)"
         } else {
             return "\(formatter.string(from: self.weekOf)) - \(formatter.string(from: self.weekOf.twoWeeksAhead))"
         }
