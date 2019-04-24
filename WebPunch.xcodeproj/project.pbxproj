@@ -20,12 +20,10 @@
 		8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
 		8AA53BB4226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
 		8AA53BB5226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
-		8AA841D522680426009C5948 /* VPN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D422680426009C5948 /* VPN.swift */; };
-		8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D6226805B4009C5948 /* KeychainService.swift */; };
+		8AA841D522680426009C5948 /* SonicWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D422680426009C5948 /* SonicWall.swift */; };
 		8AA841D922681638009C5948 /* PunchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841D822681638009C5948 /* PunchHistoryViewController.swift */; };
 		8AA841DB22681945009C5948 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA841DA22681945009C5948 /* CloudKit.framework */; };
 		8AA841DD2268195B009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
-		8AA841DF22681AA7009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
 		8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
 		8AA841E322681BB6009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
 		8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E5226827D6009C5948 /* PunchCell.swift */; };
@@ -35,11 +33,9 @@
 		8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
 		8AA841F8226850BF009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
 		8AA841F9226850BF009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
-		8AA841FA226850CD009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
 		8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
 		8AA841FC226850E0009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
 		8AA841FD226850E2009C5948 /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DC2268195B009C5948 /* Punch.swift */; };
-		8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841DE22681AA7009C5948 /* UserInfo.swift */; };
 		8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32152151CD940082FDA6 /* AppDelegate.swift */; };
 		8ACB32182151CD940082FDA6 /* PunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32172151CD940082FDA6 /* PunchViewController.swift */; };
 		8ACB321B2151CD940082FDA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB32192151CD940082FDA6 /* Main.storyboard */; };
@@ -56,6 +52,10 @@
 		8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
 		8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB3250215213040082FDA6 /* Intents.intentdefinition */; };
+		8AF718F1227021D700DBD7AD /* UISoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718F0227021D700DBD7AD /* UISoundService.swift */; };
+		8AF718F422702E5000DBD7AD /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718F322702E4F00DBD7AD /* UserInfo.swift */; };
+		8AF718F522702E5900DBD7AD /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718F322702E4F00DBD7AD /* UserInfo.swift */; };
+		8AF718F622702E5A00DBD7AD /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718F322702E4F00DBD7AD /* UserInfo.swift */; };
 		FE82B32AD8B38C91E6BA953D /* Pods_PunchIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */; };
 /* End PBXBuildFile section */
 
@@ -104,12 +104,10 @@
 		8A07AD22226F2A5500233AAB /* RefreshContents.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RefreshContents.xib; sourceTree = "<group>"; };
 		8AA53BAC226E49BF004CC73F /* PayPeriods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriods.swift; sourceTree = "<group>"; };
 		8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
-		8AA841D422680426009C5948 /* VPN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPN.swift; sourceTree = "<group>"; };
-		8AA841D6226805B4009C5948 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		8AA841D422680426009C5948 /* SonicWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonicWall.swift; sourceTree = "<group>"; };
 		8AA841D822681638009C5948 /* PunchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchHistoryViewController.swift; sourceTree = "<group>"; };
 		8AA841DA22681945009C5948 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8AA841DC2268195B009C5948 /* Punch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Punch.swift; sourceTree = "<group>"; };
-		8AA841DE22681AA7009C5948 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		8AA841E022681ADE009C5948 /* PunchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchModel.swift; sourceTree = "<group>"; };
 		8AA841E222681BB6009C5948 /* PunchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchType.swift; sourceTree = "<group>"; };
 		8AA841E5226827D6009C5948 /* PunchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchCell.swift; sourceTree = "<group>"; };
@@ -135,6 +133,8 @@
 		8ACB3250215213040082FDA6 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		8ACB3256215219300082FDA6 /* PunchIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PunchIntent.entitlements; sourceTree = "<group>"; };
 		8ACB3257215219360082FDA6 /* PunchIntentUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PunchIntentUI.entitlements; sourceTree = "<group>"; };
+		8AF718F0227021D700DBD7AD /* UISoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISoundService.swift; sourceTree = "<group>"; };
+		8AF718F322702E4F00DBD7AD /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.debug.xcconfig"; sourceTree = "<group>"; };
 		EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,8 +186,8 @@
 		8AA841E422681DFA009C5948 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8AF718F322702E4F00DBD7AD /* UserInfo.swift */,
 				8AA841F022684AB6009C5948 /* Punch */,
-				8AA841DE22681AA7009C5948 /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,8 +216,8 @@
 		8AA841F122684AC1009C5948 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8AA841D422680426009C5948 /* VPN.swift */,
-				8AA841D6226805B4009C5948 /* KeychainService.swift */,
+				8AA841D422680426009C5948 /* SonicWall.swift */,
+				8AF718F0227021D700DBD7AD /* UISoundService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -288,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				8ACB321C2151CD950082FDA6 /* Assets.xcassets */,
+				8AF718F222702AF400DBD7AD /* Extensions */,
 				8AA841F322684AD6009C5948 /* Storyboards */,
 				8AA841EF22684A98009C5948 /* View Controllers */,
 				8AA841F122684AC1009C5948 /* Services */,
@@ -298,8 +299,6 @@
 				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
 				8ACB32212151CD950082FDA6 /* Info.plist */,
 				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
-				8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */,
-				8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -323,6 +322,15 @@
 				8ACB3242215212EE0082FDA6 /* Info.plist */,
 			);
 			path = PunchIntentUI;
+			sourceTree = "<group>";
+		};
+		8AF718F222702AF400DBD7AD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */,
+				8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,15 +591,15 @@
 				8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */,
 				8ACB32182151CD940082FDA6 /* PunchViewController.swift in Sources */,
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,
+				8AF718F422702E5000DBD7AD /* UserInfo.swift in Sources */,
 				8A07AD1D226E66B100233AAB /* UIKitExtensions.swift in Sources */,
 				8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8AA53BAD226E49BF004CC73F /* PayPeriods.swift in Sources */,
 				8AA841E322681BB6009C5948 /* PunchType.swift in Sources */,
 				8AA841D922681638009C5948 /* PunchHistoryViewController.swift in Sources */,
-				8AA841D7226805B4009C5948 /* KeychainService.swift in Sources */,
 				8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
-				8AA841D522680426009C5948 /* VPN.swift in Sources */,
-				8AA841DF22681AA7009C5948 /* UserInfo.swift in Sources */,
+				8AF718F1227021D700DBD7AD /* UISoundService.swift in Sources */,
+				8AA841D522680426009C5948 /* SonicWall.swift in Sources */,
 				8A07AD1F226E69C400233AAB /* PayPeriodCell.swift in Sources */,
 				8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */,
 			);
@@ -608,8 +616,8 @@
 				8A07AD20226E6A8600233AAB /* PayPeriodCell.swift in Sources */,
 				8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */,
 				8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */,
-				8AA841FA226850CD009C5948 /* UserInfo.swift in Sources */,
 				8AA841F8226850BF009C5948 /* Punch.swift in Sources */,
+				8AF718F522702E5900DBD7AD /* UserInfo.swift in Sources */,
 				8AA53BB4226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,8 +633,8 @@
 				8A07AD21226E6A8600233AAB /* PayPeriodCell.swift in Sources */,
 				8AA841FC226850E0009C5948 /* PunchType.swift in Sources */,
 				8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */,
-				8AA841FE226850E4009C5948 /* UserInfo.swift in Sources */,
 				8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */,
+				8AF718F622702E5A00DBD7AD /* UserInfo.swift in Sources */,
 				8AA53BB5226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

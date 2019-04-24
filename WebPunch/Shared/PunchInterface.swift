@@ -17,13 +17,22 @@ extension DefaultsKeys {
     static let punchedIn = DefaultsKey<Bool?>("punchedIn")
 }
 
+enum Action {
+    case punchIn
+    case punchOut
+    case attemptConnection
+    case login
+}
+
 class PunchInterface {
     public var isLoggedIn = false
+    private var observer: AnyObject?
+
 
     private lazy var alamoFireManager: SessionManager? = {
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 3
-        configuration.timeoutIntervalForResource = 3
+        configuration.timeoutIntervalForRequest = 6
+        configuration.timeoutIntervalForResource = 6
         let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
         return alamoFireManager
     }()
@@ -85,11 +94,24 @@ class PunchInterface {
                         })
                     } else {
                         // Unknown state
-                        completion(false, 0)
+                        completion(false, -999)
                     }
                 case .failure(let error):
-                    print(error)
-                    completion(false, 1)
+                    if (error as NSError).code == 53 {
+                        print("Retrying connection..might have left to connect VPN")
+                        self.canConnect(completion: { (didComplete, statusCode) in
+                            completion(didComplete, statusCode)
+                        })
+                    } else if (error as NSError).code == -1004 {
+                        print("Did the time clock server crash? Probably. VTC writes horrible frontend...")
+                        completion(false, -1004)
+                    } else if (error as NSError).code == -1001 {
+                        completion(false, -1001)
+                    } else {
+                        print("Error thrown (code \((error as NSError).code)): \(error.localizedDescription)")
+                        // Unknown state
+                        completion(false, -999)
+                    }
                 }
             }
         } else {

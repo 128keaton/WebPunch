@@ -13,9 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    let mobileConnect = SonicWall.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Will use in intents UI
+        NotificationCenter.default.addObserver(self, selector: #selector(connectToVPN), name: NSNotification.Name("connectToVPN"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disconnectFromVPN), name: NSNotification.Name("disconnectFromVPN"), object: nil)
+
         return true
     }
 
@@ -34,15 +38,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        NotificationCenter.default.post(name: NSNotification.Name("stopAllActivity"), object: nil)
-        NotificationCenter.default.post(name: NSNotification.Name("restartNetworkReachability"), object: nil)
-        NotificationCenter.default.post(name: NSNotification.Name("connectionNeedsRefreshing"), object: nil)
+        if SonicWall.status != .connecting && SonicWall.status != .disconnecting {
+            SonicWall.shared.refreshStatus()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        SonicWall.shared.disconnect()
     }
 
+    @objc func connectToVPN() {
+        if mobileConnect.useVPN {
+            mobileConnect.connect()
+        }
+    }
 
+    @objc func disconnectFromVPN() {
+        mobileConnect.disconnect()
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        if url.scheme == "serverauditor",
+            let action = url.valueOf("action"),
+            let status = url.valueOf("status") {
+
+            if status == "success" {
+                if action == "connect" {
+                    SonicWall.shared.updateStatus(newStatus: .connected)
+                } else if action == "disconnect" {
+                    SonicWall.shared.updateStatus(newStatus: .disconnected)
+                }
+            } else {
+                SonicWall.shared.updateStatus(newStatus: .invalid)
+            }
+        }
+        return true
+    }
 }
 

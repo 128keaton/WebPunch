@@ -1,22 +1,22 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
-
 def shared_pods
-  use_frameworks!
-
-  pod 'SwiftyUserDefaults'
+  pod 'SwiftyUserDefaults', :git => 'https://github.com/radex/SwiftyUserDefaults/', :tag => '4.0.0-beta.2'
   pod 'Alamofire'
 end
 
 target 'WebPunch' do
-   pod 'SwiftySettings', :git => 'https://github.com/128keaton/SwiftySettings', :tag => '1.0.4a'
-   shared_pods
+   use_frameworks!
+   platform :ios, '11.0'
+   pod 'SwiftySettings', :git => 'https://github.com/128keaton/SwiftySettings', :tag => '1.0.5'
 end
 
 target 'PunchIntentUI' do
+   use_frameworks!
+  platform :ios, '11.0'
    shared_pods
 end
 
 target 'PunchIntent' do
-   shared_pods
+  use_frameworks!
+  platform :ios, '11.0'
+  shared_pods
 end

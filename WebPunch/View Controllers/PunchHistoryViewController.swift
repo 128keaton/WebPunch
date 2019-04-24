@@ -91,7 +91,6 @@ class PunchHistoryViewController: UITableViewController {
 
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
         }
 
         switch self.displayMode {
@@ -151,7 +150,6 @@ class PunchHistoryViewController: UITableViewController {
 
     private func addRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(switchMode), for: .valueChanged)
         loadCustomRefreshContents()
     }
 
@@ -178,7 +176,7 @@ class PunchHistoryViewController: UITableViewController {
         }
     }
 
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func finishPullDown(){
         pullDownInProgress = false
         UIView.animate(withDuration: 0.3) {
             self.tableView.subviews.forEach {
@@ -186,6 +184,7 @@ class PunchHistoryViewController: UITableViewController {
             }
             self.switchLabel.alpha = 0.0
         }
+        self.switchMode()
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -198,6 +197,9 @@ class PunchHistoryViewController: UITableViewController {
             transform = CATransform3DRotate(transform, abs(scrollViewContentOffsetY / 400.0), 0.2, 0, 0)
             self.tableView.visibleCells.forEach {
                 $0.layer.transform = transform
+            }
+            if abs(scrollViewContentOffsetY) > 315.0 {
+                self.finishPullDown()
             }
         } else {
             pullDownInProgress = false

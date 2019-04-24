@@ -12,51 +12,52 @@ import SwiftySettings
 import SwiftyUserDefaults
 
 extension DefaultsKeys {
-    static let vpnUsername = DefaultsKey<String?>("vpnUsername")
-    static let vpnAddress = DefaultsKey<String?>("vpnAddress")
+    static let vpnConnectionName = DefaultsKey<String?>("vpnConnectionName")
     static let useVPN = DefaultsKey<Bool?>("useVPN")
+    static let punchClockAddress = DefaultsKey<String?>("ipAddress")
 }
 
 class Storage: SettingsStorageType {
-    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+    subscript(key: DefaultsKey<Bool?>) -> Bool? {
+        get {
+            return Defaults.bool(forKey: key._key)
+        }
+        set(newValue) {
+            Defaults.set(newValue, forKey: key._key)
+        }
+    }
 
-    subscript(key: String) -> Bool? {
+    subscript(key: DefaultsKey<Double?>) -> Double? {
         get {
-            return Defaults[key].bool
+            return Defaults.double(forKey: key._key)
         }
-        set {
-            Defaults[key] = newValue
+        set(newValue) {
+            Defaults.set(newValue, forKey: key._key)
         }
     }
-    subscript(key: String) -> Float? {
+
+    subscript(key: DefaultsKey<Int?>) -> Int? {
         get {
-            return Float(Defaults[key].doubleValue)
+            return Defaults.integer(forKey: key._key)
         }
-        set {
-            Defaults[key] = newValue
+        set(newValue) {
+            Defaults.set(newValue, forKey: key._key)
         }
     }
-    subscript(key: String) -> Int? {
+
+    subscript(key: DefaultsKey<String?>) -> String? {
         get {
-            return Defaults[key].int
+            return Defaults.string(forKey: key._key)
         }
-        set {
-            Defaults[key] = newValue
+        set(newValue) {
+            Defaults.set(newValue, forKey: key._key)
         }
     }
-    subscript(key: String) -> String? {
-        get {
-            return Defaults[key].string
-        }
-        set {
-            Defaults[key] = newValue
-        }
-    }
+    var userDefaults = UserDefaults(suiteName: "group.com.webpunch")!
 }
 
 class AppSettingsViewController: SwiftySettingsViewController {
     var storage = Storage()
-    var keyChain = KeychainService()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -73,16 +74,10 @@ class AppSettingsViewController: SwiftySettingsViewController {
             displayNonVPNSettings()
         }
     }
-    
+
     @objc func dismissVC(_ sender: Any) {
         self.isEditing = false
-        dismiss(animated: true, completion: {
-            if Defaults[.useVPN] == true {
-                VPN().connectVPN()
-            } else {
-                VPN().disconnectVPN()
-            }
-        })
+        dismiss(animated: true, completion: nil)
     }
 
     func displayNonVPNSettings() {
@@ -103,7 +98,7 @@ class AppSettingsViewController: SwiftySettingsViewController {
                 },
                 Section(title: "Connection Settings") {
                     [
-                        Switch(key: "useVPN", title: "VPN", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
+                        Switch(key: "useVPN", title: "SonicWall Mobile Connect", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
                             Defaults[.useVPN] = switchValue
                             if switchValue {
                                 self.displaySettings()
@@ -128,21 +123,13 @@ class AppSettingsViewController: SwiftySettingsViewController {
                 },
                 Section(title: "Connection Settings") {
                     [
-                        Switch(key: "useVPN", title: "VPN", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
+                        Switch(key: "useVPN", title: "SonicWall Mobile Connect", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
                             Defaults[.useVPN] = switchValue
                             if !switchValue {
                                 self.displayNonVPNSettings()
                             }
                         }),
-                        TextField(key: "vpnUsername", title: "Username", placeholder: "me@vpn.address", autoCapitalize: false, keyboardType: .default),
-                        TextField(key: "vpnPassword", title: "Password", secureTextEntry: true, valueChangedClosure: { (key, value) in
-                            self.keyChain.save(key: key, value: value)
-                        }),
-                        TextField(key: "vpnSharedSecret", title: "Shared Secret", secureTextEntry: true, valueChangedClosure: { (key, value) in
-                            self.keyChain.save(key: key, value: value)
-                        }),
-
-                        TextField(key: "vpnAddress", title: "URL", placeholder: "http://vpn.address", autoCapitalize: false, keyboardType: .URL)
+                        TextField(key: "vpnConnectionName", title: "Connection Name", placeholder: "blah VPN", autoCapitalize: false, keyboardType: .default),
                     ]
                 }
             ]
