@@ -27,7 +27,6 @@
 		8AA841E122681ADE009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
 		8AA841E322681BB6009C5948 /* PunchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E222681BB6009C5948 /* PunchType.swift */; };
 		8AA841E6226827D6009C5948 /* PunchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E5226827D6009C5948 /* PunchCell.swift */; };
-		8AA841EE22684888009C5948 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA841ED22684888009C5948 /* NetworkExtension.framework */; };
 		8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
 		8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB32272151D04A0082FDA6 /* PunchInterface.swift */; };
 		8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA841E022681ADE009C5948 /* PunchModel.swift */; };
@@ -111,7 +110,6 @@
 		8AA841E022681ADE009C5948 /* PunchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchModel.swift; sourceTree = "<group>"; };
 		8AA841E222681BB6009C5948 /* PunchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchType.swift; sourceTree = "<group>"; };
 		8AA841E5226827D6009C5948 /* PunchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchCell.swift; sourceTree = "<group>"; };
-		8AA841ED22684888009C5948 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		8ACB32122151CD940082FDA6 /* WebPunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebPunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACB32152151CD940082FDA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8ACB32172151CD940082FDA6 /* PunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AA841DB22681945009C5948 /* CloudKit.framework in Frameworks */,
-				8AA841EE22684888009C5948 /* NetworkExtension.framework in Frameworks */,
 				856E092483E03A05ADD3619A /* Pods_WebPunch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,7 +170,6 @@
 		4B35DC84D0935C2791D89FFF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8AA841ED22684888009C5948 /* NetworkExtension.framework */,
 				8AA841DA22681945009C5948 /* CloudKit.framework */,
 				8ACB323A215212EE0082FDA6 /* IntentsUI.framework */,
 				1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */,
@@ -418,7 +414,7 @@
 								enabled = 1;
 							};
 							com.apple.VPNLite = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 1;
