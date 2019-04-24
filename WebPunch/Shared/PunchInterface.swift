@@ -103,7 +103,7 @@ class PunchInterface {
                             completion(didComplete, statusCode)
                         })
                     } else if (error as NSError).code == -1004 {
-                        print("Did the time clock server crash? Probably. VTC writes horrible frontend...")
+                        print("The time clock server most likely crashed")
                         completion(false, -1004)
                     } else if (error as NSError).code == -1001 {
                         completion(false, -1001)

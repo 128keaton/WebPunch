@@ -142,7 +142,7 @@ class PunchViewController: UIViewController {
 
     private func askToConnectToVPN() {
         if currentDialog == nil {
-            let askToConnectDialog = UIAlertController(title: "Use VPN?", message: "You have a VPN connection configured, would you like to enable the VPN connection before attempting to connect to the punch clock?", preferredStyle: .alert)
+            let askToConnectDialog = UIAlertController(title: "Retry with VPN?", message: "You have a VPN connection configured, would you like to enable the VPN connection before attempting to connect to the punch clock?", preferredStyle: .alert)
 
             let yesToConnectAction = UIAlertAction(title: "Connect with VPN", style: .default) { (action) in
                 self.isAttemptingToConnectWithoutVPN = false

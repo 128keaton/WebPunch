@@ -191,8 +191,8 @@
 		8AA841EF22684A98009C5948 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8ACB32172151CD940082FDA6 /* PunchViewController.swift */,
 				8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */,
+				8ACB32172151CD940082FDA6 /* PunchViewController.swift */,
 				8AA841D822681638009C5948 /* PunchHistoryViewController.swift */,
 			);
 			path = "View Controllers";
