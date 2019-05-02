@@ -113,23 +113,23 @@ public extension UIButton {
         self.layer.removeAnimation(forKey: "loadingAnimation")
     }
 
-    func updateSpinningStatus(hasPartiallyLoaded: Bool = true){
+    func updateSpinningStatus(hasPartiallyLoaded: Bool = true) {
         var newTintColor = UIColor(hue: 0.5472, saturation: 1, brightness: 0.93, alpha: 1.0)
-        
+
         if hasPartiallyLoaded {
             newTintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
         }
-        
+
         UIView.animate(withDuration: 0.5) {
             self.tintColor = newTintColor
         }
     }
-    
+
     func contentLoaded(successfully: Bool = true) {
         self.stopSpinning()
 
         var newTintColor = UIColor(displayP3Red: 0.8667, green: 0.0784, blue: 0.2902, alpha: 1.0)
-        
+
         if successfully {
             newTintColor = UIColor(displayP3Red: 0.2431, green: 0.8627, blue: 0.3804, alpha: 1.0)
         }
@@ -138,14 +138,14 @@ public extension UIButton {
             self.tintColor = newTintColor
         }
     }
-    
-    func reset(darkContent: Bool = true){
+
+    func reset(darkContent: Bool = true) {
         var newTintColor = UIColor(hue: 0.5472, saturation: 1, brightness: 0.93, alpha: 1.0)
-        
+
         if darkContent {
             newTintColor = UIColor.white
         }
-        
+
         UIView.animate(withDuration: 0.5) {
             self.tintColor = newTintColor
         }

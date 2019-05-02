@@ -20,11 +20,13 @@ class PunchViewController: UIViewController {
     // MARK: Properties
     let punchInterface = PunchInterface()
 
-    var lastAction: Action = .attemptConnection
     var previousConnectionStatus: NEVPNStatus = .disconnected
+    var lastAction: Action = .none
     var userDefaults = UserDefaults(suiteName: "group.com.webpunch")!
     var isAttemptingToConnectWithoutVPN = false
-    
+    var currentDot: CAShapeLayer? = nil
+    var didShowSettings = false
+
     // MARK: Computed Properties
     var currentDialog: UIAlertController? = nil {
         didSet {
@@ -45,6 +47,7 @@ class PunchViewController: UIViewController {
         donateInteractions()
         registerForNotifications()
         punchInterface.setupConnectionListener()
+        punchInterface.delegate = self
         setupButtons()
 
         if SonicWall.useVPN && SonicWall.status == .disconnected {
@@ -59,8 +62,11 @@ class PunchViewController: UIViewController {
             if SonicWall.useVPN == false || SonicWall.status == .connected {
                 self.attemptConnection()
             }
-        } else {
+        } else if didShowSettings == false {
+            didShowSettings = true
             self.performSegue(withIdentifier: "showSettings", sender: self)
+        } else {
+            print("Showed settings once, still not configured")
         }
 
         if SonicWall.shared.isRefreshing {
@@ -73,22 +79,29 @@ class PunchViewController: UIViewController {
         return .lightContent
     }
 
-
     // MARK: Actions
     @IBAction func attemptConnection() {
-        if SonicWall.useVPN && SonicWall.status == .disconnected {
-            askToConnectToVPN()
+        if punchInterface.lastAction != .attemptConnection {
+            if SonicWall.useVPN && SonicWall.status == .disconnected && !punchInterface.didCancelAll {
+                askToConnectToVPN()
+            } else {
+                punchInterface.performRemoteAction(ofType: .attemptConnection)
+            }
         } else {
-            performRemoteAction(ofType: .attemptConnection)
+            print("Stopping connection attempt")
+            punchInterface.stopAllRequests()
+            self.reconnectButton?.contentLoaded(successfully: false)
+            self.disableButtons()
+            self.punchInterface.lastAction = .none
         }
     }
 
     @IBAction func punchIn() {
-        performRemoteAction(ofType: .punchIn)
+        punchInterface.performRemoteAction(ofType: .punchIn)
     }
 
     @IBAction func punchOut() {
-        performRemoteAction(ofType: .punchOut)
+        punchInterface.performRemoteAction(ofType: .punchOut)
     }
 
     // MARK: Helpers
@@ -116,9 +129,51 @@ class PunchViewController: UIViewController {
         self.punchOutButton?.isEnabled = self.userDefaults[.punchedIn] ?? false
     }
 
-    private func connectionAttemptStarted() {
-        disableButtons()
-        reconnectButton?.startSpinning()
+    private func addDotToButton(_ button: UIButton) {
+        let xCoord: CGFloat = (button.frame.width / 2.0)
+        let yCoord: CGFloat = (button.frame.height / 2.0) - 55.0
+        let radius: CGFloat = 15.0
+
+        let dotPath = UIBezierPath(ovalIn: CGRect(x: xCoord, y: yCoord, width: radius, height: radius))
+
+        let dotLayer = CAShapeLayer()
+        dotLayer.path = dotPath.cgPath
+        dotLayer.fillColor = self.view.tintColor.cgColor
+
+        let fadeInAnimation = CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.duration = 0.3
+        fadeInAnimation.fromValue = 0.0
+        fadeInAnimation.toValue = 1.0
+        dotLayer.opacity = 1.0
+
+
+        button.layer.addSublayer(dotLayer)
+        dotLayer.add(fadeInAnimation, forKey: "addDot")
+        currentDot = dotLayer
+    }
+
+    private func removeDotFromButton() {
+        if let dotLayer = currentDot {
+            CATransaction.begin()
+
+            let fadeOutAnimation = CABasicAnimation(keyPath: "opacity")
+            fadeOutAnimation.duration = 0.3
+            fadeOutAnimation.fromValue = 1.0
+            fadeOutAnimation.toValue = 0.0
+            dotLayer.add(fadeOutAnimation, forKey: "removeDot")
+
+            CATransaction.setCompletionBlock { [weak self] in
+                dotLayer.removeFromSuperlayer()
+                self?.currentDot = nil
+            }
+
+            CATransaction.commit()
+        }
+    }
+
+    override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        removeDotFromButton()
+        addDotToButton(punchOutButton!)
     }
 
     @objc private func vpnStatusUpdated(_ notification: Notification) {
@@ -129,7 +184,7 @@ class PunchViewController: UIViewController {
         } else if SonicWall.useVPN && SonicWall.status != previousConnectionStatus {
             previousConnectionStatus = SonicWall.status
             if SonicWall.status == .connected {
-                performRemoteAction(ofType: .attemptConnection)
+                punchInterface.performRemoteAction(ofType: .attemptConnection)
             } else if SonicWall.status == .disconnected {
                 disableButtons()
                 reconnectButton?.contentLoaded(successfully: false)
@@ -141,13 +196,14 @@ class PunchViewController: UIViewController {
     }
 
     private func askToConnectToVPN() {
-        if currentDialog == nil {
+        if currentDialog == nil && (lastAction == .none || lastAction != .disconnect) && !punchInterface.didCancelAll {
             let askToConnectDialog = UIAlertController(title: "Retry with VPN?", message: "You have a VPN connection configured, would you like to enable the VPN connection before attempting to connect to the punch clock?", preferredStyle: .alert)
 
             let yesToConnectAction = UIAlertAction(title: "Connect with VPN", style: .default) { (action) in
                 self.isAttemptingToConnectWithoutVPN = false
                 SonicWall.shared.connect()
                 self.currentDialog = nil
+                self.punchInterface.lastAction = .none
                 askToConnectDialog.dismiss(animated: true, completion: nil)
             }
 
@@ -155,24 +211,57 @@ class PunchViewController: UIViewController {
                 self.currentDialog = nil
                 self.isAttemptingToConnectWithoutVPN = true
                 self.reconnectButton?.updateSpinningStatus(hasPartiallyLoaded: false)
-                self.performRemoteAction(ofType: .attemptConnection)
+                self.punchInterface.performRemoteAction(ofType: .attemptConnection)
                 askToConnectDialog.dismiss(animated: true, completion: nil)
             }
 
             let stopTryingAction = UIAlertAction(title: "Stop connection attempt", style: .destructive) { (action) in
                 self.currentDialog = nil
+                self.punchInterface.lastAction = .none
                 askToConnectDialog.dismiss(animated: true, completion: nil)
             }
 
             askToConnectDialog.addAction(yesToConnectAction)
             askToConnectDialog.addAction(noToConnectAction)
-
             askToConnectDialog.addAction(stopTryingAction)
 
             currentDialog = askToConnectDialog
         }
     }
 
+    private func askToDisconnectFromVPN() {
+        if currentDialog == nil && (lastAction == .none || lastAction != .disconnect) {
+            let askToDisconnectDialog = UIAlertController(title: "Disconnect from VPN?", message: "It appears you currently are connected to a VPN, would you like to disconnect now?", preferredStyle: .alert)
+
+            let yesToDisconnect = UIAlertAction(title: "Yes", style: .destructive) { (action) in
+                self.currentDialog = nil
+                self.disconnectFromVPN()
+
+                askToDisconnectDialog.dismiss(animated: true, completion: nil)
+            }
+
+            let noToDisconnect = UIAlertAction(title: "No", style: .default) { (action) in
+                self.currentDialog = nil
+                askToDisconnectDialog.dismiss(animated: true, completion: nil)
+            }
+
+            let alwaysDisconnect = UIAlertAction(title: "Always", style: .destructive) { (action) in
+                self.currentDialog = nil
+                self.disconnectFromVPN()
+
+                self.userDefaults.set(true, forKey: "alwaysDisconnectFromVPN")
+                self.userDefaults.synchronize()
+
+                askToDisconnectDialog.dismiss(animated: true, completion: nil)
+            }
+
+            askToDisconnectDialog.addAction(yesToDisconnect)
+            askToDisconnectDialog.addAction(alwaysDisconnect)
+            askToDisconnectDialog.addAction(noToDisconnect)
+
+            currentDialog = askToDisconnectDialog
+        }
+    }
 
     private func donateInteractions() {
         for intent in intentsToDonate {
@@ -200,136 +289,84 @@ class PunchViewController: UIViewController {
             }
         }
     }
+}
+extension PunchViewController: PunchInterfaceDelegate {
+    func connectionAttemptStarted() {
+        self.disableButtons()
+        self.reconnectButton?.startSpinning()
+    }
 
-    // MARK: Garbage
-    private func performRemoteAction(ofType action: Action) {
-        lastAction = action
-        if !SonicWall.useVPN || (SonicWall.status == .connected || SonicWall.status == .connecting) || isAttemptingToConnectWithoutVPN {
-            connectionAttemptStarted()
-            switch action {
-            case .attemptConnection:
-                punchInterface.canConnect { (canConnect, reason) in
-                    self.reconnectButton?.contentLoaded(successfully: canConnect)
-                    self.handleReturnStatus(success: canConnect, reason: reason, forAction: .attemptConnection)
-                }
-                break
-            case .punchOut:
-                punchInterface.login { (success) in
-                    if success {
-                        self.reconnectButton?.updateSpinningStatus()
-                        self.punchInterface.punchOut { (success) in
-                            self.reconnectButton?.contentLoaded(successfully: success)
-                            self.handleReturnStatus(success: success, forAction: .punchOut)
-                        }
-                    } else {
-                        self.handleReturnStatus(success: false, forAction: .login)
-                    }
-                }
-                break
-            case .punchIn:
-                punchInterface.login { (success) in
-                    if success {
-                        self.reconnectButton?.updateSpinningStatus()
-                        self.punchInterface.punchIn { (success) in
-                            self.reconnectButton?.contentLoaded(successfully: success)
-                            self.handleReturnStatus(success: success, forAction: .punchIn)
-                        }
-                    } else {
-                        self.handleReturnStatus(success: false, forAction: .login)
-                    }
-                }
-                break
-            case .login:
-                punchInterface.login { (success) in
-                    self.handleReturnStatus(success: success, forAction: .login)
-                }
-                break
-            }
-        } else if SonicWall.status == .disconnected && SonicWall.useVPN {
-            print("Waiting for VPN to initialize")
-            SonicWall.shared.connect()
+    func connectionAttemptSucceeded() {
+        self.reconnectButton?.contentLoaded(successfully: true)
+        self.conditionallyEnableButtons()
+    }
+
+    func connectionAttemptFailed() {
+        self.reconnectButton?.contentLoaded(successfully: false)
+        self.disableButtons()
+    }
+
+    func punchInSucceeded() {
+        self.historyButton?.shake()
+        UISoundService.shared.playSoundForAction(.punchIn)
+
+        self.punchInButton?.isEnabled = false
+        self.punchOutButton?.isEnabled = true
+
+        self.removeDotFromButton()
+        self.addDotToButton(punchInButton!)
+
+        if userDefaults.bool(forKey: "alwaysDisconnectFromVPN") == true {
+            self.disconnectFromVPN()
+        } else {
+            self.askToDisconnectFromVPN()
         }
     }
 
-    private func handleReturnStatus(success: Bool, reason: Int = 0, forAction action: Action) {
-        switch action {
-        case .attemptConnection:
-            if success {
-                self.reconnectButton?.contentLoaded(successfully: true)
-                self.conditionallyEnableButtons()
-            } else {
-                self.reconnectButton?.contentLoaded(successfully: false)
-                self.disableButtons()
-                handleReturnStatus(reason: reason, forAction: action)
-            }
-            break
-        case .punchIn:
-            if success {
-                self.historyButton?.shake()
-                UISoundService.shared.playSoundForAction(action)
+    func punchInFailed() {
+        self.reconnectButton?.contentLoaded(successfully: false)
+    }
 
-                self.handleReturnStatus(reason: 1, forAction: action)
-                self.punchInButton?.isEnabled = false
-                self.punchOutButton?.isEnabled = true
-                SonicWall.shared.disconnect()
-            } else {
-                self.reconnectButton?.contentLoaded(successfully: false)
-                self.handleReturnStatus(reason: -1, forAction: action)
-            }
-            break
-        case .punchOut:
-            if success {
-                self.historyButton?.shake()
-                UISoundService.shared.playSoundForAction(action)
+    func punchOutSucceeded() {
+        self.historyButton?.shake()
+        UISoundService.shared.playSoundForAction(.punchOut)
 
-                self.handleReturnStatus(reason: 1, forAction: action)
-                self.punchInButton?.isEnabled = true
-                self.punchOutButton?.isEnabled = false
-                SonicWall.shared.disconnect()
-            } else {
-                self.reconnectButton?.contentLoaded(successfully: false)
-                self.handleReturnStatus(reason: -1, forAction: action)
-            }
-            break
-        case .login:
-            if !success {
-                self.reconnectButton?.contentLoaded(successfully: false)
-                self.handleReturnStatus(reason: -1, forAction: action)
-            }
-            break
+        self.punchInButton?.isEnabled = true
+        self.punchOutButton?.isEnabled = false
+
+        self.removeDotFromButton()
+        self.addDotToButton(punchOutButton!)
+
+        if userDefaults.bool(forKey: "alwaysDisconnectFromVPN") == true {
+            self.disconnectFromVPN()
+        } else {
+            self.askToDisconnectFromVPN()
         }
     }
 
-    private func handleReturnStatus(reason: Int, forAction action: Action) {
-        switch action {
-        case .attemptConnection:
-            if(reason == -1) {
-                self.displayAlert(bodyText: "Unable to connect to time clock server (connection timed out)", title: "Error")
-            } else if (reason == -1004) {
-                self.displayAlert(bodyText: "Unable to connect to time clock server. No response was given", title: "Error")
-            } else {
-                self.displayAlert(bodyText: "Unable to connect to time clock server. Do you need to use a VPN?", title: "Error")
-            }
-            break
-        case .punchIn:
-            if reason == 1 {
-                self.displayAlert(bodyText: "Punched in successfully", title: "Punched In")
-            } else if reason == -1 {
-                self.displayAlert(bodyText: "Unable to punch in", title: "Error")
-            }
-            break
-        case .punchOut:
-            if reason == 1 {
-                self.displayAlert(bodyText: "Punched Out successfully", title: "Punched Out")
-            } else if reason == -1 {
-                self.displayAlert(bodyText: "Unable to punch out", title: "Error")
-            }
-            break
-        case .login:
-            if reason == -1 {
-                self.displayAlert(bodyText: "Unable to login", title: "Error")
-            }
-            break
-        }
+    func punchOutFailed() {
+        self.reconnectButton?.contentLoaded(successfully: false)
+    }
+
+    func loginSucceeded() {
+        self.reconnectButton?.updateSpinningStatus()
+    }
+
+    func loginFailed() {
+        self.reconnectButton?.contentLoaded(successfully: false)
+    }
+
+    func connectToVPN() {
+        self.lastAction = .attemptConnection
+        SonicWall.shared.connect()
+    }
+
+    func disconnectFromVPN() {
+        self.lastAction = .disconnect
+        SonicWall.shared.disconnect()
+    }
+
+    func handleAlertMessage(message: String, title: String) {
+        self.displayAlert(bodyText: message, title: title)
     }
 }

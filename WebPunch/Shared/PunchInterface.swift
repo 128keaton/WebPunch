@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyUserDefaults
+import NetworkExtension
 
 extension DefaultsKeys {
     static let username = DefaultsKey<String?>("username")
@@ -21,13 +22,16 @@ enum Action {
     case punchIn
     case punchOut
     case attemptConnection
+    case disconnect
     case login
+    case none
 }
 
 class PunchInterface {
     public var isLoggedIn = false
-    private var observer: AnyObject?
+    public var delegate: PunchInterfaceDelegate? = nil
 
+    public var lastAction: Action = .attemptConnection
 
     private lazy var alamoFireManager: SessionManager? = {
         let configuration = URLSessionConfiguration.default
@@ -36,6 +40,15 @@ class PunchInterface {
         let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
         return alamoFireManager
     }()
+
+    var vpnStatus: NEVPNStatus = .disconnected
+    var vpnEnabled = false {
+        didSet {
+            connectWithoutVPN = !self.vpnEnabled
+        }
+    }
+    var connectWithoutVPN = true
+    var didCancelAll = false
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
     var reachabilityManager: NetworkReachabilityManager? = nil
@@ -59,7 +72,18 @@ class PunchInterface {
     }
 
     init() {
+        registerForNotifications()
+    }
+
+    private func registerForNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(vpnStatusUpdated(_:)), name: NSNotification.Name("vpnStatusUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadConnectionListener), name: NSNotification.Name("restartNetworkReachability"), object: nil)
+    }
+
+    @objc private func vpnStatusUpdated(_ notification: Notification) {
+        if let newStatus = notification.object as? NEVPNStatus {
+            self.vpnStatus = newStatus
+        }
     }
 
     public func setupConnectionListener(reload: Bool = false) {
@@ -82,8 +106,18 @@ class PunchInterface {
         self.setupConnectionListener(reload: true)
     }
 
+    public func stopAllRequests() {
+        didCancelAll = true
+        self.alamoFireManager?.session.getAllTasks { (tasks) in
+            tasks.forEach({ $0.cancel() })
+        }
+        Alamofire.SessionManager.default.session.getAllTasks { (tasks) in
+            tasks.forEach({ $0.cancel() })
+        }
+    }
+
     // CAN YOU FUCKING HEAR ME
-    func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
+    public func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
             self.alamoFireManager!.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
                 switch response.result {
@@ -120,9 +154,9 @@ class PunchInterface {
     }
 
     // LOG THE FUCK IN
-    func login(completion: @escaping (_ success: Bool) -> ()) {
+    public func login(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["username": Defaults[.username]!, "password": Defaults[.password]!]
-        Alamofire.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
+        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if utf8Text.contains("you last punched") {
                     print("Logged in")
@@ -143,10 +177,10 @@ class PunchInterface {
     }
 
     // PUNCH THE FUCK IN
-    func punchIn(completion: @escaping (_ success: Bool) -> ()) {
+    public func punchIn(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["state": "PunchIn"]
 
-        Alamofire.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
+        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("IN AT")) {
@@ -161,10 +195,10 @@ class PunchInterface {
     }
 
     // PUNCH THE FUCK OUT
-    func punchOut(completion: @escaping (_ success: Bool) -> ()) {
+    public func punchOut(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["state": "PunchOut"]
 
-        Alamofire.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
+        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("Recorded")) {
@@ -180,4 +214,152 @@ class PunchInterface {
         }
     }
 
+    public func performRemoteAction(ofType action: Action) {
+        didCancelAll = false
+        lastAction = action
+        if !vpnEnabled || (vpnStatus == .connected || vpnStatus == .connecting) || connectWithoutVPN {
+            self.delegate?.connectionAttemptStarted?()
+            switch action {
+            case .attemptConnection:
+                self.canConnect { (canConnect, reason) in
+                    self.handleReturnStatus(success: canConnect, reason: reason, forAction: .attemptConnection)
+                }
+                break
+            case .punchOut:
+                self.login { (success) in
+                    if success {
+                        self.delegate?.loginSucceeded?()
+                        self.punchOut { (success) in
+                            self.handleReturnStatus(success: success, forAction: .punchOut)
+                        }
+                    } else {
+                        self.handleReturnStatus(success: false, forAction: .login)
+                    }
+                }
+                break
+            case .punchIn:
+                self.login { (success) in
+                    if success {
+                        self.delegate?.loginSucceeded?()
+                        self.punchIn { (success) in
+                            self.handleReturnStatus(success: success, forAction: .punchIn)
+                        }
+                    } else {
+                        self.handleReturnStatus(success: false, forAction: .login)
+                    }
+                }
+                break
+            case .login:
+                self.login { (success) in
+                    self.handleReturnStatus(success: success, forAction: .login)
+                }
+                break
+            case .disconnect:
+                break
+            case .none:
+                break
+            }
+        } else if vpnStatus == .disconnected && vpnEnabled {
+            print("Waiting for VPN to initialize")
+            self.delegate?.connectToVPN?()
+        }
+    }
+
+    private func handleReturnStatus(success: Bool, reason: Int = 0, forAction action: Action) {
+        switch action {
+        case .attemptConnection:
+            if success {
+                self.delegate?.connectionAttemptSucceeded?()
+            } else {
+                self.delegate?.connectionAttemptFailed?()
+                self.handleAlertMessageForReason(reason, forAction: action)
+            }
+            break
+        case .punchIn:
+            if success {
+                self.delegate?.punchInSucceeded?()
+            } else {
+                self.delegate?.punchInFailed?()
+                self.handleAlertMessageForReason(-1, forAction: action)
+            }
+            break
+        case .punchOut:
+            if success {
+                self.delegate?.punchOutSucceeded?()
+                self.handleAlertMessageForReason( 1, forAction: action)
+            } else {
+                self.delegate?.punchOutFailed?()
+                self.handleAlertMessageForReason( -1, forAction: action)
+            }
+            break
+        case .login:
+            if !success {
+                self.delegate?.loginFailed?()
+                self.handleAlertMessageForReason(-1, forAction: action)
+            }
+            break
+        case .disconnect:
+            break
+        case .none:
+            break
+        }
+    }
+
+    private func handleAlertMessageForReason(_ reason: Int, forAction action: Action) {
+        switch action {
+        case .attemptConnection:
+            if reason == -1 && didCancelAll == false {
+                delegate?.handleAlertMessage?(message: "Unable to connect to the time clock server. The connection timed out.", title: "Connection Error")
+            } else if reason == -1004 {
+                delegate?.handleAlertMessage?(message: "Unable to connect to the time clock server. The server did not return a response.", title: "Connection Error")
+            } else {
+                delegate?.handleAlertMessage?(message: "Unable to connect to the time clock server. Do you need to use a VPN?", title: "Connection Error")
+            }
+            break
+        case .punchIn:
+            if reason == 1 && didCancelAll == false {
+                delegate?.handleAlertMessage?(message: "Punched in successfully", title: "Punched In")
+            } else if reason == -1 {
+                delegate?.handleAlertMessage?(message: "Unable to punch in", title: "Error")
+            }
+            break
+        case .punchOut:
+            if reason == 1 && didCancelAll == false {
+                delegate?.handleAlertMessage?(message: "Punched out successfully", title: "Punched Out")
+            } else if reason == -1 {
+                delegate?.handleAlertMessage?(message: "Unable to punch out", title: "Error")
+            }
+            break
+        case .login:
+            if reason == -1 && didCancelAll == false {
+                delegate?.handleAlertMessage?(message: "Unable to login", title: "Error")
+            }
+            break
+        case .disconnect:
+            break
+        case .none:
+            break
+        }
+    }
+
+}
+
+@objc protocol PunchInterfaceDelegate {
+    @objc optional func connectionAttemptSucceeded()
+    @objc optional func connectionAttemptFailed()
+    @objc optional func connectionAttemptStarted()
+
+    @objc optional func punchInSucceeded()
+    @objc optional func punchInFailed()
+
+    @objc optional func punchOutSucceeded()
+    @objc optional func punchOutFailed()
+
+    @objc optional func loginSucceeded()
+    @objc optional func loginFailed()
+
+    @objc optional func connectToVPN()
+    @objc optional func disconnectFromVPN()
+
+    @objc optional func handleAlertMessage(message: String, title: String)
 }
