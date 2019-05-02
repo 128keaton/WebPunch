@@ -28,6 +28,10 @@ class WeeklyViewController: UITableViewController {
         punchModel.refresh()
     }
     
+    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
+        self.tabBarController?.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.becomeFirstResponder()

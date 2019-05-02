@@ -303,6 +303,9 @@
                     <navigationItem key="navigationItem" title="Daily Punches" largeTitleDisplayMode="always" id="omv-QD-PBn">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="ZER-62-jDJ">
                             <color key="tintColor" red="0.89714723829999998" green="0.1566455662" blue="0.27960872650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="backButtonPressed:" destination="55X-Bt-n9s" id="EmQ-ol-nfT"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Q4v-r8-lgN">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -509,6 +512,9 @@
                     <navigationItem key="navigationItem" title="Pay Period" largeTitleDisplayMode="always" id="Vpl-1Z-YT6">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="hub-Np-rFB">
                             <color key="tintColor" red="0.89714723829999998" green="0.1566455662" blue="0.27960872650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="backButtonPressed:" destination="1Zh-vU-maD" id="ImU-Fk-zWo"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="U5p-U0-fbb">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -752,6 +758,9 @@
                     <navigationItem key="navigationItem" title="Weekly Punches" largeTitleDisplayMode="always" id="Dbd-ke-n74">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="wKj-py-d29">
                             <color key="tintColor" red="0.89714723829999998" green="0.1566455662" blue="0.27960872650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="backButtonPressed:" destination="E0w-2k-rqz" id="Upy-Oe-TGw"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="CsQ-Pt-Ymx">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

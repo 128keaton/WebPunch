@@ -26,7 +26,7 @@ class PayPeriodController: UITableViewController {
     }
 
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        self.tabBarController?.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func refresh() {
