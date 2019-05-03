@@ -18,7 +18,7 @@ class PunchViewController: UIViewController {
     @IBOutlet var historyButton: UIButton?
 
     // MARK: Properties
-    let punchInterface = PunchInterface()
+    let punchInterface = PunchInterface.shared
 
     var previousConnectionStatus: NEVPNStatus = .disconnected
     var lastAction: Action = .none
@@ -31,7 +31,7 @@ class PunchViewController: UIViewController {
     var currentDialog: UIAlertController? = nil {
         didSet {
             if let aDialog = self.currentDialog {
-                present(aDialog, animated: true, completion: nil)
+                UIApplication.showViewControllerOnCurrentView(viewController: aDialog)
             }
         }
     }

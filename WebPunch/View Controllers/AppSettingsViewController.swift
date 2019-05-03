@@ -18,6 +18,8 @@ extension DefaultsKeys {
 }
 
 class Storage: SettingsStorageType {
+    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+
     subscript(key: DefaultsKey<Bool?>) -> Bool? {
         get {
             return Defaults.bool(forKey: key._key)
@@ -53,11 +55,11 @@ class Storage: SettingsStorageType {
             Defaults.set(newValue, forKey: key._key)
         }
     }
-    var userDefaults = UserDefaults(suiteName: "group.com.webpunch")!
 }
 
 class AppSettingsViewController: SwiftySettingsViewController {
     var storage = Storage()
+    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -99,7 +101,7 @@ class AppSettingsViewController: SwiftySettingsViewController {
                 Section(title: "Connection Settings") {
                     [
                         Switch(key: "useVPN", title: "SonicWall Mobile Connect", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
-                            Defaults[.useVPN] = switchValue
+                            self.Defaults[.useVPN] = switchValue
                             if switchValue {
                                 self.displaySettings()
                             }
@@ -124,7 +126,7 @@ class AppSettingsViewController: SwiftySettingsViewController {
                 Section(title: "Connection Settings") {
                     [
                         Switch(key: "useVPN", title: "SonicWall Mobile Connect", defaultValue: false, icon: nil, valueChangedClosure: { (key, switchValue) in
-                            Defaults[.useVPN] = switchValue
+                            self.Defaults[.useVPN] = switchValue
                             if !switchValue {
                                 self.displayNonVPNSettings()
                             }

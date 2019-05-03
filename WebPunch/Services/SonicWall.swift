@@ -40,6 +40,10 @@ class SonicWall {
     private let defaults = UserDefaults(suiteName: "group.com.webpunch")!
     public var isRefreshing = false
     private var readingAttempts = 0
+    private var didConnectCompletionHandler: (Bool) -> Void = { _ in }
+    private var waitForConnectionTimer: Timer? = nil
+    private var maximumConnectionLoopCount = 4
+    private var connectionAttempts = 0
 
     public var useVPN: Bool {
         return SonicWall.useVPN
@@ -90,6 +94,27 @@ class SonicWall {
             }
         } else {
             print("We're already disconnected OR we haven't connected in the first place.")
+        }
+    }
+
+    public func connect(didConnect: @escaping (Bool) -> ()) {
+        didConnectCompletionHandler = didConnect
+        connect()
+
+        waitForConnectionTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(waitForConnection), userInfo: nil, repeats: true)
+    }
+
+    @objc func waitForConnection() {
+        if self.status == .connected {
+            waitForConnectionTimer?.invalidate()
+            didConnectCompletionHandler(true)
+        } else if connectionAttempts <= maximumConnectionLoopCount {
+            connectionAttempts += 1
+        } else {
+            waitForConnectionTimer?.invalidate()
+            connectionAttempts = 0
+            didConnectCompletionHandler(false)
+            print("Connection timed out for VPN")
         }
     }
 

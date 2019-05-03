@@ -58,8 +58,9 @@ class PayPeriodController: UITableViewController {
     }
 
     private func setupModel() {
-        punchModel.delegate = self
         punchModel.refresh()
+        NotificationCenter.default.addObserver(self, selector: #selector(errorUpdating(_:)), name: PunchModel.handleModelError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modelEndingUpdates), name: PunchModel.modelUpdatesEnding, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -68,7 +69,6 @@ class PayPeriodController: UITableViewController {
                 self.tableView.backgroundView = self.noDataView!
             }
         }
-        punchModel.delegate = self
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -145,26 +145,21 @@ class PayPeriodController: UITableViewController {
 
         return cell
     }
-}
 
-// MARK: - ModelDelegate
-extension PayPeriodController: PunchModelDelegate {
-
-    func modelBeginningUpdates() {
-        print("Refreshing table view shortly")
-    }
-
-    func modelEndingUpdates() {
+    @objc func modelEndingUpdates() {
         self.fullPayPeriods = PunchModel.sharedInstance.fullPayPeriods.filter { $0.amountWorked.hasHours || $0.amountWorked.hasMinutes }
-
+        if self.fullPayPeriods.count > 0 {
+            self.tableView.backgroundView = nil
+        }
         tableView.reloadData()
     }
 
-    func errorUpdating(_ error: Error) {
-        let message = error.localizedDescription
-        let alertController = UIAlertController(title: "iCloud Error", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+    @objc func errorUpdating(_ notification: Notification) {
+        if let error = notification.object as? Error {
+            let message = error.localizedDescription
+            let alertController = UIAlertController(title: "iCloud Error", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        }
     }
 }
-

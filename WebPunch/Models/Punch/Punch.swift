@@ -58,6 +58,24 @@ struct Punch: CustomStringConvertible, Equatable {
         }
     }
 
+    // Because old records do not have a punchID
+    var punchID: String {
+        get {
+            if let recordValue = self.record.value(forKey: "punchID") as? String {
+                return recordValue
+            } else {
+                let newValue = String.random()
+                self.record.setValue(newValue, forKey: "punchID")
+                return newValue
+            }
+        }
+        set {
+            if self.record.value(forKey: "punchID") == nil {
+                self.record.setValue(newValue, forKey: "punchID")
+            }
+        }
+    }
+
     // MARK: - Initializers
     init(record: CKRecord) {
         let container = CKContainer.default()
@@ -66,6 +84,7 @@ struct Punch: CustomStringConvertible, Equatable {
 
         self.record = record
         self.createdAt = record.creationDate
+        self.punchID = String.random()
     }
 
     init() {
@@ -73,6 +92,7 @@ struct Punch: CustomStringConvertible, Equatable {
         self.database = container.privateCloudDatabase
         self.createdAt = Date()
         self.record = CKRecord(recordType: Punch.recordType)
+        self.punchID = String.random()
     }
 
     func getPunchType() -> PunchType {

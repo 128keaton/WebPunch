@@ -18,23 +18,30 @@ extension DefaultsKeys {
     static let punchedIn = DefaultsKey<Bool?>("punchedIn")
 }
 
-enum Action {
-    case punchIn
-    case punchOut
-    case attemptConnection
-    case disconnect
-    case login
-    case none
+enum Action: String {
+    case punchIn = "punchIn"
+    case punchOut = "punchOut"
+    case attemptConnection = "attemptConnection"
+    case disconnect = "disconnect"
+    case login = "login"
+    case none = "none"
 }
 
 class PunchInterface {
+    public static let shared = PunchInterface()
+
     public var isLoggedIn = false
     public var delegate: PunchInterfaceDelegate? = nil
 
     public var lastAction: Action = .attemptConnection
 
+
+    private let queue = DispatchQueue(label: "com.keaton.webpunch.queue", qos: .background, attributes: .concurrent)
+
+    private var currentBackgroundTaskID: UIBackgroundTaskIdentifier? = nil
+
     private lazy var alamoFireManager: SessionManager? = {
-        let configuration = URLSessionConfiguration.default
+        let configuration = URLSessionConfiguration.background(withIdentifier: "com.keaton.webpunch.connection")
         configuration.timeoutIntervalForRequest = 6
         configuration.timeoutIntervalForResource = 6
         let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
@@ -71,7 +78,7 @@ class PunchInterface {
         }
     }
 
-    init() {
+    private init() {
         registerForNotifications()
     }
 
@@ -116,10 +123,53 @@ class PunchInterface {
         }
     }
 
+    @objc private func receiveBackgroundTaskID(_ notification: Notification) {
+        if let taskID = notification.object as? UIBackgroundTaskIdentifier {
+            self.currentBackgroundTaskID = taskID
+        }
+    }
+
+    public func connectLoginPunchOut(completion: @escaping(_ canConnect: Bool, _ didLogin: Bool, _ didPunchOut: Bool) -> ()) {
+        self.canConnect { (canConnect, statusCode) in
+            print("Connection status code: \(statusCode)")
+            if (canConnect) {
+                self.login(completion: { (didLogin) in
+                    if (didLogin) {
+                        self.punchOut(completion: { (didPunchOut) in
+                            completion(canConnect, didLogin, didPunchOut)
+                        })
+                    } else {
+                        completion(canConnect, didLogin, false)
+                    }
+                })
+            } else {
+                completion(false, false, false)
+            }
+        }
+    }
+
+    public func connectLoginPunchIn(completion: @escaping(_ canConnect: Bool, _ didLogin: Bool, _ didPunchIn: Bool) -> ()) {
+        self.canConnect { (canConnect, _) in
+            if (canConnect) {
+                self.login(completion: { (didLogin) in
+                    if (didLogin) {
+                        self.punchIn(completion: { (didPunchIn) in
+                            completion(canConnect, didLogin, didPunchIn)
+                        })
+                    } else {
+                        completion(canConnect, didLogin, false)
+                    }
+                })
+            } else {
+                completion(canConnect, false, false)
+            }
+        }
+    }
+
     // CAN YOU FUCKING HEAR ME
     public func canConnect(completion: @escaping (_ canConnect: Bool, _ reason: Int) -> ()) {
         if (self.Defaults[.username] != nil && self.Defaults[.password] != nil && self.Defaults[.ipAddress] != nil) {
-            self.alamoFireManager!.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData { response in
+            self.alamoFireManager!.request("http://\(self.Defaults[.ipAddress]!)").validate().responseData() { response in
                 switch response.result {
                 case .success:
                     if response.data != nil {

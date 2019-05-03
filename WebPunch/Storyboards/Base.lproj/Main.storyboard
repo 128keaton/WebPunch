@@ -121,7 +121,7 @@
                         <color key="separatorColor" red="0.086260445419999998" green="0.086282841860000001" blue="0.086257301270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="fV2-YC-Goa" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="fV2-YC-Goa" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fV2-YC-Goa" id="33c-j0-ikN">
@@ -172,7 +172,7 @@
                                     <outlet property="punchTypeLabel" destination="O4O-Oc-yvo" id="Nej-3i-9Dk"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="x46-zZ-Ozd" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="x46-zZ-Ozd" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="163.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x46-zZ-Ozd" id="261-uw-Cim">
@@ -223,7 +223,7 @@
                                     <outlet property="punchTypeLabel" destination="Mtp-Wn-J48" id="3cr-PL-Pf0"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="sV9-Cj-6Ru" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="sV9-Cj-6Ru" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="271.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sV9-Cj-6Ru" id="KXW-76-lcB">
@@ -330,7 +330,7 @@
                         <color key="separatorColor" red="0.086260445419999998" green="0.086282841860000001" blue="0.086257301270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="gDl-8I-aDW" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="gDl-8I-aDW" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gDl-8I-aDW" id="EMn-cn-WUU">
@@ -381,7 +381,7 @@
                                     <outlet property="punchTypeLabel" destination="Hbt-S8-1dZ" id="SfJ-Vw-q9y"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="N6P-nP-kbT" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="N6P-nP-kbT" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="163.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="N6P-nP-kbT" id="cVt-FX-DXs">
@@ -432,7 +432,7 @@
                                     <outlet property="punchTypeLabel" destination="VJS-wz-9bc" id="dXu-n9-MPq"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="s9M-Rn-VIe" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="s9M-Rn-VIe" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="271.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="s9M-Rn-VIe" id="phq-uT-bVg">
@@ -576,7 +576,7 @@
                         <color key="separatorColor" red="0.086260445419999998" green="0.086282841860000001" blue="0.086257301270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="Hwu-cK-6QA" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchInCell" rowHeight="108" id="Hwu-cK-6QA" customClass="PunchInCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hwu-cK-6QA" id="0ux-G9-dlR">
@@ -627,7 +627,7 @@
                                     <outlet property="punchTypeLabel" destination="3Vb-7B-PSh" id="l2R-K7-u32"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="6yk-Ix-wDo" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PunchOutCell" rowHeight="108" id="6yk-Ix-wDo" customClass="PunchOutCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="163.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6yk-Ix-wDo" id="Llh-x7-6jC">
@@ -678,7 +678,7 @@
                                     <outlet property="punchTypeLabel" destination="saG-qU-uHr" id="dki-Q3-Xgl"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="H0Y-Ek-faC" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PayPeriodCell" rowHeight="108" id="H0Y-Ek-faC" customClass="PayPeriodCell" customModule="WebPunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="271.5" width="414" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="H0Y-Ek-faC" id="Y4A-JX-2if">

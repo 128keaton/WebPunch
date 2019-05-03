@@ -57,6 +57,7 @@
 		8AF718FB227AADCC00DBD7AD /* DailyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718FA227AADCC00DBD7AD /* DailyViewController.swift */; };
 		8AF718FD227AAF6900DBD7AD /* WeeklyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718FC227AAF6900DBD7AD /* WeeklyViewController.swift */; };
 		8AF718FF227AB27200DBD7AD /* PayPeriodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF718FE227AB27200DBD7AD /* PayPeriodController.swift */; };
+		8AF71901227B6E4000DBD7AD /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF71900227B6E4000DBD7AD /* NotificationHandler.swift */; };
 		FE82B32AD8B38C91E6BA953D /* Pods_PunchIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFFDA80F082A77B03AB7E0F /* Pods_PunchIntent.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,7 @@
 		8AF718FA227AADCC00DBD7AD /* DailyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyViewController.swift; sourceTree = "<group>"; };
 		8AF718FC227AAF6900DBD7AD /* WeeklyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyViewController.swift; sourceTree = "<group>"; };
 		8AF718FE227AB27200DBD7AD /* PayPeriodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodController.swift; sourceTree = "<group>"; };
+		8AF71900227B6E4000DBD7AD /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.debug.xcconfig"; sourceTree = "<group>"; };
 		EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.debug.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -299,6 +301,7 @@
 				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
 				8ACB32212151CD950082FDA6 /* Info.plist */,
 				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
+				8AF71900227B6E4000DBD7AD /* NotificationHandler.swift */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -419,6 +422,9 @@
 						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -612,6 +618,7 @@
 				8AF718FD227AAF6900DBD7AD /* WeeklyViewController.swift in Sources */,
 				8AF718F1227021D700DBD7AD /* UISoundService.swift in Sources */,
 				8AA841D522680426009C5948 /* SonicWall.swift in Sources */,
+				8AF71901227B6E4000DBD7AD /* NotificationHandler.swift in Sources */,
 				8A07AD1F226E69C400233AAB /* PayPeriodCell.swift in Sources */,
 				8ACB32282151D04A0082FDA6 /* PunchInterface.swift in Sources */,
 			);

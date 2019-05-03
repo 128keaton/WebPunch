@@ -32,6 +32,12 @@ protocol PunchModelDelegate {
 }
 
 class PunchModel {
+    static let modelUpdatesEnding = Notification.Name("PunchModelUpdatesEnding")
+    static let modelUpdatesBeginning = Notification.Name("PunchModelUpdatesBeginning")
+    static let handleModelError = Notification.Name("PunchModelHandleError")
+    static let didPunchIn = Notification.Name("PunchModelDidPunchIn")
+    static let didPunchInTesting = Notification.Name("PunchModelDidPunchInTesting")
+
     var useiCloud = true {
         didSet {
             updatePunches()
@@ -42,11 +48,10 @@ class PunchModel {
     let PunchFetchType = "Punch"
     let userInfo: UserInfo
 
-    var delegate: PunchModelDelegate?
-    var punches: [Punch] = []
-    var weekPayPeriods: [WeekPayPeriod] = []
-    var dayPayPeriods: [DayPayPeriod] = []
-    var fullPayPeriods: [FullPayPeriod] = []
+    private (set) public var punches: [Punch] = []
+    private (set) public var weekPayPeriods: [WeekPayPeriod] = []
+    private (set) public var dayPayPeriods: [DayPayPeriod] = []
+    private (set) public var fullPayPeriods: [FullPayPeriod] = []
 
     private var currentPunch: Punch? = nil
     private var records = [CKRecord]()
@@ -78,8 +83,8 @@ class PunchModel {
             guard let records = records, error == nil else {
                 if (error as NSError?)!.code == 9 {
                     self.useiCloud = false
-                } else {
-                    self.delegate?.errorUpdating(error!)
+                } else if let updateError = error {
+                    NotificationCenter.default.post(name: PunchModel.handleModelError, object: updateError)
                 }
 
                 self.useiCloud = true
@@ -93,7 +98,7 @@ class PunchModel {
 
     private func updatePunches() {
         DispatchQueue.main.async {
-            self.delegate?.modelBeginningUpdates()
+            NotificationCenter.default.post(name: PunchModel.modelUpdatesBeginning, object: nil)
         }
 
         DispatchQueue.main.async {
@@ -131,7 +136,7 @@ class PunchModel {
         }
 
         DispatchQueue.main.async {
-            self.delegate?.modelEndingUpdates()
+            NotificationCenter.default.post(name: PunchModel.modelUpdatesEnding, object: nil)
         }
     }
 
@@ -139,6 +144,7 @@ class PunchModel {
         var newPunch = Punch()
         newPunch.punchType = "In"
         currentPunch = newPunch
+        NotificationCenter.default.post(name: PunchModel.didPunchIn, object: newPunch.punchID)
         PunchModel.sharedInstance.save(newPunch)
     }
 
@@ -150,15 +156,18 @@ class PunchModel {
     }
 
     func save(_ punch: Punch) {
-        privateDB.save(punch.record) { _, error in
-            guard error == nil else {
-                self.delegate?.errorUpdating(error!)
-                return
+        if useiCloud {
+            privateDB.save(punch.record) { _, error in
+                if let saveError = error {
+                    NotificationCenter.default.post(name: PunchModel.handleModelError, object: saveError)
+                }
+                DispatchQueue.main.async {
+                    self.insertedObjects.append(punch)
+                    self.updatePunches()
+                }
             }
-            DispatchQueue.main.async {
-                self.insertedObjects.append(punch)
-                self.updatePunches()
-            }
+        } else {
+            // TODO
         }
     }
 

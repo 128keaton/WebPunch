@@ -37,6 +37,19 @@ extension UIApplication {
         }
         return result.isEmpty ? nil : result
     }
+
+    public static func showViewControllerOnCurrentView(viewController: UIViewController, animated: Bool = true) {
+        if let currentWindow = UIApplication.shared.keyWindow,
+            let rootViewController = currentWindow.rootViewController {
+            if let presentedViewController = rootViewController.presentedViewController {
+                presentedViewController.present(viewController, animated: animated, completion: nil)
+            } else {
+                rootViewController.present(viewController, animated: animated, completion: nil)
+            }
+        } else {
+            print("Unable to get keyWindow: \(String(describing: UIApplication.shared.keyWindow)) or rootViewController: \(String(describing: UIApplication.shared.keyWindow?.rootViewController))")
+        }
+    }
 }
 
 public extension UIButton {

@@ -25,7 +25,7 @@ class IntentHandler: INExtension {
 }
 
 class PunchInHandler: NSObject, PunchInIntentHandling {
-    let punchInterface = PunchInterface()
+    let punchInterface = PunchInterface.shared
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     func handle(intent: PunchInIntent, completion: @escaping (PunchInIntentResponse) -> Void) {
@@ -60,7 +60,7 @@ class PunchInHandler: NSObject, PunchInIntentHandling {
 }
 
 class PunchOutHandler: NSObject, PunchOutIntentHandling {
-    let punchInterface = PunchInterface()
+    let punchInterface = PunchInterface.shared
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     func handle(intent: PunchOutIntent, completion: @escaping (PunchOutIntentResponse) -> Void) {
