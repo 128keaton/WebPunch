@@ -36,6 +36,8 @@ class PunchModel {
     static let modelUpdatesBeginning = Notification.Name("PunchModelUpdatesBeginning")
     static let handleModelError = Notification.Name("PunchModelHandleError")
     static let didPunchIn = Notification.Name("PunchModelDidPunchIn")
+    static let didPunchOut = Notification.Name("PunchModelDidPunchOut")
+
     static let didPunchInTesting = Notification.Name("PunchModelDidPunchInTesting")
 
     var useiCloud = true {
@@ -152,6 +154,11 @@ class PunchModel {
         var newPunch = Punch()
         newPunch.punchType = "Out"
         currentPunch = newPunch
+
+        if let lastPunch = self.punches.last(where: { $0.getPunchType() == .In }) {
+            NotificationCenter.default.post(name: PunchModel.didPunchOut, object: lastPunch.punchID)
+        }
+
         PunchModel.sharedInstance.save(newPunch)
     }
 
@@ -227,5 +234,56 @@ class PunchModel {
             }
         }
         return payPeriods
+    }
+
+    public func punchesInSets() -> [[String: Punch?]] {
+        var matchedPunches: [[String: Punch?]] = []
+
+        for punch in self.punches.sorted(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending }) {
+            if punch.getPunchType() == .In {
+                let punchSet = ["in": punch, "out": nil]
+                matchedPunches.append(punchSet)
+            } else if punch.getPunchType() == .Out {
+                if var lastSet = matchedPunches.last,
+                    lastSet["out"] == nil {
+                    lastSet["out"] = punch
+                }
+            }
+        }
+
+
+        return matchedPunches
+    }
+
+    public func getHoursForSet(_ set: [String: Punch?]) -> TimeInterval {
+        let calendar = Calendar.current
+        var inDate = Date()
+        var outDate = Date()
+
+        if set.keys.contains("in") && set.keys.contains("out"), let inPunch = set["in"] as? Punch {
+            inDate = inPunch.createdAt
+
+            if let outPunch = set["out"] as? Punch {
+                outDate = outPunch.createdAt
+            }
+        }
+
+        let components = calendar.dateComponents([Calendar.Component.hour, Calendar.Component.minute], from: inDate, to: outDate)
+
+        print("Punched in at: \(inDate)")
+        print("Punched out at: \(outDate)")
+
+        if let hours = components.hour {
+            var baseString = "\(hours).0"
+            if let minutes = components.minute {
+                baseString = "\(hours).\(minutes)"
+            }
+
+            if let timeInterval = Double(baseString) {
+                return timeInterval
+            }
+        }
+
+        return 0.0
     }
 }

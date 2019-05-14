@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification:)), name: PunchModel.didPunchIn, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification: testing:)), name: PunchModel.didPunchInTesting, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(removeHoursNotification(notification:)), name: PunchModel.didPunchOut, object: nil)
+
         notificationCenter.delegate = self
         notificationCenter.requestAuthorization(options: options) {
             (didAllow, error) in
@@ -77,6 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    @objc func removeHoursNotification(notification: Notification) {
+        if let notificationID = notification.object as? String, canUseNotifications == true {
+            removeHoursNotification(forPunchID: notificationID)
+        } else if canUseNotifications == false {
+            print("User has declined notifications")
+        }
+    }
+
     @objc func scheduleHoursNotification(notification: Notification, testing: Bool = true) {
         if let notificationID = notification.object as? String, canUseNotifications == true {
             scheduleHoursNotification(forPunchID: notificationID, testing: true)
@@ -93,6 +103,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         scheduleNotification(type: .hoursBeyondEight, notificationID: punchID, delay: timeIntervalSeconds, testing: testing)
+    }
+
+    func removeHoursNotification(forPunchID punchID: String) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [punchID])
     }
 
     private func scheduleNotification(type: NotificationType, notificationID: String = String.random(), delay: TimeInterval = 5, testing: Bool = false, lastAction: Action = .none) {

@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyUserDefaults
 import NetworkExtension
+import SwiftSoup
 
 extension DefaultsKeys {
     static let username = DefaultsKey<String?>("username")
@@ -42,8 +43,8 @@ class PunchInterface {
 
     private lazy var alamoFireManager: SessionManager? = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.keaton.webpunch.connection")
-        configuration.timeoutIntervalForRequest = 6
-        configuration.timeoutIntervalForResource = 6
+        configuration.timeoutIntervalForRequest = 8
+        configuration.timeoutIntervalForResource = 8
         let alamoFireManager = Alamofire.SessionManager(configuration: configuration)
         return alamoFireManager
     }()
@@ -203,23 +204,38 @@ class PunchInterface {
         }
     }
 
+    private func checkPunchStatus(htmlText: String) {
+        do {
+            let responseDocument: Document = try SwiftSoup.parse(htmlText)
+            let punchOutButton = try responseDocument.getElementById("punchOut")
+
+            if punchOutButton != nil {
+                print("You are currently punched in")
+                self.Defaults[.punchedIn] = true
+            } else {
+                print("You are currently punched out")
+                self.Defaults[.punchedIn] = false
+            }
+
+        } catch Exception.Error(let type, let message) {
+            print(type)
+            print(message)
+        } catch {
+            print("Unable to parse html: \(htmlText)")
+        }
+    }
+
     // LOG THE FUCK IN
     public func login(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["username": Defaults[.username]!, "password": Defaults[.password]!]
-        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/login.html", parameters: parameters).response { response in
+        let loginPath = "http://\(Defaults[.ipAddress]!)/login.html"
+        print("Logging into server \(loginPath) with username \(parameters["username"] ?? "no username") and password \(parameters["password"] ?? "no username")")
+        Alamofire.request(loginPath, parameters: parameters).response { response in
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                if utf8Text.contains("you last punched") {
-                    print("Logged in")
-                    self.isLoggedIn = true
-                    if(utf8Text.contains("you last punched out")) {
-                        self.Defaults[.punchedIn] = false
-                    } else if (utf8Text.contains("you last punched in")) {
-                        self.Defaults[.punchedIn] = true
-                    }
-                    return completion(true)
-                } else {
-                    print(utf8Text)
-                }
+                print("Logged in")
+                self.isLoggedIn = true
+                self.checkPunchStatus(htmlText: utf8Text)
+                return completion(true)
             } else {
                 return completion(false)
             }
@@ -230,7 +246,7 @@ class PunchInterface {
     public func punchIn(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["state": "PunchIn"]
 
-        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
+        Alamofire.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("IN AT")) {
@@ -248,7 +264,7 @@ class PunchInterface {
     public func punchOut(completion: @escaping (_ success: Bool) -> ()) {
         let parameters = ["state": "PunchOut"]
 
-        self.alamoFireManager!.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
+        Alamofire.request("http://\(Defaults[.ipAddress]!)/webpunch.html", parameters: parameters).response { response in
 
             if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
                 if(utf8Text.contains("Recorded")) {

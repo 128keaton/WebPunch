@@ -14,6 +14,7 @@
 		8A07AD20226E6A8600233AAB /* PayPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */; };
 		8A07AD21226E6A8600233AAB /* PayPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */; };
 		8A07AD23226F2A5500233AAB /* RefreshContents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A07AD22226F2A5500233AAB /* RefreshContents.xib */; };
+		8A2DB981228A977B00261B9E /* HoursReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB980228A977B00261B9E /* HoursReportViewController.swift */; };
 		8AA53BAD226E49BF004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
 		8AA53BAE226E4FFE004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
 		8AA53BAF226E4FFF004CC73F /* PayPeriods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BAC226E49BF004CC73F /* PayPeriods.swift */; };
@@ -104,6 +105,7 @@
 		8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		8A07AD1E226E69C400233AAB /* PayPeriodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodCell.swift; sourceTree = "<group>"; };
 		8A07AD22226F2A5500233AAB /* RefreshContents.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RefreshContents.xib; sourceTree = "<group>"; };
+		8A2DB980228A977B00261B9E /* HoursReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursReportViewController.swift; sourceTree = "<group>"; };
 		8AA53BAC226E49BF004CC73F /* PayPeriods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriods.swift; sourceTree = "<group>"; };
 		8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		8AA841D422680426009C5948 /* SonicWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonicWall.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				8AF718F9227AADBC00DBD7AD /* Punch History */,
 				8ACB32292151DAC80082FDA6 /* AppSettingsViewController.swift */,
 				8ACB32172151CD940082FDA6 /* PunchViewController.swift */,
+				8A2DB980228A977B00261B9E /* HoursReportViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 				8AF718FD227AAF6900DBD7AD /* WeeklyViewController.swift in Sources */,
 				8AF718F1227021D700DBD7AD /* UISoundService.swift in Sources */,
+				8A2DB981228A977B00261B9E /* HoursReportViewController.swift in Sources */,
 				8AA841D522680426009C5948 /* SonicWall.swift in Sources */,
 				8AF71901227B6E4000DBD7AD /* NotificationHandler.swift in Sources */,
 				8A07AD1F226E69C400233AAB /* PayPeriodCell.swift in Sources */,

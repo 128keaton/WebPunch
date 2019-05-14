@@ -1,12 +1,14 @@
 def shared_pods
   pod 'SwiftyUserDefaults', :git => 'https://github.com/radex/SwiftyUserDefaults/', :tag => '4.0.0-beta.2'
   pod 'Alamofire'
+  pod 'SwiftSoup'
 end
 
 target 'WebPunch' do
    use_frameworks!
    platform :ios, '11.0'
    pod 'SwiftySettings', :git => 'https://github.com/128keaton/SwiftySettings', :tag => '1.0.5'
+   pod 'UICountingLabel'
 end
 
 target 'PunchIntentUI' do
