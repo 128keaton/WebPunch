@@ -252,7 +252,7 @@ class PunchInterface {
                 if(utf8Text.contains("IN AT")) {
                     self.Defaults[.punchedIn] = true
                     self.isLoggedIn = false
-                    PunchModel.sharedInstance.punchIn()
+                    PunchModel.sharedInstance.didPunchIn()
                     return completion(true)
                 }
             }
@@ -270,7 +270,7 @@ class PunchInterface {
                 if(utf8Text.contains("Recorded")) {
                     self.Defaults[.punchedIn] = false
                     self.isLoggedIn = false
-                    PunchModel.sharedInstance.punchOut()
+                    PunchModel.sharedInstance.didPunchOut()
                     return completion(true)
                 } else {
                     print(utf8Text)

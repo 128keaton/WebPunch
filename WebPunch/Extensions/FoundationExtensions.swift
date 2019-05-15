@@ -44,6 +44,17 @@ extension Date {
         dateComponents.weekday = 1
         return Calendar.current.date(from: dateComponents)!
     }
+    
+    public var stripTime: Date{
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second, .nanosecond], from: self)
+      
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        dateComponents.nanosecond = 0
+        
+        return Calendar.current.date(from: dateComponents)!
+    }
 }
 
 extension URL {
@@ -120,6 +131,24 @@ extension TimeInterval {
         } else {
             return "\(milliseconds) \(millisecondUnit)"
         }
+    }
+
+    func format(using units: NSCalendar.Unit = [.hour, .minute]) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute]
+
+        if self >= 3600 {
+            formatter.allowedUnits.insert(.hour)
+        } else if self <= 60 {
+            formatter.allowedUnits.insert(.second)
+        }
+
+        return formatter.string(from: self)!
+    }
+
+    func getHours() -> Double {
+        return self / 3600.0
     }
 }
 

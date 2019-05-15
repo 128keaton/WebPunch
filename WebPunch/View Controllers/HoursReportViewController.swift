@@ -19,21 +19,13 @@ class HoursReportViewController: UIViewController {
 
     // MARK: - Properties
     let punchModel: PunchModel = PunchModel.sharedInstance
-    let calendar = NSCalendar.current
     let selectedWeek = Date()
 
     var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
 
     var hoursForSelectedWeek: TimeInterval {
-        var hours = 0.0
-
-        getPunchesForWeekOf(selectedWeek).forEach {
-            hours += punchModel.getHoursForSet($0)
-        }
-
-        return hours
+        return punchModel.getHoursForCurrentPunches()
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,37 +33,21 @@ class HoursReportViewController: UIViewController {
         hoursLabel.alpha = 0.0
         weekLabel.alpha = 0.0
         earnedLabel.alpha = 0.0
-        
+
         earnedLabel.animationDuration = 1.5
         hoursLabel.animationDuration = 1.5
-        
+
         earnedLabel.method = .easeOut
         hoursLabel.method = .easeOut
 
-        NotificationCenter.default.addObserver(self, selector: #selector(modelEndingUpdates), name: PunchModel.modelUpdatesEnding, object: nil)
-        punchModel.refresh()
-    }
-
-    private func getPunchesForWeekOf(_ date: Date? = nil) -> [[String: Punch?]] {
-        let punchSets = punchModel.punchesInSets()
-        var weekDate = Date().firstDateofWeekFromSelf
-
-        if let validDate = date {
-            weekDate = validDate.firstDateofWeekFromSelf
-        }
-
-        return punchSets.filter {
-            if let punchIn = $0["in"] as? Punch {
-                return punchIn.createdAt.firstDateofWeekFromSelf == weekDate
-            }
-            return false
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(modelUpdated), name: PunchModel.modelUpdated, object: nil)
+        punchModel.refreshPunches()
     }
 
     private func updateView() {
         var showEarned = false
         var earnedAmount = 0.0
-        
+
         if hoursForSelectedWeek > 0.0 {
             hoursLabel.text = "0 Hours"
         } else {
@@ -84,33 +60,33 @@ class HoursReportViewController: UIViewController {
             let taxRateString = Defaults.object(forKey: "taxRate") as? String,
             let taxRateDouble = Double(taxRateString),
             hoursForSelectedWeek > 0.0 {
-            let amountPreTax = payDouble * hoursForSelectedWeek
+            let amountPreTax = payDouble * hoursForSelectedWeek.getHours()
             let amountTaxed = amountPreTax - (amountPreTax * taxRateDouble)
-            
+
             showEarned = true
             earnedLabel.text = "$0.00 Earned"
             earnedAmount = amountTaxed
         }
-        
+
         weekLabel.text = "This Week"
-        
+
         UIView.animate(withDuration: 0.3, animations: {
             if showEarned {
                 self.earnedLabel.alpha = 1.0
             }
-            
+
             self.hoursLabel.alpha = 1.0
             self.weekLabel.alpha = 1.0
         }) { (didComplete) in
-            if didComplete{
+            if didComplete {
                 DispatchQueue.main.async {
                     if self.hoursForSelectedWeek > 0.0 {
                         self.hoursLabel.formatBlock = { value in
-                            String(format: "%.02f Hours", value)
+                            return String(format: "%@ Worked", TimeInterval(value).format())
                         }
                         self.hoursLabel.countFromZero(to: CGFloat(self.hoursForSelectedWeek))
                     }
-                    
+
                     if showEarned {
                         self.earnedLabel.formatBlock = { value in
                             String(format: "~$%.02f Earned", value)
@@ -122,7 +98,7 @@ class HoursReportViewController: UIViewController {
         }
     }
 
-    @objc func modelEndingUpdates() {
+    @objc func modelUpdated() {
         DispatchQueue.main.async {
             self.updateView()
         }
@@ -133,7 +109,6 @@ class HoursReportViewController: UIViewController {
     }
 
     @IBAction func refresh() {
-        punchModel.refresh()
+        punchModel.refreshPunches()
     }
-
 }

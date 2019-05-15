@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(connectToVPN), name: NSNotification.Name("connectToVPN"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disconnectFromVPN), name: NSNotification.Name("disconnectFromVPN"), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification:)), name: PunchModel.didPunchIn, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification: testing:)), name: PunchModel.didPunchInTesting, object: nil)
+     //   NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification:)), name: PunchModel.didPunchIn, object: nil)
+    //    NotificationCenter.default.addObserver(self, selector: #selector(scheduleHoursNotification(notification: testing:)), name: PunchModel.didPunchInTesting, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(removeHoursNotification(notification:)), name: PunchModel.didPunchOut, object: nil)
+   //     NotificationCenter.default.addObserver(self, selector: #selector(removeHoursNotification(notification:)), name: PunchModel.didPunchOut, object: nil)
 
         notificationCenter.delegate = self
         notificationCenter.requestAuthorization(options: options) {

@@ -2,6 +2,7 @@ def shared_pods
   pod 'SwiftyUserDefaults', :git => 'https://github.com/radex/SwiftyUserDefaults/', :tag => '4.0.0-beta.2'
   pod 'Alamofire'
   pod 'SwiftSoup'
+  pod 'Differ', :git => 'https://github.com/tonyarnold/Differ'
 end
 
 target 'WebPunch' do
