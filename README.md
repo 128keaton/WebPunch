@@ -11,8 +11,6 @@ iOS PoC to talk to V25 RTC-1000s
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot3.png" width="25%">
  </p>
 
-![](https://github.com/128keaton/WebPunch/blob/master/Repository%20Resources/screenshot1.png?raw=true|width=100)
-
 ## Uses
 Icons provided by [Icons8](https://icons8.com/license/)
 
