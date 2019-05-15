@@ -28,8 +28,8 @@ public class UISoundService {
     private var hideDataSoundID: SystemSoundID = SystemSoundID()
 
     private init() {
-        AudioServicesCreateSystemSoundID(punchInSoundURL! as CFURL, &displayDataSoundID)
-        AudioServicesCreateSystemSoundID(punchInSoundURL! as CFURL, &hideDataSoundID)
+        AudioServicesCreateSystemSoundID(displayDataSoundURL! as CFURL, &displayDataSoundID)
+        AudioServicesCreateSystemSoundID(hideDataSoundURL! as CFURL, &hideDataSoundID)
     }
 
     func playShowDataSound() {
