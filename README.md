@@ -7,7 +7,12 @@ iOS PoC to talk to V25 RTC-1000s
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot1.png" width="25%">
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot2.png" width="25%">
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot3.png" width="25%">
- </p>
+</p>
+ 
+## Features
+ * VPN Support
+ * Slow
+ * Pretty? I guess?
 
 ## Uses
 Icons provided by [Icons8](https://icons8.com/license/)
