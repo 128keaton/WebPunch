@@ -17,12 +17,28 @@ public class UISoundService {
     private let punchInSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/MultiwayJoin.caf")
     private let punchOutSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/MultiwayLeave.caf")
 
+    private let displayDataSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/PhoneHold_Haptic.caf")
+    private let hideDataSoundURL = URL(string: "/System/Library/Audio/UISounds/nano/PhotosZoomDetent_Haptic.caf")
+
     // MARK: Sound IDs
     private var punchInSoundID: SystemSoundID? = nil
     private var punchOutSoundID: SystemSoundID? = nil
 
+    private var displayDataSoundID: SystemSoundID = SystemSoundID()
+    private var hideDataSoundID: SystemSoundID = SystemSoundID()
 
-    private init() { }
+    private init() {
+        AudioServicesCreateSystemSoundID(punchInSoundURL! as CFURL, &displayDataSoundID)
+        AudioServicesCreateSystemSoundID(punchInSoundURL! as CFURL, &hideDataSoundID)
+    }
+
+    func playShowDataSound() {
+        AudioServicesPlaySystemSound(displayDataSoundID);
+    }
+
+    func playHideDataSound() {
+        AudioServicesPlaySystemSound(hideDataSoundID);
+    }
 
     func playSoundForAction(_ action: Action) {
         switch action {

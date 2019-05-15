@@ -14,12 +14,11 @@ class PunchHistoryViewController: UITableViewController {
     let punchModel: PunchModel = PunchModel.sharedInstance
 
     var noDataView: UILabel? = nil
-    var currentPunches: [OperationalPunch] = []
-    var currentSections: [Date] {
-        return Array(Set(currentPunches.map { punch in
-            return punch.at.stripTime
-        }))
-    }
+    var currentPunches: [MatchedPunches] = []
+    var flippedCells: [PunchCell] = []
+
+    var Defaults = UserDefaults(suiteName: "group.com.webpunch")!
+
 
     override var canBecomeFirstResponder: Bool {
         get {
@@ -35,7 +34,9 @@ class PunchHistoryViewController: UITableViewController {
         becomeFirstResponder()
         createNoDataView()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(modelUpdated), name: PunchModel.modelUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modelEndedUpdates(_:)), name: PunchModel.modelEndUpdates, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modelBeganUpdates(_:)), name: PunchModel.modelBeginUpdates, object: nil)
+
         punchModel.refreshPunches()
 
         view.layoutIfNeeded()
@@ -51,20 +52,8 @@ class PunchHistoryViewController: UITableViewController {
         }
     }
 
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return currentSections.count
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        UIView.animate(
-            withDuration: 0.3,
-            delay: 0.003 * Double(indexPath.row),
-            animations: {
-                cell.alpha = 1
-            })
+        return punchModel.matchedPunches.count
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -72,121 +61,166 @@ class PunchHistoryViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (currentPunches.filter { punch in
-            punch.isSameDay(currentSections[section])
-        }).count
+        return punchModel.matchedPunches[section].punches.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let dateForSection = currentSections[section]
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        if let dateForSection = getDateFor(section: section) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .none
 
-        if Calendar.current.isDate(dateForSection, inSameDayAs: Date()) {
-            return "Today - \(dateFormatter.string(from: dateForSection))"
+            if Calendar.current.isDate(dateForSection, inSameDayAs: Date()) {
+                return "Today - \(dateFormatter.string(from: dateForSection))"
+            }
+
+            return dateFormatter.string(from: dateForSection)
         }
-
-        return dateFormatter.string(from: dateForSection)
+        return nil
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = PunchCell()
 
-        if let validPunch = getPunchFor(section: indexPath.section, row: indexPath.row) {
-            if type(of: validPunch) == PunchIn.self {
-                cell = tableView.dequeueReusableCell(withIdentifier: "PunchInCell", for: indexPath) as! PunchInCell
-                cell.type = .punchIn
-            } else if type(of: validPunch) == PunchOut.self {
-                cell = tableView.dequeueReusableCell(withIdentifier: "PunchOutCell", for: indexPath) as! PunchOutCell
-                cell.type = .punchOut
-            }
+        let validPunch = punchModel.matchedPunches[indexPath.section].punches[indexPath.row]
 
-            cell.date = validPunch.at
-            cell.isFlagged = validPunch.isFlagged
+        if validPunch.type == .punchIn {
+            cell = tableView.dequeueReusableCell(withIdentifier: "PunchInCell", for: indexPath) as! PunchInCell
+        } else if validPunch.type == .punchOut {
+            cell = tableView.dequeueReusableCell(withIdentifier: "PunchOutCell", for: indexPath) as! PunchOutCell
         }
+
+        cell.data = validPunch
 
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let punchCell = tableView.cellForRow(at: indexPath) as? PunchCell else {
+            return nil
+        }
+
+        guard var punch = punchCell.data else {
+            return nil
+        }
+
+        if !punch.isFlagged {
+            let flagTitle = NSLocalizedString("Flag", comment: "Flag this punch")
+            let flagAction = UITableViewRowAction(style: .default, title: flagTitle) { (action, indexPath) in
+                punch.isFlagged = true
+                punchCell.data = punch
+
+                self.punchModel.updatePunch(punch, completion: { (didComplete) in
+                    print("Punch \(punch.id.recordName) is now flagged")
+                })
+            }
+            flagAction.backgroundColor = UIColor.orange
+
+            return [flagAction]
+        } else if punch.isFlagged {
+            let clearTitle = NSLocalizedString("Clear", comment: "Clear flag")
+            let clearAction = UITableViewRowAction(style: .default, title: clearTitle) { (action, indexPath) in
+                punch.isFlagged = false
+                punchCell.data = punch
+
+                self.punchModel.updatePunch(punch, completion: { (didComplete) in
+                    print("Punch \(punch.id.recordName) is no longer flagged")
+                })
+            }
+            clearAction.backgroundColor = self.view.tintColor
+            return [clearAction]
+        }
+
+        return nil
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if var validPunch = getPunchFor(section: indexPath.section, row: indexPath.row) {
-            let alertTitle = validPunch.type == .punchOut ? String(format: "%@ Worked", validPunch.totalWorked.format()) : ""
-            let alertMessage = "You punched \(validPunch.type) \(validPunch.time) \(validPunch.date)"
+        if let selectedCell = tableView.cellForRow(at: indexPath) as? PunchCell {
+            tableView.deselectRow(at: indexPath, animated: true)
+            selectedCell.flipView()
 
-            let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .actionSheet)
-
-            if validPunch.isFlagged {
-                let removeFlagAction = UIAlertAction(title: "Remove Flag", style: .destructive) { (_) in
-
-                    validPunch.isFlagged = false
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-
-                    self.punchModel.updatePunch(validPunch, completion: { (success) in
-                        if success {
-                            self.punchModel.refreshPunches()
-                        }
-                    })
-
-                    alertController.dismiss(animated: true, completion: nil)
-                }
-
-                alertController.addAction(removeFlagAction)
+            if selectedCell.displayingData {
+                UISoundService.shared.playShowDataSound()
+                flippedCells.append(selectedCell)
             } else {
-                let addFlagAction = UIAlertAction(title: "Flag", style: .destructive) { (_) in
+                UISoundService.shared.playHideDataSound()
+                flippedCells.removeAll { $0 == selectedCell }
+            }
 
-                    validPunch.isFlagged = true
-                    self.tableView.deselectRow(at: indexPath, animated: true)
+            flippedCells.sort { $0.data!.at.compare($1.data!.at) == .orderedDescending }
+        }
+    }
 
-                    self.punchModel.updatePunch(validPunch, completion: { (success) in
-                        if success {
-                            self.punchModel.refreshPunches()
-                        }
-                    })
-
-                    alertController.dismiss(animated: true, completion: nil)
+    private func flipAllCellsBack() {
+        flippedCells.enumerated().forEach { (arg) in
+            let (index, cell) = arg
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index), execute: {
+                if cell.displayingData == true {
+                    cell.flipView()
                 }
-                alertController.addAction(addFlagAction)
-            }
+            })
+        }
+        flippedCells.removeAll()
+    }
 
-            let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
-                self.tableView.deselectRow(at: indexPath, animated: true)
-                alertController.dismiss(animated: true, completion: nil)
-            }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let punchCell = cell as? PunchCell else {
+            return
+        }
 
-            alertController.addAction(doneAction)
-
-            self.navigationController?.present(alertController, animated: true) {
-                print("Showing details for recordID: \(validPunch.id.recordName)")
-            }
+        if punchCell.displayingData == true {
+            punchCell.flipView()
         }
     }
 
     @IBAction func refresh() {
         punchModel.refreshPunches()
+        flipAllCellsBack()
     }
 
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
         self.tabBarController?.dismiss(animated: true, completion: nil)
     }
 
-    @objc func modelUpdated() {
-        DispatchQueue.main.async {
-            if self.punchModel.datesWithPunches.count > 0 {
-                self.tableView.backgroundView = nil
-            }
-
-            /*let modelChanges = diff(old: self.currentPunches, new: self.punchModel.allPunches)
-            self.tableView.reload(changes: modelChanges, updateData: {
-                self.currentPunches = self.punchModel.allPunches
-            })*/
-            
-            
+    @objc func modelBeganUpdates(_ notification: Notification) {
+        if let _currentPunches = notification.object as? [MatchedPunches] {
+            self.currentPunches = _currentPunches
+            print("Beginning updates")
         }
     }
 
+    @objc func modelEndedUpdates(_ notification: Notification) {
+        if let newPunches = notification.object as? [MatchedPunches] {
+            DispatchQueue.main.async {
+                if self.flippedCells.count > 0 {
+                    self.flipAllCellsBack()
+                }
+
+                self.tableView.animateRowAndSectionChanges(oldData: self.currentPunches, newData: newPunches)
+            }
+        }
+    }
+
+    private func getDateFor(section: Int) -> Date? {
+        if punchModel.matchedPunches.indices.contains(section) {
+            return punchModel.matchedPunches[section].key
+        }
+        return nil
+    }
+
+    private func getPunchesFor(section: Int) -> [OperationalPunch]? {
+        if punchModel.matchedPunches.indices.contains(section) {
+            return punchModel.matchedPunches[section].punches
+        }
+        return nil
+    }
+
     private func getPunchFor(section: Int, row: Int) -> Punch? {
-        return currentPunches.first { $0.isSameDay(currentSections[section]) }
+        if let punchesInSection = getPunchesFor(section: section),
+            punchesInSection.indices.contains(row) {
+            return punchesInSection[row]
+        }
+        return nil
     }
 
     private func createNoDataView() {

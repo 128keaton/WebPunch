@@ -136,6 +136,7 @@ extension TimeInterval {
     func format(using units: NSCalendar.Unit = [.hour, .minute]) -> String {
         let formatter = DateComponentsFormatter()
         formatter.zeroFormattingBehavior = .pad
+        formatter.unitsStyle = .abbreviated
         formatter.allowedUnits = [.minute]
 
         if self >= 3600 {
@@ -149,6 +150,10 @@ extension TimeInterval {
 
     func getHours() -> Double {
         return self / 3600.0
+    }
+    
+    func getMinutes() -> Double {
+        return (self / 60).truncatingRemainder(dividingBy: 60)
     }
 }
 

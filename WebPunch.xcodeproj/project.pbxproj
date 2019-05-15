@@ -22,6 +22,9 @@
 		8A2DB991228B394C00261B9E /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB98F228B394900261B9E /* Punch.swift */; };
 		8A2DB992228B394D00261B9E /* Punch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB98F228B394900261B9E /* Punch.swift */; };
 		8A2DB994228B673B00261B9E /* PunchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB993228B673B00261B9E /* PunchHistoryViewController.swift */; };
+		8A2DB996228B92D500261B9E /* MatchedPunches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB995228B92D500261B9E /* MatchedPunches.swift */; };
+		8A2DB997228B92D500261B9E /* MatchedPunches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB995228B92D500261B9E /* MatchedPunches.swift */; };
+		8A2DB998228B92D500261B9E /* MatchedPunches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB995228B92D500261B9E /* MatchedPunches.swift */; };
 		8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
 		8AA53BB4226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
 		8AA53BB5226E5AD4004CC73F /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */; };
@@ -107,6 +110,7 @@
 		8A2DB984228B34C100261B9E /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		8A2DB98F228B394900261B9E /* Punch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Punch.swift; sourceTree = "<group>"; };
 		8A2DB993228B673B00261B9E /* PunchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchHistoryViewController.swift; sourceTree = "<group>"; };
+		8A2DB995228B92D500261B9E /* MatchedPunches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedPunches.swift; sourceTree = "<group>"; };
 		8AA53BB2226E5AD4004CC73F /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		8AA841D422680426009C5948 /* SonicWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonicWall.swift; sourceTree = "<group>"; };
 		8AA841DA22681945009C5948 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -200,6 +204,7 @@
 				8AA841E022681ADE009C5948 /* PunchModel.swift */,
 				8AF718F322702E4F00DBD7AD /* UserInfo.swift */,
 				8A2DB986228B34E300261B9E /* Punches */,
+				8A2DB995228B92D500261B9E /* MatchedPunches.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -601,6 +606,7 @@
 				8ACB32162151CD940082FDA6 /* AppDelegate.swift in Sources */,
 				8AF718F422702E5000DBD7AD /* UserInfo.swift in Sources */,
 				8A07AD1D226E66B100233AAB /* UIKitExtensions.swift in Sources */,
+				8A2DB996228B92D500261B9E /* MatchedPunches.swift in Sources */,
 				8ACB3251215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8AA53BB3226E5AD4004CC73F /* FoundationExtensions.swift in Sources */,
 				8AF718F1227021D700DBD7AD /* UISoundService.swift in Sources */,
@@ -621,6 +627,7 @@
 				8ACB3252215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB3233215212EE0082FDA6 /* IntentHandler.swift in Sources */,
 				8AA841F7226850B6009C5948 /* PunchModel.swift in Sources */,
+				8A2DB997228B92D500261B9E /* MatchedPunches.swift in Sources */,
 				8AA841F422684B76009C5948 /* PunchInterface.swift in Sources */,
 				8A2DB989228B366500261B9E /* PunchOut.swift in Sources */,
 				8AA841F8226850BF009C5948 /* PunchIn.swift in Sources */,
@@ -638,6 +645,7 @@
 				8AA841FD226850E2009C5948 /* PunchIn.swift in Sources */,
 				8ACB3253215213040082FDA6 /* Intents.intentdefinition in Sources */,
 				8ACB323E215212EE0082FDA6 /* IntentViewController.swift in Sources */,
+				8A2DB998228B92D500261B9E /* MatchedPunches.swift in Sources */,
 				8AA841FB226850DC009C5948 /* PunchModel.swift in Sources */,
 				8A2DB98A228B366500261B9E /* PunchOut.swift in Sources */,
 				8AA841F522684B77009C5948 /* PunchInterface.swift in Sources */,

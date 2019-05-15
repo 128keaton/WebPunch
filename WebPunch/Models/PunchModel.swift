@@ -15,7 +15,8 @@ class PunchModel {
     static let sharedInstance = PunchModel()
 
     static let refreshModel = Notification.Name("punchModelRefresh")
-    static let modelUpdated = Notification.Name("punchModelUpdated")
+    static let modelEndUpdates = Notification.Name("punchModelEndUpdates")
+    static let modelBeginUpdates = Notification.Name("punchModelBeginUpdates")
 
     private let database = CKContainer.default().privateCloudDatabase
 
@@ -64,16 +65,12 @@ class PunchModel {
         return Set(allPunches.map { $0.at.stripTime })
     }
 
-    var matchedDatesWithPunches: [Date: [OperationalPunch]] {
-        var _matchedDatesWithPunches: [Date: [OperationalPunch]] = [:]
-        
-        datesWithPunches.forEach { date in
-            _matchedDatesWithPunches[date] = allPunches.filter { punch in
+    var matchedPunches: [MatchedPunches] {
+        return datesWithPunches.map { date in
+            MatchedPunches(punches: allPunches.filter { punch in
                 punch.isSameDay(date)
-            }
+            }, key: date)
         }
-
-        return _matchedDatesWithPunches
     }
 
     private init() {
@@ -144,6 +141,7 @@ class PunchModel {
         }
 
         print("Saved punch")
+        refreshPunches()
         completion(true)
     }
 
@@ -164,6 +162,9 @@ class PunchModel {
     }
 
     private func updatePunches() {
+        print("Updating punches...")
+        NotificationCenter.default.post(name: PunchModel.modelBeginUpdates, object: self.matchedPunches)
+        
         var knownPunchesInIds = Set(punchInRecords.map { $0.recordID })
         var knownPunchesOutIds = Set(punchOutRecords.map { $0.recordID })
 
@@ -195,7 +196,8 @@ class PunchModel {
         self.punchesOut = punchesOut.sorted()
         self.punchesIn = punchesIn.sorted()
 
-        NotificationCenter.default.post(name: PunchModel.modelUpdated, object: nil)
+        print("Finished updating punches!")
+        NotificationCenter.default.post(name: PunchModel.modelEndUpdates, object: self.matchedPunches)
     }
 
     @objc func refreshPunches() {

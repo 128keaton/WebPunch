@@ -40,7 +40,7 @@ class HoursReportViewController: UIViewController {
         earnedLabel.method = .easeOut
         hoursLabel.method = .easeOut
 
-        NotificationCenter.default.addObserver(self, selector: #selector(modelUpdated), name: PunchModel.modelUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modelUpdated), name: PunchModel.modelEndUpdates, object: nil)
         punchModel.refreshPunches()
     }
 
