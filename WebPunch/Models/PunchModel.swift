@@ -18,6 +18,9 @@ class PunchModel {
     static let modelEndUpdates = Notification.Name("punchModelEndUpdates")
     static let modelBeginUpdates = Notification.Name("punchModelBeginUpdates")
 
+    static let didPunchIn = Notification.Name("punchModelEndUpdates")
+    static let didPunchOut = Notification.Name("punchModelBeginUpdates")
+
     private let database = CKContainer.default().privateCloudDatabase
 
     var onChange: (() -> Void)?
@@ -102,6 +105,7 @@ class PunchModel {
             saveOperation.completionBlock = {
                 print(punchOut)
 
+                NotificationCenter.default.post(name: PunchModel.didPunchOut, object: lastPunchIn.id.recordName)
                 self.lastPunch = nil
 
                 self.insertedPunchOutObjects.append(punchOut)
@@ -126,6 +130,8 @@ class PunchModel {
         }
 
         print(punchIn)
+
+        NotificationCenter.default.post(name: PunchModel.didPunchIn, object: punchIn.id.recordName)
 
         self.lastPunch = punchIn
         self.insertedPunchInObjects.append(punchIn)
@@ -164,7 +170,7 @@ class PunchModel {
     private func updatePunches() {
         print("Updating punches...")
         NotificationCenter.default.post(name: PunchModel.modelBeginUpdates, object: self.matchedPunches)
-        
+
         var knownPunchesInIds = Set(punchInRecords.map { $0.recordID })
         var knownPunchesOutIds = Set(punchOutRecords.map { $0.recordID })
 

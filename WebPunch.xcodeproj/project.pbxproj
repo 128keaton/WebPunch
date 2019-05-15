@@ -10,7 +10,6 @@
 		09ACB3AC90A48BF0FFD88458 /* Pods_PunchIntentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C2416D55B47DC89FCB0D7C /* Pods_PunchIntentUI.framework */; };
 		856E092483E03A05ADD3619A /* Pods_WebPunch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 250684E365D64496CA96263D /* Pods_WebPunch.framework */; };
 		8A07AD1D226E66B100233AAB /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */; };
-		8A07AD23226F2A5500233AAB /* RefreshContents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A07AD22226F2A5500233AAB /* RefreshContents.xib */; };
 		8A2DB981228A977B00261B9E /* HoursReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB980228A977B00261B9E /* HoursReportViewController.swift */; };
 		8A2DB983228B348D00261B9E /* PunchOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB982228B348D00261B9E /* PunchOut.swift */; };
 		8A2DB985228B34C100261B9E /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DB984228B34C100261B9E /* Shared.swift */; };
@@ -104,7 +103,6 @@
 		391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntent.release.xcconfig"; path = "Target Support Files/Pods-PunchIntent/Pods-PunchIntent.release.xcconfig"; sourceTree = "<group>"; };
 		4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PunchIntentUI.release.xcconfig"; path = "Target Support Files/Pods-PunchIntentUI/Pods-PunchIntentUI.release.xcconfig"; sourceTree = "<group>"; };
 		8A07AD1C226E66B100233AAB /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
-		8A07AD22226F2A5500233AAB /* RefreshContents.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RefreshContents.xib; sourceTree = "<group>"; };
 		8A2DB980228A977B00261B9E /* HoursReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursReportViewController.swift; sourceTree = "<group>"; };
 		8A2DB982228B348D00261B9E /* PunchOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunchOut.swift; sourceTree = "<group>"; };
 		8A2DB984228B34C100261B9E /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
@@ -197,6 +195,16 @@
 			path = Punches;
 			sourceTree = "<group>";
 		};
+		8A626A52228BDE2E00031162 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
+				8ACB3231215212EE0082FDA6 /* PunchIntent */,
+				8ACB323C215212EE0082FDA6 /* PunchIntentUI */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		8AA841E422681DFA009C5948 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +231,7 @@
 		8AA841F122684AC1009C5948 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8AF71900227B6E4000DBD7AD /* NotificationHandler.swift */,
 				8AA841D422680426009C5948 /* SonicWall.swift */,
 				8AF718F0227021D700DBD7AD /* UISoundService.swift */,
 			);
@@ -242,7 +251,6 @@
 			children = (
 				8ACB32192151CD940082FDA6 /* Main.storyboard */,
 				8ACB321E2151CD950082FDA6 /* LaunchScreen.storyboard */,
-				8A07AD22226F2A5500233AAB /* RefreshContents.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -272,8 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				8ACB32142151CD940082FDA6 /* WebPunch */,
-				8ACB3231215212EE0082FDA6 /* PunchIntent */,
-				8ACB323C215212EE0082FDA6 /* PunchIntentUI */,
 				8ACB32132151CD940082FDA6 /* Products */,
 				4B35DC84D0935C2791D89FFF /* Frameworks */,
 				8AB47403F90809A27B8969F7 /* Pods */,
@@ -293,19 +299,18 @@
 		8ACB32142151CD940082FDA6 /* WebPunch */ = {
 			isa = PBXGroup;
 			children = (
-				8ACB321C2151CD950082FDA6 /* Assets.xcassets */,
 				8AF718F222702AF400DBD7AD /* Extensions */,
+				8A626A52228BDE2E00031162 /* Intents */,
+				8AA841E422681DFA009C5948 /* Models */,
+				8AA841F622684B7C009C5948 /* Shared */,
+				8AA841F122684AC1009C5948 /* Services */,
 				8AA841F322684AD6009C5948 /* Storyboards */,
 				8AA841EF22684A98009C5948 /* View Controllers */,
-				8AA841F122684AC1009C5948 /* Services */,
-				8AA841F622684B7C009C5948 /* Shared */,
-				8AA841E422681DFA009C5948 /* Models */,
 				8AA841F222684AD1009C5948 /* Views */,
-				8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */,
-				8ACB3250215213040082FDA6 /* Intents.intentdefinition */,
-				8ACB32212151CD950082FDA6 /* Info.plist */,
+				8ACB321C2151CD950082FDA6 /* Assets.xcassets */,
 				8ACB32152151CD940082FDA6 /* AppDelegate.swift */,
-				8AF71900227B6E4000DBD7AD /* NotificationHandler.swift */,
+				8ACB32212151CD950082FDA6 /* Info.plist */,
+				8ACB322B2151DB520082FDA6 /* WebPunch.entitlements */,
 			);
 			path = WebPunch;
 			sourceTree = "<group>";
@@ -481,7 +486,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8ACB32202151CD950082FDA6 /* LaunchScreen.storyboard in Resources */,
-				8A07AD23226F2A5500233AAB /* RefreshContents.xib in Resources */,
 				8ACB321D2151CD950082FDA6 /* Assets.xcassets in Resources */,
 				8ACB321B2151CD940082FDA6 /* Main.storyboard in Resources */,
 			);
@@ -859,10 +863,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EAD2475108BAC9331E9C5E76 /* Pods-PunchIntentUI.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PunchIntentUI/PunchIntentUI.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WebPunch/Intents/PunchIntentUI/PunchIntentUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JMQ9Y3A8K6;
-				INFOPLIST_FILE = PunchIntentUI/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WebPunch/Intents/PunchIntentUI/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -880,10 +884,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B755F8AE6E1AEB342563F0B /* Pods-PunchIntentUI.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PunchIntentUI/PunchIntentUI.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WebPunch/Intents/PunchIntentUI/PunchIntentUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JMQ9Y3A8K6;
-				INFOPLIST_FILE = PunchIntentUI/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WebPunch/Intents/PunchIntentUI/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -901,10 +905,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AEF9A8FF701D99C6BAA5939C /* Pods-PunchIntent.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PunchIntent/PunchIntent.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WebPunch/Intents/PunchIntent/PunchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JMQ9Y3A8K6;
-				INFOPLIST_FILE = PunchIntent/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WebPunch/Intents/PunchIntent/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -922,10 +926,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 391FD5F74C5CD575DEF69A72 /* Pods-PunchIntent.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PunchIntent/PunchIntent.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WebPunch/Intents/PunchIntent/PunchIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JMQ9Y3A8K6;
-				INFOPLIST_FILE = PunchIntent/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WebPunch/Intents/PunchIntent/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
