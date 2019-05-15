@@ -1,11 +1,9 @@
 # WebPunch
 iOS PoC to talk to V25 RTC-1000s
 
-<p align="center">
-  <img src="https://www.icontime.com/wp-content/uploads/2017/09/RTC-1000.jpg" width="50%">
-</p>
+<img src="https://www.icontime.com/wp-content/uploads/2017/09/RTC-1000.jpg" width="50%">
 
-<p align="center">
+<p align="left">
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot1.png" width="25%">
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot2.png" width="25%">
   <img src="https://raw.githubusercontent.com/128keaton/WebPunch/master/Repository%20Resources/screenshot3.png" width="25%">
