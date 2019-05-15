@@ -110,12 +110,12 @@
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="27.436281859070466"/>
         </scene>
-        <!--History-->
+        <!--History Table View Controller-->
         <scene sceneID="RVj-qY-wLE">
             <objects>
-                <tableViewController title="History" extendedLayoutIncludesOpaqueBars="YES" id="55X-Bt-n9s" customClass="PunchHistoryViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="History Table View Controller" id="55X-Bt-n9s" customClass="PunchHistoryViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="8ki-7I-RoT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.085460875330000005" green="0.085460875330000005" blue="0.085460875330000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.086260445419999998" green="0.086282841860000001" blue="0.086257301270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -314,7 +314,7 @@
                             <outlet property="delegate" destination="55X-Bt-n9s" id="ZG8-R8-ytO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Punch History" largeTitleDisplayMode="always" id="omv-QD-PBn">
+                    <navigationItem key="navigationItem" title="History" largeTitleDisplayMode="always" id="omv-QD-PBn">
                         <barButtonItem key="leftBarButtonItem" title="Back" style="done" id="ZER-62-jDJ">
                             <color key="tintColor" red="0.89714723829999998" green="0.1566455662" blue="0.27960872650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -331,7 +331,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyz-4u-CFm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1728.985507246377" y="1522.7678571428571"/>
+            <point key="canvasLocation" x="842" y="1535"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lZc-K3-0vW">
@@ -351,10 +351,10 @@
             </objects>
             <point key="canvasLocation" x="52" y="798"/>
         </scene>
-        <!--Hours Report-->
+        <!--Hours View Controller-->
         <scene sceneID="Zdu-sF-3Ug">
             <objects>
-                <viewController id="0ni-Qe-jyT" customClass="HoursReportViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Hours View Controller" id="0ni-Qe-jyT" customClass="HoursReportViewController" customModule="WebPunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3sV-5X-RGT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -439,10 +439,10 @@
             </objects>
             <point key="canvasLocation" x="844" y="27"/>
         </scene>
-        <!--Navigation for Daily-->
+        <!--History-->
         <scene sceneID="7ad-44-tcQ">
             <objects>
-                <navigationController title="Navigation for Daily" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="raK-X0-h02" sceneMemberID="viewController">
+                <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="raK-X0-h02" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="History" image="history" id="I3o-AZ-TZ7"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="CWe-mn-Hg5">
@@ -450,19 +450,22 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2U8-Er-kbj">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="55X-Bt-n9s" kind="relationship" relationship="rootViewController" id="Ul3-f7-J30"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bnq-M3-KQJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="843" y="1523"/>
+            <point key="canvasLocation" x="51" y="1535"/>
         </scene>
-        <!--Hours Report-->
+        <!--Hours-->
         <scene sceneID="gnc-G9-ef3">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JUt-05-Fud" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Hours Report" id="kEk-fB-6R9"/>
+                    <tabBarItem key="tabBarItem" title="Hours" image="punchReport" id="kEk-fB-6R9"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="2rn-Pu-TU9">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -482,6 +485,7 @@
         <image name="clear" width="1" height="1"/>
         <image name="gear" width="25" height="25"/>
         <image name="history" width="25" height="25"/>
+        <image name="punchReport" width="23" height="23"/>
         <image name="retry" width="25" height="25"/>
     </resources>
 </document>
